@@ -54,8 +54,8 @@ javacpp {
   }
   cppSourceDir = "${project.projectDir}/src/main/cpp"
   cppIncludeDir = "$cppSourceDir/src"
-  if (osdetector.os == "linux") { // gcc-10 is buggy
-    c_compiler = "/usr/bin/clang-10"
-    cxx_compiler = "/usr/bin/clang++-10"
-  }
+//  if (osdetector.os == "linux") { // gcc-10 is buggy
+//    c_compiler = "/usr/bin/clang-10"
+//    cxx_compiler = "/usr/bin/clang++-10"
+//  }
 }
