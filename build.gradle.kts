@@ -6,7 +6,7 @@ plugins {
   kotlin("jvm") version "1.3.72"
   kotlin("plugin.serialization") version "1.3.72"
   id("com.google.osdetector") version "1.6.2"
-  id("com.github.wumo.javacpp") version "1.0.9"
+  id("com.github.wumo.javacpp") version "1.0.10"
 }
 
 group = "com.github.wumo"
@@ -24,21 +24,21 @@ dependencies {
 
 javacpp {
   include = listOf(
-    "c/c_vec.h",
-    "c/c_camera.h",
-    "c/c_light.h",
-    "c/c_primitive.h",
-    "c/c_material.h",
-    "c/c_mesh.h",
-    "c/c_node.h",
-    "c/c_model.h",
-    "c/c_model_instance.h",
-    "c/c_primitive_builder.h",
-    "c/c_scene_manager.h",
-    "vkez/window/input.h",
-    "c/c_window.h",
-    "vkez/call_frame_updater.h",
-    "c/c_renderer.h"
+      "c/c_vec.h",
+      "c/c_camera.h",
+      "c/c_light.h",
+      "c/c_primitive.h",
+      "c/c_material.h",
+      "c/c_mesh.h",
+      "c/c_node.h",
+      "c/c_model.h",
+      "c/c_model_instance.h",
+      "c/c_primitive_builder.h",
+      "c/c_scene_manager.h",
+      "vkez/window/input.h",
+      "c/c_window.h",
+      "vkez/call_frame_updater.h",
+      "c/c_renderer.h"
   )
   link = listOf("vkg")
   target = "com.github.wumo.vkg.graphics.VkgNative"
@@ -54,6 +54,8 @@ javacpp {
   }
   cppSourceDir = "${project.projectDir}/src/main/cpp"
   cppIncludeDir = "$cppSourceDir/src"
-//  c_compiler = "/usr/bin/clang-10"
-//  cxx_compiler = "/usr/bin/clang++-10"
+  if (osdetector.os == "linux") { // gcc-10 is buggy
+    c_compiler = "/usr/bin/clang-10"
+    cxx_compiler = "/usr/bin/clang++-10"
+  }
 }
