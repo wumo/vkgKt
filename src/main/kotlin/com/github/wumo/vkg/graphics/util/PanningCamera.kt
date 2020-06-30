@@ -38,8 +38,8 @@ class PanningCamera(val camera: Camera) {
     
     val right = normalize(cross(front, camera.worldUp))
     
-    if(input.isMouseButtonPressed(MouseButton.MouseButtonLeft)) {
-      if(!rotate.start) {
+    if (input.isMouseButtonPressed(MouseButton.MouseButtonLeft)) {
+      if (!rotate.start) {
         rotate.lastX = input.mousePosX.toFloat()
         rotate.lastY = input.mousePosY.toFloat()
         rotate.start = true
@@ -56,15 +56,15 @@ class PanningCamera(val camera: Camera) {
       val translation = -front
       var pitch = degrees(angle(camera.worldUp, normalize(translation)))
       pitch += yoffset
-      if(pitch <= 1 || pitch >= 179) yoffset = 0f
+      if (pitch <= 1 || pitch >= 179) yoffset = 0f
       camera.location = focus + angleAxis(radians(xoffset), camera.worldUp) *
           angleAxis(radians(yoffset), right) * translation
     } else
       rotate.start = false
     
-    if(input.isMouseButtonPressed(MouseButton.MouseButtonRight)) {
+    if (input.isMouseButtonPressed(MouseButton.MouseButtonRight)) {
       mouseRightPressed = true
-      if(!panning.start) {
+      if (!panning.start) {
         panning.lastX = input.mousePosX.toFloat()
         panning.lastY = input.mousePosY.toFloat()
         panning.start = true
@@ -79,7 +79,7 @@ class PanningCamera(val camera: Camera) {
       camera.direction = camera.direction + translation
       camera.location = camera.location + translation
     } else {
-      if(mouseRightPressed)
+      if (mouseRightPressed)
         panning.start = false
       mouseRightPressed = false
     }
@@ -94,7 +94,7 @@ class PanningCamera(val camera: Camera) {
     val projInv = inverse(proj)
     val target = Vec3(projInv * Vec4(c.x, -c.y, 0f, 1f))
     val dir = Vec3(viewInv * Vec4(normalize(target), 0f))
-    if(dir.y == 0f) return camera.location + camera.direction
+    if (dir.y == 0f) return camera.location + camera.direction
     val t = -camera.location.y / dir.y
     return camera.location + dir * t
   }

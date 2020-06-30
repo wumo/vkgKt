@@ -9,7 +9,7 @@ import org.bytedeco.javacpp.annotation.*;
 
 @Properties(
         value = @Platform(
-                include = {"c/c_vec.h", "c/c_camera.h", "c/c_light.h", "c/c_primitive.h", "c/c_material.h", "c/c_mesh.h", "c/c_node.h", "c/c_model.h", "c/c_model_instance.h", "c/c_primitive_builder.h", "c/c_scene_manager.h", "vkez/window/input.h", "c/c_window.h", "vkez/call_frame_updater.h", "c/c_renderer.h"},
+                include = {"c/c_vec.h", "c/c_camera.h", "c/c_light.h", "c/c_primitive.h", "c/c_material.h", "c/c_mesh.h", "c/c_node.h", "c/c_model.h", "c/c_model_instance.h", "c/c_primitive_builder.h", "c/c_scene_manager.h", "c/c_atmosphere.h", "vkez/window/input.h", "c/c_window.h", "vkez/call_frame_updater.h", "c/c_renderer.h"},
                 preload = {},
                 link = {"vkg"}
         ),
@@ -22,6 +22,7 @@ public class VkgNative  {
 
 // #ifndef VKG_C_VEC_H
 // #define VKG_C_VEC_H
+// #include <cstdint>
 // #ifdef __cplusplus
 // #endif
 
@@ -626,6 +627,44 @@ public static native @Cast("uint32_t") int NewModelInstance(CSceneManager scene,
 // #endif //VKG_C_SCENE_MANAGER_H
 
 
+// Parsed from c/c_atmosphere.h
+
+// #ifndef VKG_C_ATMOSPHERE_H
+// #define VKG_C_ATMOSPHERE_H
+// #include "c_vec.h"
+
+// #ifdef __cplusplus
+// #else
+//   #include <stdbool.h>
+// #endif
+
+@Opaque public static class CAtmosphere extends Pointer {
+    /** Empty constructor. Calls {@code super((Pointer)null)}. */
+    public CAtmosphere() { super((Pointer)null); }
+    /** Pointer cast constructor. Invokes {@link Pointer#Pointer(Pointer)}. */
+    public CAtmosphere(Pointer p) { super(p); }
+}
+
+public static native void AtmosphereInit(
+  CAtmosphere atmosphere, double kLengthUnitInMeters, double kSunAngularRadius);
+
+public static native @Cast("bool") boolean AtmosphereIsEnabled(CAtmosphere atmosphere);
+public static native double AtmosphereGetLengthUnitInMeters(CAtmosphere atmosphere);
+public static native double AtmosphereGetEarthRadius(CAtmosphere atmosphere);
+public static native void AtmosphereSetSunDirection(CAtmosphere atmosphere, cvec3 sunDirection);
+public static native void AtmosphereSetSunDirection(CAtmosphere atmosphere, @Cast("cvec3*") float[] sunDirection);
+public static native void AtmosphereGetSunDirection(CAtmosphere atmosphere, cvec3 sunDirection);
+public static native void AtmosphereGetSunDirection(CAtmosphere atmosphere, @Cast("cvec3*") float[] sunDirection);
+public static native void AtmosphereGetEarthCenter(CAtmosphere atmosphere, cvec3 earthCenter);
+public static native void AtmosphereGetEarthCenter(CAtmosphere atmosphere, @Cast("cvec3*") float[] earthCenter);
+public static native void AtmosphereSetEarthCenter(CAtmosphere atmosphere, cvec3 earthCenter);
+public static native void AtmosphereSetEarthCenter(CAtmosphere atmosphere, @Cast("cvec3*") float[] earthCenter);
+
+// #ifdef __cplusplus
+// #endif
+// #endif //VKG_C_ATMOSPHERE_H
+
+
 // Parsed from vkez/window/input.h
 
 // #ifndef VKG_INPUT_H
@@ -859,6 +898,7 @@ public static class CallFrameUpdater extends Pointer {
 
 // #include <cstdint>
 // #include "c_scene_manager.h"
+// #include "c_atmosphere.h"
 // #include "c_window.h"
 
 // #ifdef __cplusplus
@@ -886,6 +926,24 @@ public static class CWindowConfig extends Pointer {
   public native @Cast("bool") boolean fullscreen(); public native CWindowConfig fullscreen(boolean setter);
   public native @Cast("bool") boolean vsync(); public native CWindowConfig vsync(boolean setter);
   public native @Cast("uint32_t") int numFrames(); public native CWindowConfig numFrames(int setter);
+}
+
+public static class CFeatureConfig extends Pointer {
+    static { Loader.load(); }
+    /** Default native constructor. */
+    public CFeatureConfig() { super((Pointer)null); allocate(); }
+    /** Native array allocator. Access with {@link Pointer#position(long)}. */
+    public CFeatureConfig(long size) { super((Pointer)null); allocateArray(size); }
+    /** Pointer cast constructor. Invokes {@link Pointer#Pointer(Pointer)}. */
+    public CFeatureConfig(Pointer p) { super(p); }
+    private native void allocate();
+    private native void allocateArray(long size);
+    @Override public CFeatureConfig position(long position) {
+        return (CFeatureConfig)super.position(position);
+    }
+
+  public native @Cast("bool") boolean atmosphere(); public native CFeatureConfig atmosphere(boolean setter);
+  public native @Cast("bool") boolean validationLayer(); public native CFeatureConfig validationLayer(boolean setter);
 }
 
 @Opaque public static class CRenderer extends Pointer {
@@ -999,22 +1057,26 @@ public static class CPathTracingSceneConfig extends Pointer {
   public native @Cast("uint32_t") int maxRecursion(); public native CPathTracingSceneConfig maxRecursion(int setter);
 }
 
-public static native CRenderer NewBasicRenderer(@ByVal CWindowConfig windowConfig);
+public static native CRenderer NewBasicRenderer(@ByVal CWindowConfig windowConfig, @ByVal CFeatureConfig featureConfig);
 public static native void DeleteBasicRenderer(CRenderer renderer);
 
 public static native CRenderer NewDeferredRenderer(
-  @ByVal CWindowConfig windowConfig, @ByVal CDeferredSceneConfig sceneConfig);
+  @ByVal CWindowConfig windowConfig, @ByVal CFeatureConfig featureConfig,
+  @ByVal CDeferredSceneConfig sceneConfig);
 public static native void DeleteDeferredRenderer(CRenderer renderer);
 
 public static native CRenderer NewRayTracingRenderer(
-  @ByVal CWindowConfig windowConfig, @ByVal CRayTracingSceneConfig sceneConfig);
+  @ByVal CWindowConfig windowConfig, @ByVal CFeatureConfig featureConfig,
+  @ByVal CRayTracingSceneConfig sceneConfig);
 public static native void DeleteRayTracingRenderer(CRenderer renderer);
 
 public static native CRenderer NewPathTracingRenderer(
-  @ByVal CWindowConfig windowConfig, @ByVal CPathTracingSceneConfig sceneConfig);
+  @ByVal CWindowConfig windowConfig, @ByVal CFeatureConfig featureConfig,
+  @ByVal CPathTracingSceneConfig sceneConfig);
 public static native void DeletePathTracingRenderer(CRenderer renderer);
 
 public static native CSceneManager GetSceneManager(CRenderer renderer);
+public static native CAtmosphere GetAtmosphere(CRenderer renderer);
 public static native CWindow GetWindow_(CRenderer renderer);
 public static native @Cast("bool") boolean RendererGetWireFrame(CRenderer renderer);
 public static native void RendererSetWireFrame(CRenderer renderer, @Cast("bool") boolean wireframe);

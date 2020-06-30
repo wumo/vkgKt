@@ -35,6 +35,7 @@ javacpp {
       "c/c_model_instance.h",
       "c/c_primitive_builder.h",
       "c/c_scene_manager.h",
+      "c/c_atmosphere.h",
       "vkez/window/input.h",
       "c/c_window.h",
       "vkez/call_frame_updater.h",
