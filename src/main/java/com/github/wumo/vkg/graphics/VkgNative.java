@@ -9,7 +9,7 @@ import org.bytedeco.javacpp.annotation.*;
 
 @Properties(
         value = @Platform(
-                include = {"c/c_vec.h", "c/c_camera.h", "c/c_light.h", "c/c_primitive.h", "c/c_material.h", "c/c_mesh.h", "c/c_node.h", "c/c_model.h", "c/c_model_instance.h", "c/c_primitive_builder.h", "c/c_scene_manager.h", "c/c_atmosphere.h", "vkez/window/input.h", "c/c_window.h", "vkez/call_frame_updater.h", "c/c_renderer.h"},
+                include = {"c/c_vec.h", "c/c_camera.h", "c/c_light.h", "c/c_primitive.h", "c/c_material.h", "c/c_mesh.h", "c/c_node.h", "c/c_model.h", "c/c_model_instance.h", "c/c_primitive_builder.h", "c/c_scene_manager.h", "c/c_atmosphere.h", "vkez/window/input.h", "c/c_panning_camera.h", "c/c_window.h", "vkez/call_frame_updater.h", "c/c_renderer.h"},
                 preload = {},
                 link = {"vkg"}
         ),
@@ -195,28 +195,28 @@ public static class caabb extends Pointer {
     public CCamera(Pointer p) { super(p); }
 }
 
-public static native void GetCameraLocation(CCamera camera, cvec3 location);
-public static native void GetCameraLocation(CCamera camera, @Cast("cvec3*") float[] location);
-public static native void SetCameraLocation(CCamera camera, cvec3 location);
-public static native void SetCameraLocation(CCamera camera, @Cast("cvec3*") float[] location);
-public static native void GetCameraDirection(CCamera camera, cvec3 direction);
-public static native void GetCameraDirection(CCamera camera, @Cast("cvec3*") float[] direction);
-public static native void SetCameraDirection(CCamera camera, cvec3 direction);
-public static native void SetCameraDirection(CCamera camera, @Cast("cvec3*") float[] direction);
-public static native void GetCameraWorldUp(CCamera camera, cvec3 worldUp);
-public static native void GetCameraWorldUp(CCamera camera, @Cast("cvec3*") float[] worldUp);
-public static native void SetCameraWorldUp(CCamera camera, cvec3 worldUp);
-public static native void SetCameraWorldUp(CCamera camera, @Cast("cvec3*") float[] worldUp);
-public static native float GetCameraZNear(CCamera camera);
-public static native void SetCameraZNear(CCamera camera, float zNear);
-public static native float GetCameraZFar(CCamera camera);
-public static native void SetCameraZFar(CCamera camera, float zFar);
-public static native @Cast("uint32_t") int GetCameraWidth(CCamera camera);
-public static native @Cast("uint32_t") int GetCameraHeight(CCamera camera);
-public static native void GetCameraView(CCamera camera, cmat4 view);
-public static native void GetCameraView(CCamera camera, @Cast("cmat4*") float[] view);
-public static native void GetCameraProj(CCamera camera, cmat4 proj);
-public static native void GetCameraProj(CCamera camera, @Cast("cmat4*") float[] proj);
+public static native void CameraGetLocation(CCamera camera, cvec3 location);
+public static native void CameraGetLocation(CCamera camera, @Cast("cvec3*") float[] location);
+public static native void CameraSetLocation(CCamera camera, cvec3 location);
+public static native void CameraSetLocation(CCamera camera, @Cast("cvec3*") float[] location);
+public static native void CameraGetDirection(CCamera camera, cvec3 direction);
+public static native void CameraGetDirection(CCamera camera, @Cast("cvec3*") float[] direction);
+public static native void CameraSetDirection(CCamera camera, cvec3 direction);
+public static native void CameraSetDirection(CCamera camera, @Cast("cvec3*") float[] direction);
+public static native void CameraGetWorldUp(CCamera camera, cvec3 worldUp);
+public static native void CameraGetWorldUp(CCamera camera, @Cast("cvec3*") float[] worldUp);
+public static native void CameraSetWorldUp(CCamera camera, cvec3 worldUp);
+public static native void CameraSetWorldUp(CCamera camera, @Cast("cvec3*") float[] worldUp);
+public static native float CameraGetZNear(CCamera camera);
+public static native void CameraSetZNear(CCamera camera, float zNear);
+public static native float CameraGetZFar(CCamera camera);
+public static native void CameraSetZFar(CCamera camera, float zFar);
+public static native @Cast("uint32_t") int CameraGetWidth(CCamera camera);
+public static native @Cast("uint32_t") int CameraGetHeight(CCamera camera);
+public static native void CameraGetView(CCamera camera, cmat4 view);
+public static native void CameraGetView(CCamera camera, @Cast("cmat4*") float[] view);
+public static native void CameraGetProj(CCamera camera, cmat4 proj);
+public static native void CameraGetProj(CCamera camera, @Cast("cmat4*") float[] proj);
 
 // #ifdef __cplusplus
 // #endif
@@ -569,7 +569,7 @@ public static native @Cast("uint32_t") int BuilderNumPrimitives(CPrimitiveBuilde
 //   #include <stdbool.h>
 // #endif
 
-public static native CCamera GetCamera(CSceneManager scene);
+public static native CCamera SceneGetCamera(CSceneManager scene);
 
 public static native @Cast("uint32_t") int NewPrimitive(
   CSceneManager scene, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
@@ -616,8 +616,8 @@ public static native @Cast("uint32_t") int NewTextureFromBytes(
   CSceneManager scene, String bytes, @Cast("uint32_t") int numBytes, @Cast("uint32_t") int width,
   @Cast("uint32_t") int height, @Cast("bool") boolean mipmap);
 public static native @Cast("uint32_t") int NewLight(CSceneManager scene);
-public static native @Cast("uint32_t") int LoadModel(CSceneManager scene, @Cast("const char*") BytePointer path);
-public static native @Cast("uint32_t") int LoadModel(CSceneManager scene, String path);
+public static native @Cast("uint32_t") int SceneLoadModel(CSceneManager scene, @Cast("const char*") BytePointer path);
+public static native @Cast("uint32_t") int SceneLoadModel(CSceneManager scene, String path);
 public static native @Cast("uint32_t") int NewModelInstance(CSceneManager scene, @Cast("uint32_t") int model, ctransform transform);
 public static native @Cast("uint32_t") int NewModelInstance(CSceneManager scene, @Cast("uint32_t") int model, @Cast("ctransform*") float[] transform);
 
@@ -833,6 +833,33 @@ public static class Input extends Pointer {
 // #ifdef __cplusplus
 // #endif
 // #endif //VKG_INPUT_H
+
+// Parsed from c/c_panning_camera.h
+
+// #ifndef VKG_C_PANNING_CAMERA_H
+// #define VKG_C_PANNING_CAMERA_H
+// #include "c_camera.h"
+// #include "vkez/window/input.h"
+// #include <cstdint>
+// #include "c_vec.h"
+// #ifdef __cplusplus
+// #endif
+
+@Opaque public static class CPanningCamera extends Pointer {
+    /** Empty constructor. Calls {@code super((Pointer)null)}. */
+    public CPanningCamera() { super((Pointer)null); }
+    /** Pointer cast constructor. Invokes {@link Pointer#Pointer(Pointer)}. */
+    public CPanningCamera(Pointer p) { super(p); }
+}
+
+public static native CPanningCamera NewPanningCamera(CCamera camera);
+public static native void DeletePanningCamera(CPanningCamera camera);
+public static native void PanningCameraUpdate(CPanningCamera camera, Input input);
+
+// #ifdef __cplusplus
+// #endif
+// #endif //VKG_C_PANNING_CAMERA_H
+
 
 // Parsed from c/c_window.h
 
@@ -1075,9 +1102,10 @@ public static native CRenderer NewPathTracingRenderer(
   @ByVal CPathTracingSceneConfig sceneConfig);
 public static native void DeletePathTracingRenderer(CRenderer renderer);
 
-public static native CSceneManager GetSceneManager(CRenderer renderer);
-public static native CAtmosphere GetAtmosphere(CRenderer renderer);
-public static native CWindow GetWindow_(CRenderer renderer);
+public static native void RendererGetFeatureConfig(CRenderer renderer,CFeatureConfig featureConfig);
+public static native CSceneManager RendererGetSceneManager(CRenderer renderer);
+public static native CAtmosphere RendererGetAtmosphere(CRenderer renderer);
+public static native CWindow RendererGetWindow(CRenderer renderer);
 public static native @Cast("bool") boolean RendererGetWireFrame(CRenderer renderer);
 public static native void RendererSetWireFrame(CRenderer renderer, @Cast("bool") boolean wireframe);
 
@@ -1089,7 +1117,7 @@ public static class CUpdater extends FunctionPointer {
     private native void allocate();
     public native void call(double arg0, Pointer arg1);
 }
-public static native void LoopFuncPtr(CRenderer renderer, CUpdater updater, Pointer data);
+public static native void RendererLoopFuncPtr(CRenderer renderer, CUpdater updater, Pointer data);
 
 @Opaque public static class CCallFrameUpdater extends Pointer {
     /** Empty constructor. Calls {@code super((Pointer)null)}. */
@@ -1097,7 +1125,7 @@ public static native void LoopFuncPtr(CRenderer renderer, CUpdater updater, Poin
     /** Pointer cast constructor. Invokes {@link Pointer#Pointer(Pointer)}. */
     public CCallFrameUpdater(Pointer p) { super(p); }
 }
-public static native void LoopUpdater(CRenderer renderer, CCallFrameUpdater updater);
+public static native void RendererLoopUpdater(CRenderer renderer, CCallFrameUpdater updater);
 
 // #ifdef __cplusplus
 // #endif

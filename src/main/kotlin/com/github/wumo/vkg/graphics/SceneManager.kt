@@ -6,7 +6,7 @@ import com.github.wumo.vkg.graphics.util.notNull
 import com.github.wumo.vkg.graphics.util.useNative
 
 class SceneManager(internal val native: VkgNative.CSceneManager) {
-  val camera: Camera = Camera(GetCamera(native.notNull()))
+  val camera: Camera = Camera(SceneGetCamera(native.notNull()))
   fun newPrimitives(block: PrimitiveBuilder.() -> Unit): List<Primitive> {
     val nativeBuilder = NewPrimitiveBuilder()
     val builder = PrimitiveBuilder(nativeBuilder)
@@ -51,7 +51,7 @@ class SceneManager(internal val native: VkgNative.CSceneManager) {
 
   fun loadModel(path: String): Model {
     val nativeModel = path.useNative {
-      LoadModel(native.notNull(), it)
+      SceneLoadModel(native.notNull(), it)
     }
     return Model(this, nativeModel)
   }

@@ -37,6 +37,7 @@ javacpp {
       "c/c_scene_manager.h",
       "c/c_atmosphere.h",
       "vkez/window/input.h",
+      "c/c_panning_camera.h",
       "c/c_window.h",
       "vkez/call_frame_updater.h",
       "c/c_renderer.h"

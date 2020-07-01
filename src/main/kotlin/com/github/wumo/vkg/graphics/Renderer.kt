@@ -59,7 +59,10 @@ class PathTracingSceneConfig(
     val maxRecursion: Int = 3
 )
 
-class Renderer(internal val native: CRenderer, internal val closeFunc: () -> Unit) : AutoCloseable {
+class Renderer(internal val native: CRenderer,
+               val featureConfig: FeatureConfig,
+               internal val closeFunc: () -> Unit
+) : AutoCloseable {
   companion object {
     fun newBasicRenderer(windowConfig: WindowConfig, featureConfig: FeatureConfig = FeatureConfig()): Renderer {
       val titleBytes = windowConfig.title.bytes()
@@ -76,7 +79,7 @@ class Renderer(internal val native: CRenderer, internal val closeFunc: () -> Uni
         it.validationLayer(featureConfig.validationLayer)
       }
       val native = NewBasicRenderer(windowConfig_, featureConfig_)
-      return Renderer(native) {
+      return Renderer(native, featureConfig) {
         DeleteBasicRenderer(native)
       }.apply {
         titleBytes.deallocate()
@@ -84,7 +87,7 @@ class Renderer(internal val native: CRenderer, internal val closeFunc: () -> Uni
         featureConfig_.deallocate()
       }
     }
-    
+
     fun newDeferredRenderer(windowConfig: WindowConfig, sceneConfig: DeferredSceneConfig, featureConfig: FeatureConfig = FeatureConfig()): Renderer {
       val titleBytes = windowConfig.title.bytes()
       val windowConfig_ = CWindowConfig().also {
@@ -113,7 +116,7 @@ class Renderer(internal val native: CRenderer, internal val closeFunc: () -> Uni
         it.sampleCount(sceneConfig.sampleCount)
       }
       val native = NewDeferredRenderer(windowConfig_, featureConfig_, sceneConfig_)
-      return Renderer(native) {
+      return Renderer(native, featureConfig) {
         DeleteDeferredRenderer(native)
       }.apply {
         titleBytes.deallocate()
@@ -122,7 +125,7 @@ class Renderer(internal val native: CRenderer, internal val closeFunc: () -> Uni
         sceneConfig_.deallocate()
       }
     }
-    
+
     fun newRayTracingRenderer(windowConfig: WindowConfig, sceneConfig: RayTracingSceneConfig, featureConfig: FeatureConfig = FeatureConfig()): Renderer {
       val titleBytes = windowConfig.title.bytes()
       val windowConfig_ = CWindowConfig().also {
@@ -152,7 +155,7 @@ class Renderer(internal val native: CRenderer, internal val closeFunc: () -> Uni
         it.maxRecursion(sceneConfig.maxRecursion)
       }
       val native = NewRayTracingRenderer(windowConfig_, featureConfig_, sceneConfig_)
-      return Renderer(native) {
+      return Renderer(native, featureConfig) {
         DeleteRayTracingRenderer(native)
       }.apply {
         titleBytes.deallocate()
@@ -161,7 +164,7 @@ class Renderer(internal val native: CRenderer, internal val closeFunc: () -> Uni
         sceneConfig_.deallocate()
       }
     }
-    
+
     fun newPathTracingRenderer(windowConfig: WindowConfig, sceneConfig: PathTracingSceneConfig, featureConfig: FeatureConfig = FeatureConfig()): Renderer {
       val titleBytes = windowConfig.title.bytes()
       val windowConfig_ = CWindowConfig().also {
@@ -191,7 +194,7 @@ class Renderer(internal val native: CRenderer, internal val closeFunc: () -> Uni
         it.maxRecursion(sceneConfig.maxRecursion)
       }
       val native = NewPathTracingRenderer(windowConfig_, featureConfig_, sceneConfig_)
-      return Renderer(native) {
+      return Renderer(native, featureConfig) {
         DeletePathTracingRenderer(native)
       }.apply {
         titleBytes.deallocate()
@@ -201,25 +204,25 @@ class Renderer(internal val native: CRenderer, internal val closeFunc: () -> Uni
       }
     }
   }
-  
-  val scene = SceneManager(GetSceneManager(native.notNull()))
-  val atmosphere = Atmosphere(GetAtmosphere(native.notNull()))
+
+  val scene = SceneManager(RendererGetSceneManager(native.notNull()))
+  val atmosphere = Atmosphere(RendererGetAtmosphere(native.notNull()))
   var wireframe: Boolean = RendererGetWireFrame(native.notNull())
     set(value) {
       RendererSetWireFrame(native.notNull(), value)
       field = value
     }
-  val window: Window = Window(GetWindow_(native.notNull()))
+  val window: Window = Window(RendererGetWindow(native.notNull()))
   fun loop(update: (Double) -> Unit) {
     val updater = object : CallFrameUpdater() {
       override fun update(elapsedDuration: Double) {
         update(elapsedDuration)
       }
     }
-    LoopUpdater(native.notNull(), CCallFrameUpdater(updater))
+    RendererLoopUpdater(native.notNull(), CCallFrameUpdater(updater))
     updater.deallocate()
   }
-  
+
   override fun close() {
     closeFunc()
     native.deallocate()

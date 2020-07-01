@@ -8,7 +8,7 @@ class Atmosphere(internal val native: CAtmosphere) {
   fun init(kLengthUnitInMeters: Double = 1000.0, kSunAngularRadius: Double = 0.00935 / 2.0) {
     AtmosphereInit(native.notNull(), kLengthUnitInMeters, kSunAngularRadius)
   }
-  
+
   val isEnabled: Boolean
     get() = AtmosphereIsEnabled(native.notNull())
   var sunDirection: Vec3 = Vec3().also { AtmosphereGetSunDirection(native.notNull(), it.raw) }
@@ -24,5 +24,4 @@ class Atmosphere(internal val native: CAtmosphere) {
     }
   val lengthUnitInMeters: Double
     get() = AtmosphereGetLengthUnitInMeters(native.notNull())
-  
 }

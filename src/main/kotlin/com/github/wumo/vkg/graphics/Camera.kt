@@ -8,37 +8,38 @@ import com.github.wumo.vkg.math.matrix.MatrixTransform.lookAt
 import com.github.wumo.vkg.math.vector.Vec3
 
 class Camera(internal val native: CCamera) {
-  var location: Vec3 = Vec3().also { GetCameraLocation(native.notNull(), it.raw) }
+  var location: Vec3 = Vec3().also { CameraGetLocation(native.notNull(), it.raw) }
     set(value) {
-      SetCameraLocation(native.notNull(), value.raw)
+      CameraSetLocation(native.notNull(), value.raw)
       field = value
     }
-  var direction: Vec3 = Vec3().also { GetCameraDirection(native.notNull(), it.raw) }
+  var direction: Vec3 = Vec3().also { CameraGetDirection(native.notNull(), it.raw) }
+    get() = Vec3().also { CameraGetDirection(native.notNull(), it.raw) }
     set(value) {
-      SetCameraDirection(native.notNull(), value.raw)
+      CameraSetDirection(native.notNull(), value.raw)
       field = value
     }
-  var worldUp: Vec3 = Vec3().also { GetCameraWorldUp(native.notNull(), it.raw) }
+  var worldUp: Vec3 = Vec3().also { CameraGetWorldUp(native.notNull(), it.raw) }
     set(value) {
-      SetCameraWorldUp(native.notNull(), value.raw)
+      CameraSetWorldUp(native.notNull(), value.raw)
       field = value
     }
-  var znear: Float = GetCameraZNear(native.notNull())
+  var znear: Float = CameraGetZNear(native.notNull())
     set(value) {
-      SetCameraZNear(native.notNull(), value)
+      CameraSetZNear(native.notNull(), value)
       field = value
     }
-  var zfar: Float = GetCameraZFar(native.notNull())
+  var zfar: Float = CameraGetZFar(native.notNull())
     set(value) {
-      SetCameraZFar(native.notNull(), value)
+      CameraSetZFar(native.notNull(), value)
       field = value
     }
   val width: Int
-    get() = GetCameraWidth(native.notNull())
+    get() = CameraGetWidth(native.notNull())
   val height: Int
-    get() = GetCameraHeight(native.notNull())
+    get() = CameraGetHeight(native.notNull())
   val view: Mat4
-    get() = Mat4().also { GetCameraView(native.notNull(), it.raw) }
+    get() = Mat4().also { CameraGetView(native.notNull(), it.raw) }
   val proj: Mat4
-    get() = Mat4().also { GetCameraProj(native.notNull(), it.raw) }
+    get() = Mat4().also { CameraGetProj(native.notNull(), it.raw) }
 }
