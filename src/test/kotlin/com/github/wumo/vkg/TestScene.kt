@@ -130,7 +130,7 @@ fun test(app: Renderer) {
   }
 
   run {
-    val name = "SpecGlossVsMetalRough"
+    val name = "DamagedHelmet"
     val model = scene.loadModel("src/main/cpp/assets/glTF-models/2.0/" + name + "/glTF/" + name + ".gltf")
     val aabb = model.aabb
     val range = aabb.max - aabb.min
@@ -142,6 +142,16 @@ fun test(app: Renderer) {
         Vec3(scale, scale, scale)
     )
     scene.newModelInstance(model, t)
+
+    val num = 100
+    val unit = -5f
+    for (a in 0 until 100)
+      for (b in 0 until 100) {
+        val _t = Transform(-center * scale +
+            Vec3(-10f + unit * a, scale * range.y / 2, -10f + unit * b),
+            Vec3(scale, scale, scale))
+        scene.newModelInstance(model, _t)
+      }
   }
 
   scene.camera.location = Vec3(20f, 20f, 20f)
