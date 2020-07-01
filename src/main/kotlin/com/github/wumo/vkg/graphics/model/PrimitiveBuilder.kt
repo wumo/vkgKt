@@ -14,16 +14,28 @@ class PrimitiveBuilder(internal val native: CPrimitiveBuilder) {
     BuildNewPrimitive(native.notNull(), topology.value)
   }
 
+  fun triangle(p1: Vec3, p2: Vec3, p3: Vec3) {
+    BuildTriangle(native.notNull(), p1.raw, p2.raw, p3.raw)
+  }
+
   fun rectangle(center: Vec3, x: Vec3, y: Vec3) {
     BuildRectangle(native.notNull(), center.raw, x.raw, y.raw)
   }
 
+  fun box(center: Vec3, x: Vec3, y: Vec3, z: Float) {
+    BuildBox(native.notNull(), center.raw, x.raw, y.raw, z)
+  }
+
+  fun box(p1: Vec3, p2: Vec3, up: Vec3, width: Float, height: Float) {
+    BuildBoxLine(native.notNull(), p1.raw, p2.raw, up.raw, width, height)
+  }
+
   fun checkerboard(
-    nx: Int, ny: Int,
-    center: Vec3 = Vec3(),
-    x: Vec3 = Vec3(0f, 0f, 1f),
-    y: Vec3 = Vec3(1f, 0f, 0f),
-    wx: Float = 1f, wy: Float = 1f
+      nx: Int, ny: Int,
+      center: Vec3 = Vec3(),
+      x: Vec3 = Vec3(0f, 0f, 1f),
+      y: Vec3 = Vec3(1f, 0f, 0f),
+      wx: Float = 1f, wy: Float = 1f
   ) {
     BuildCheckerboard(native.notNull(), nx, ny, center.raw, x.raw, y.raw, wx, wy)
   }
@@ -32,11 +44,11 @@ class PrimitiveBuilder(internal val native: CPrimitiveBuilder) {
     BuildSphere(native.notNull(), center.raw, R, nsubd)
   }
 
-  fun box(center: Vec3, x: Vec3, y: Vec3, z: Float) {
-    BuildBox(native.notNull(), center.raw, x.raw, y.raw, z)
-  }
-
   fun axis(center: Vec3, length: Float, R: Float, capLength: Float, segments: Int = 50) {
     BuildAxis(native.notNull(), center.raw, length, R, capLength, segments)
+  }
+
+  fun line(p1: Vec3, p2: Vec3) {
+    BuildLine(native.notNull(), p1.raw, p2.raw)
   }
 }

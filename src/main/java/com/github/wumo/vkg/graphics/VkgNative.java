@@ -526,6 +526,10 @@ public static native void BuildSphere(CPrimitiveBuilder builder, cvec3 center, f
 public static native void BuildSphere(CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, float R, int nsubd);
 public static native void BuildBox(CPrimitiveBuilder builder, cvec3 center, cvec3 x, cvec3 y, float z);
 public static native void BuildBox(CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("cvec3*") float[] x, @Cast("cvec3*") float[] y, float z);
+public static native void BuildBoxLine(
+  CPrimitiveBuilder builder, cvec3 p1, cvec3 p2, cvec3 up, float width, float height);
+public static native void BuildBoxLine(
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] p1, @Cast("cvec3*") float[] p2, @Cast("cvec3*") float[] up, float width, float height);
 public static native void BuildCone(
   CPrimitiveBuilder builder, cvec3 center, cvec3 z, float R, int segments);
 public static native void BuildCone(

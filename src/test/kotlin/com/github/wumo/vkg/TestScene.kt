@@ -3,6 +3,9 @@ package com.github.wumo.vkg
 import com.github.wumo.vkg.graphics.RayTracingSceneConfig
 import com.github.wumo.vkg.graphics.Renderer
 import com.github.wumo.vkg.graphics.model.MaterialType.*
+import com.github.wumo.vkg.graphics.model.Node
+import com.github.wumo.vkg.graphics.model.PrimitiveTopology
+import com.github.wumo.vkg.graphics.model.PrimitiveTopology.Lines
 import com.github.wumo.vkg.graphics.model.Transform
 import com.github.wumo.vkg.graphics.util.PanningCamera
 import com.github.wumo.vkg.math.common.FuncCommon.abs
@@ -129,6 +132,34 @@ fun test(app: Renderer) {
     scene.newModelInstance(model)
   }
 
+  run { //lines
+    val primitives = scene.newPrimitives {
+      line(Vec3(0f, 1f, 4f), Vec3(4f, 1f, 0f))
+      newPrimitive(Lines)
+    }
+    val node = scene.newNode()
+    node.addMeshes(scene.newMesh(primitives[0], greenMat))
+    scene.newModelInstance(scene.newModel(node))
+  }
+
+  run { //transparent
+    val primitives = scene.newPrimitives {
+      rectangle(Vec3(4f, 0f, 4f), Vec3(2f, 0f, -2f), Vec3(0f, 2f, 0f))
+      newPrimitive()
+      line(Vec3(4f, 0f, 4f), Vec3(4f, 4f, 4f))
+      newPrimitive(Lines)
+    }
+    val transRedMat = scene.newMaterial(Transparent)
+    transRedMat.colorFactor = Vec4(1f, 0f, 0f, 0.5f)
+    val node = scene.newNode()
+    node.addMeshes(scene.newMesh(primitives[0], transRedMat))
+    scene.newModelInstance(scene.newModel(node))
+
+    val node2 = scene.newNode()
+    node2.addMeshes(scene.newMesh(primitives[1], transRedMat))
+    scene.newModelInstance(scene.newModel(node2))
+  }
+
   run {
     val name = "DamagedHelmet"
     val model = scene.loadModel("src/main/cpp/assets/glTF-models/2.0/" + name + "/glTF/" + name + ".gltf")
@@ -154,20 +185,43 @@ fun test(app: Renderer) {
       }
   }
 
+  val parentNode: Node
+  val childNode: Node
+
+  run { // node graph
+    val primitive = scene.newPrimitives {
+      box(Vec3(), Vec3(0f, 7f, 0f), Vec3(0f, 1f, 0f), 0.2f, 0.2f)
+      newPrimitive()
+    }[0]
+
+    childNode = scene.newNode(Transform(Vec3(0f, 7f, 0f), Vec3(1f, 1f, 1f),
+        angleAxis(radians(60f), Vec3(1f, 0f, 0f))))
+    childNode.addMeshes(scene.newMesh(primitive, redMat))
+
+    parentNode = scene.newNode(Transform(Vec3(0f, 0f, 0f), Vec3(1f, 1f, 1f),
+        angleAxis(radians(30f), Vec3(1f, 0f, 0f))))
+    parentNode.addMeshes(scene.newMesh(primitive, yellowMat))
+    parentNode.addChildren(childNode)
+    scene.newModelInstance(scene.newModel(parentNode))
+  }
+
   scene.camera.location = Vec3(20f, 20f, 20f)
 //  scene.camera.zfar = 10000000f
   val panningCamera = PanningCamera(scene.camera)
   val input = app.window.input
   val camera = scene.camera
 //  println(camera.direction)
-  app.loop {
+  app.loop { elapsed ->
     panningCamera.update(input)
 //    val temp = angleAxis(radians(it.toFloat() / 10f), Vec3(0f, 1f, 0f)) * camera.direction
 //    camera.direction = temp
 //    println("$temp-> ${camera.direction}, ${camera.location}, ${camera.worldUp}")
     if (app.featureConfig.atmosphere) {
-      app.atmosphere.sunDirection = sunDirection((it / 1000).toFloat())
+      app.atmosphere.sunDirection = sunDirection((elapsed / 1000).toFloat())
     }
+    val t = childNode.transform
+    t.rotation = angleAxis(radians(elapsed.toFloat()), Vec3(0f, 1f, 0f)) * t.rotation
+    childNode.transform = t
   }
 
   app.close()
