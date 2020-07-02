@@ -653,6 +653,8 @@ public static native void AtmosphereInit(
   CAtmosphere atmosphere, double kLengthUnitInMeters, double kSunAngularRadius);
 
 public static native @Cast("bool") boolean AtmosphereIsEnabled(CAtmosphere atmosphere);
+public static native float AtmosphereGetSunIntensity(CAtmosphere atmosphere);
+public static native void AtmosphereSetSunIntensity(CAtmosphere atmosphere, float intensity);
 public static native double AtmosphereGetLengthUnitInMeters(CAtmosphere atmosphere);
 public static native double AtmosphereGetEarthRadius(CAtmosphere atmosphere);
 public static native void AtmosphereSetSunDirection(CAtmosphere atmosphere, cvec3 sunDirection);
