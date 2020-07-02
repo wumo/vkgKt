@@ -20,6 +20,8 @@ dependencies {
   implementation(kotlin("stdlib-jdk8"))
   testImplementation("junit:junit:4.13")
   testImplementation(kotlin("test-junit"))
+  api("org.bytedeco:javacpp:1.5.3")
+  implementation("org.bytedeco:javacpp-platform:1.5.3")
 }
 
 tasks {
