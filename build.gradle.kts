@@ -22,6 +22,15 @@ dependencies {
   testImplementation(kotlin("test-junit"))
 }
 
+tasks {
+  compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+  }
+  compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+  }
+}
+
 javacpp {
   include = listOf(
       "c/c_vec.h",
@@ -56,8 +65,15 @@ javacpp {
   }
   cppSourceDir = "${project.projectDir}/src/main/cpp"
   cppIncludeDir = "$cppSourceDir/src"
-//  if (osdetector.os == "linux") { // gcc-10 is buggy
-//    c_compiler = "/usr/bin/clang-10"
-//    cxx_compiler = "/usr/bin/clang++-10"
-//  }
+}
+
+val kotlinSourcesJar by tasks
+
+publishing {
+  publications {
+    create<MavenPublication>("maven") {
+      from(components["kotlin"])
+      artifact(kotlinSourcesJar)
+    }
+  }
 }
