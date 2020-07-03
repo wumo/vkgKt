@@ -10,7 +10,7 @@ class Transform(
     rotation: Quat = Quat(1f, 0f, 0f, 0f)
 ) {
   private val translationOffset = 0
-  private val translationSize = 0
+  private val translationSize = 3
   private val scaleOffset = 3
   private val scaleSize = 3
   private val rotationOffset = 3 + 3
