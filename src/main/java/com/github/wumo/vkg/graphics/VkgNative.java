@@ -655,6 +655,8 @@ public static native void AtmosphereInit(
 public static native @Cast("bool") boolean AtmosphereIsEnabled(CAtmosphere atmosphere);
 public static native float AtmosphereGetSunIntensity(CAtmosphere atmosphere);
 public static native void AtmosphereSetSunIntensity(CAtmosphere atmosphere, float intensity);
+public static native float AtmosphereGetExposure(CAtmosphere atmosphere);
+public static native void AtmosphereSetExposure(CAtmosphere atmosphere, float exposure);
 public static native double AtmosphereGetLengthUnitInMeters(CAtmosphere atmosphere);
 public static native double AtmosphereGetEarthRadius(CAtmosphere atmosphere);
 public static native void AtmosphereSetSunDirection(CAtmosphere atmosphere, cvec3 sunDirection);
