@@ -1,10 +1,8 @@
 package com.github.wumo.vkg
 
-import com.github.wumo.vkg.graphics.RayTracingSceneConfig
 import com.github.wumo.vkg.graphics.Renderer
 import com.github.wumo.vkg.graphics.model.MaterialType.*
 import com.github.wumo.vkg.graphics.model.Node
-import com.github.wumo.vkg.graphics.model.PrimitiveTopology
 import com.github.wumo.vkg.graphics.model.PrimitiveTopology.Lines
 import com.github.wumo.vkg.graphics.model.Transform
 import com.github.wumo.vkg.graphics.util.PanningCamera
@@ -173,7 +171,13 @@ fun test(app: Renderer) {
         -center * scale + Vec3(8f, scale * range.y / 2, 8f),
         Vec3(scale, scale, scale)
     )
-    scene.newModelInstance(model, t)
+    val ins=scene.newModelInstance(model, t)
+    
+    val mapToNewMat= mutableMapOf<Int,Int>()
+    for(node in ins.model.nodes) {
+      val aabb=node.aabb.applyTransform(t)
+      println(aabb.center)
+    }
     
     val num = 100
     val unit = -5f

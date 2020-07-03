@@ -27,6 +27,7 @@ public class VkgNative  {
 // #endif
 
 @MemberGetter public static native @Cast("const uint32_t") int CNullIdx();
+public static final int CNullIdx = CNullIdx();
 
 public static class CUintRange extends Pointer {
     static { Loader.load(); }
@@ -173,6 +174,15 @@ public static class caabb extends Pointer {
   public native @ByRef cvec3 min(); public native caabb min(cvec3 setter);
   public native @ByRef cvec3 max(); public native caabb max(cvec3 setter);
 }
+
+public static native void AABBMergePoint(caabb aabb, cvec3 p);
+public static native void AABBMergePoint(@Cast("caabb*") float[] aabb, @Cast("cvec3*") float[] p);
+public static native void AABBMergeAABB(caabb aabb, caabb other);
+public static native void AABBMergeAABB(@Cast("caabb*") float[] aabb, @Cast("caabb*") float[] other);
+public static native void AABBTransformMatrix(caabb aabb, cmat4 matrix);
+public static native void AABBTransformMatrix(@Cast("caabb*") float[] aabb, @Cast("cmat4*") float[] matrix);
+public static native void AABBTransform(caabb aabb, ctransform transform);
+public static native void AABBTransform(@Cast("caabb*") float[] aabb, @Cast("ctransform*") float[] transform);
 
 // #ifdef __cplusplus
 // #endif
@@ -382,6 +392,13 @@ public static native @Cast("uint32_t") int MeshGetMaterial(CSceneManager scene, 
 // #ifdef __cplusplus
 // #endif
 
+public static native @Cast("uint32_t") int NodeNameLength(CSceneManager scene, @Cast("uint32_t") int id);
+public static native void NodeGetName(CSceneManager scene, @Cast("uint32_t") int id, @Cast("char*") BytePointer buf);
+public static native void NodeGetName(CSceneManager scene, @Cast("uint32_t") int id, @Cast("char*") ByteBuffer buf);
+public static native void NodeGetName(CSceneManager scene, @Cast("uint32_t") int id, @Cast("char*") byte[] buf);
+public static native void NodeSetName(CSceneManager scene, @Cast("uint32_t") int id, @Cast("char*") BytePointer buf,@Cast("uint32_t") int size);
+public static native void NodeSetName(CSceneManager scene, @Cast("uint32_t") int id, @Cast("char*") ByteBuffer buf,@Cast("uint32_t") int size);
+public static native void NodeSetName(CSceneManager scene, @Cast("uint32_t") int id, @Cast("char*") byte[] buf,@Cast("uint32_t") int size);
 public static native void NodeGetTransform(CSceneManager scene, @Cast("uint32_t") int id, ctransform transform);
 public static native void NodeGetTransform(CSceneManager scene, @Cast("uint32_t") int id, @Cast("ctransform*") float[] transform);
 public static native void NodeSetTransform(CSceneManager scene, @Cast("uint32_t") int id, ctransform transform);

@@ -13,4 +13,6 @@ class ModelInstance(val scene: SceneManager, val id: Int) {
       ModelInstanceSetTransform(scene.native.notNull(), id, value.raw)
       field = value
     }
+  
+  val model: Model = Model(scene, ModelInstanceGetModel(scene.native.notNull(), id))
 }
