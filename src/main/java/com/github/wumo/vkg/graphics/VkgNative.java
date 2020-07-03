@@ -637,8 +637,8 @@ public static native @Cast("uint32_t") int NewTextureFromBytes(
   CSceneManager scene, String bytes, @Cast("uint32_t") int numBytes, @Cast("uint32_t") int width,
   @Cast("uint32_t") int height, @Cast("bool") boolean mipmap);
 public static native @Cast("uint32_t") int NewLight(CSceneManager scene);
-public static native @Cast("uint32_t") int SceneLoadModel(CSceneManager scene, @Cast("const char*") BytePointer path);
-public static native @Cast("uint32_t") int SceneLoadModel(CSceneManager scene, String path);
+public static native @Cast("uint32_t") int SceneLoadModel(CSceneManager scene, @Cast("const char*") BytePointer path, @Cast("CMaterialType") int type);
+public static native @Cast("uint32_t") int SceneLoadModel(CSceneManager scene, String path, @Cast("CMaterialType") int type);
 public static native @Cast("uint32_t") int NewModelInstance(CSceneManager scene, @Cast("uint32_t") int model, ctransform transform);
 public static native @Cast("uint32_t") int NewModelInstance(CSceneManager scene, @Cast("uint32_t") int model, @Cast("ctransform*") float[] transform);
 

@@ -171,11 +171,11 @@ fun test(app: Renderer) {
         -center * scale + Vec3(8f, scale * range.y / 2, 8f),
         Vec3(scale, scale, scale)
     )
-    val ins=scene.newModelInstance(model, t)
+    val ins = scene.newModelInstance(model, t)
     
-    val mapToNewMat= mutableMapOf<Int,Int>()
+    val mapToNewMat = mutableMapOf<Int, Int>()
     for(node in ins.model.nodes) {
-      val aabb=node.aabb.applyTransform(t)
+      val aabb = node.aabb.applyTransform(t)
       println(aabb.center)
     }
     
