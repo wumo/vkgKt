@@ -5,13 +5,12 @@ import com.github.wumo.vkg.graphics.VkgNative.*
 import com.github.wumo.vkg.graphics.util.notNull
 
 class ModelInstance(val scene: SceneManager, val id: Int) {
-  var transform: Transform = Transform()
+  var transform: Transform
     get() = Transform().also {
       ModelInstanceGetTransform(scene.native.notNull(), id, it.raw)
     }
     set(value) {
       ModelInstanceSetTransform(scene.native.notNull(), id, value.raw)
-      field = value
     }
   
   val model: Model = Model(scene, ModelInstanceGetModel(scene.native.notNull(), id))

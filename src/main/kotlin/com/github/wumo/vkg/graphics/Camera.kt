@@ -8,23 +8,20 @@ import com.github.wumo.vkg.math.matrix.MatrixTransform.lookAt
 import com.github.wumo.vkg.math.vector.Vec3
 
 class Camera(internal val native: CCamera) {
-  var location: Vec3 = Vec3()
+  var location: Vec3
     get() = Vec3().also { CameraGetLocation(native.notNull(), it.raw) }
     set(value) {
       CameraSetLocation(native.notNull(), value.raw)
-      field = value
     }
-  var direction: Vec3 = Vec3()
+  var direction: Vec3
     get() = Vec3().also { CameraGetDirection(native.notNull(), it.raw) }
     set(value) {
       CameraSetDirection(native.notNull(), value.raw)
-      field = value
     }
-  var worldUp: Vec3 = Vec3()
+  var worldUp: Vec3
     get() = Vec3().also { CameraGetWorldUp(native.notNull(), it.raw) }
     set(value) {
       CameraSetWorldUp(native.notNull(), value.raw)
-      field = value
     }
   var znear: Float = CameraGetZNear(native.notNull())
     set(value) {
