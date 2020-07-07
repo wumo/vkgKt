@@ -9,7 +9,8 @@ class WindowConfig(
     val width: Int = 1280, val height: Int = 720,
     val fullscreen: Boolean = false,
     val vsync: Boolean = false,
-    val numFrames: Int = 2
+    val numFrames: Int = 2,
+    val safeSync: Boolean = false
 )
 
 class FeatureConfig(val atmosphere: Boolean = false,
@@ -73,6 +74,7 @@ class Renderer(internal val native: CRenderer,
         it.fullscreen(windowConfig.fullscreen)
         it.vsync(windowConfig.vsync)
         it.numFrames(windowConfig.numFrames)
+        it.safeSync(windowConfig.safeSync)
       }
       val featureConfig_ = CFeatureConfig().also {
         it.atmosphere(featureConfig.atmosphere)
@@ -97,6 +99,7 @@ class Renderer(internal val native: CRenderer,
         it.fullscreen(windowConfig.fullscreen)
         it.vsync(windowConfig.vsync)
         it.numFrames(windowConfig.numFrames)
+        it.safeSync(windowConfig.safeSync)
       }
       val featureConfig_ = CFeatureConfig().also {
         it.atmosphere(featureConfig.atmosphere)
@@ -135,6 +138,7 @@ class Renderer(internal val native: CRenderer,
         it.fullscreen(windowConfig.fullscreen)
         it.vsync(windowConfig.vsync)
         it.numFrames(windowConfig.numFrames)
+        it.safeSync(windowConfig.safeSync)
       }
       val featureConfig_ = CFeatureConfig().also {
         it.atmosphere(featureConfig.atmosphere)
@@ -174,6 +178,7 @@ class Renderer(internal val native: CRenderer,
         it.fullscreen(windowConfig.fullscreen)
         it.vsync(windowConfig.vsync)
         it.numFrames(windowConfig.numFrames)
+        it.safeSync(windowConfig.safeSync)
       }
       val featureConfig_ = CFeatureConfig().also {
         it.atmosphere(featureConfig.atmosphere)
