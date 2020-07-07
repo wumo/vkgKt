@@ -978,6 +978,7 @@ public static class CWindowConfig extends Pointer {
   public native @Cast("bool") boolean fullscreen(); public native CWindowConfig fullscreen(boolean setter);
   public native @Cast("bool") boolean vsync(); public native CWindowConfig vsync(boolean setter);
   public native @Cast("uint32_t") int numFrames(); public native CWindowConfig numFrames(int setter);
+  public native @Cast("bool") boolean safeSync(); public native CWindowConfig safeSync(boolean setter);
 }
 
 public static class CFeatureConfig extends Pointer {
@@ -1127,7 +1128,7 @@ public static native CRenderer NewPathTracingRenderer(
   @ByVal CPathTracingSceneConfig sceneConfig);
 public static native void DeletePathTracingRenderer(CRenderer renderer);
 
-public static native void RendererGetFeatureConfig(CRenderer renderer,CFeatureConfig featureConfig);
+public static native void RendererGetFeatureConfig(CRenderer renderer, CFeatureConfig featureConfig);
 public static native CSceneManager RendererGetSceneManager(CRenderer renderer);
 public static native CAtmosphere RendererGetAtmosphere(CRenderer renderer);
 public static native CWindow RendererGetWindow(CRenderer renderer);
