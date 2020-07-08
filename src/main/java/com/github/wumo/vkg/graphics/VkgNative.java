@@ -565,6 +565,30 @@ public static native void BuildLine(CPrimitiveBuilder builder, cvec3 p1, cvec3 p
 public static native void BuildLine(CPrimitiveBuilder builder, @Cast("cvec3*") float[] p1, @Cast("cvec3*") float[] p2);
 public static native void BuildRectangleLine(CPrimitiveBuilder builder, cvec3 center, cvec3 x, cvec3 y);
 public static native void BuildRectangleLine(CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("cvec3*") float[] x, @Cast("cvec3*") float[] y);
+public static native void PrimitiveBuilderFrom(
+  CPrimitiveBuilder builder, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
+  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntPointer indices,
+  @Cast("uint32_t") int numIndices);
+public static native void PrimitiveBuilderFrom(
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
+  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntBuffer indices,
+  @Cast("uint32_t") int numIndices);
+public static native void PrimitiveBuilderFrom(
+  CPrimitiveBuilder builder, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
+  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") int[] indices,
+  @Cast("uint32_t") int numIndices);
+public static native void PrimitiveBuilderFrom(
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
+  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntPointer indices,
+  @Cast("uint32_t") int numIndices);
+public static native void PrimitiveBuilderFrom(
+  CPrimitiveBuilder builder, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
+  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntBuffer indices,
+  @Cast("uint32_t") int numIndices);
+public static native void PrimitiveBuilderFrom(
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
+  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") int[] indices,
+  @Cast("uint32_t") int numIndices);
 
 public static native @Cast("uint32_t") int BuilderNumPrimitives(CPrimitiveBuilder builder);
 

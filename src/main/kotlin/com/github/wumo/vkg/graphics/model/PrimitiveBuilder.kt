@@ -10,6 +10,20 @@ class PrimitiveBuilder(internal val native: CPrimitiveBuilder) {
   val numPrimitives: Int
     get() = VkgNative.BuilderNumPrimitives(native.notNull())
   
+  fun from(positions: FloatArray, normals: FloatArray, uvs: FloatArray, indices: IntArray) {
+    assert(positions.size % 3 == 0) { "positions.size %3 should equal 0" }
+    assert(normals.size % 3 == 0) { "normals.size %3 should equal 0" }
+    assert(uvs.size % 2 == 0) { "uvs.size %3 should equal 0" }
+    assert(positions.size / 3 == normals.size / 3 && normals.size / 3 == uvs.size / 2) {
+      "positions.size and normals.size and uvs should be the same"
+    }
+    PrimitiveBuilderFrom(native.notNull(),
+                         positions, positions.size / 3,
+                         normals, normals.size / 3,
+                         uvs, uvs.size / 2,
+                         indices, indices.size)
+  }
+  
   fun newPrimitive(topology: PrimitiveTopology = PrimitiveTopology.Triangels) {
     BuildNewPrimitive(native.notNull(), topology.value)
   }

@@ -212,6 +212,21 @@ fun test(app: Renderer) {
     scene.newModelInstance(scene.newModel(parentNode))
   }
   
+  run {
+    val primitive = scene.newPrimitives {
+      from(floatArrayOf(0f, 0f, 10f, 10f, 0f, 0f, 0f, 10f),
+           floatArrayOf(0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f),
+           floatArrayOf(0f, 1f, 1f, 1f, 0f, 0f),
+           intArrayOf(0, 1, 2))
+      newPrimitive()
+    }[0]
+    val mesh = scene.newMesh(primitive, redMat)
+    val node = scene.newNode()
+    node.addMeshes(mesh)
+    val model = scene.newModel(node)
+    scene.newModelInstance(model)
+  }
+  
   scene.camera.location = Vec3(20f, 20f, 20f)
 //  scene.camera.zfar = 10000000f
   val panningCamera = PanningCamera(scene.camera)
