@@ -6,13 +6,11 @@ import com.github.wumo.vkg.graphics.util.notNull
 
 class Node(val scene: SceneManager, val id: Int) {
   
-  var transform: Transform
-    get() = Transform().also {
-      NodeGetTransform(scene.native.notNull(), id, it.raw)
-    }
-    set(value) {
-      NodeSetTransform(scene.native.notNull(), id, value.raw)
-    }
+  val transform: Transform = Transform(updateFunc = {
+    NodeSetTransform(scene.native.notNull(), id, it.raw)
+  }).also {
+    NodeGetTransform(scene.native.notNull(), id, it.raw)
+  }
   
   val parent: Node? = run {
     val parentID = NodeGetParent(scene.native.notNull(), id)
