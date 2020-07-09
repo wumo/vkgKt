@@ -2,6 +2,7 @@ package com.github.wumo.vkg
 
 import com.github.wumo.vkg.graphics.Renderer
 import com.github.wumo.vkg.graphics.model.MaterialType.*
+import com.github.wumo.vkg.graphics.model.Model
 import com.github.wumo.vkg.graphics.model.ModelInstance
 import com.github.wumo.vkg.graphics.model.Node
 import com.github.wumo.vkg.graphics.model.PrimitiveTopology.Lines
@@ -13,6 +14,7 @@ import com.github.wumo.vkg.math.vector.FuncTrigonometric.radians
 import com.github.wumo.vkg.math.vector.Vec3
 import com.github.wumo.vkg.math.vector.Vec4
 import kotlin.math.*
+import kotlin.random.Random
 
 fun test(app: Renderer) {
   val scene = app.scene
@@ -214,7 +216,7 @@ fun test(app: Renderer) {
   
   run {
     val primitive = scene.newPrimitives {
-      from(floatArrayOf(0f, 0f, 10f, 10f, 0f, 0f, 0f, 10f),
+      from(floatArrayOf(0f, 0f, 10f, 10f, 0f, 0f, 0f, 10f, 0f),
            floatArrayOf(0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f),
            floatArrayOf(0f, 1f, 1f, 1f, 0f, 0f),
            intArrayOf(0, 1, 2))
@@ -227,12 +229,45 @@ fun test(app: Renderer) {
     scene.newModelInstance(model)
   }
   
+  val balls = mutableListOf<ModelInstance>()
+  val ballModel: Model
+  val boxModel: Model
+  run {
+    val primitives = scene.newPrimitives {
+      sphere(Vec3(), 1f)
+      newPrimitive()
+      box(Vec3(), Vec3(0f, 0f, 1f), Vec3(1f, 0f, 0f), 1f)
+      newPrimitive()
+    }
+    val mat = scene.newMaterial(Transparent)
+    mat.colorFactor = Vec4(1f, 1f, 1f, 0.5f)
+    var mesh = scene.newMesh(primitives[0], mat)
+    var node = scene.newNode()
+    node.addMeshes(mesh)
+    ballModel = scene.newModel(node)
+    mesh = scene.newMesh(primitives[1], mat)
+    node = scene.newNode()
+    node.addMeshes(mesh)
+    boxModel = scene.newModel(node)
+    
+    val t = Transform()
+    val num = 10
+    val unit = 5f
+    for(a in 0 until num) {
+      for(b in 0 until num) {
+        t.translation = Vec3(-10f + unit * a, 10f, -10f + unit * b)
+        balls += scene.newModelInstance(ballModel, t)
+      }
+    }
+  }
+  
   scene.camera.location = Vec3(20f, 20f, 20f)
 //  scene.camera.zfar = 10000000f
   val panningCamera = PanningCamera(scene.camera)
   val input = app.window.input
   val camera = scene.camera
 //  println(camera.direction)
+  var lastChange = System.currentTimeMillis()
   app.loop { elapsed->
     panningCamera.update(input)
 //    val temp = angleAxis(radians(it.toFloat() / 10f), Vec3(0f, 1f, 0f)) * camera.direction
@@ -247,6 +282,13 @@ fun test(app: Renderer) {
     for(inst in insts) {
       val t = inst.transform
       t.rotation = angleAxis(radians(elapsed.toFloat()), Vec3(0f, 1f, 0f)) * t.rotation
+    }
+    val now = System.currentTimeMillis()
+    if(now - lastChange > 2000) {
+      lastChange = now
+      for(ball in balls) {
+        ball.model = if(Random.nextBoolean()) boxModel else ballModel
+      }
     }
   }
   

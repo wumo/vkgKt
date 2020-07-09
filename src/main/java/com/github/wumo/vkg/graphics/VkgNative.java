@@ -484,7 +484,7 @@ public static native void ModelInstanceSetTransform(CSceneManager scene, @Cast("
 public static native @Cast("uint32_t") int ModelInstanceGetModel(CSceneManager scene, @Cast("uint32_t") int id);
 public static native @Cast("bool") boolean ModelInstanceGetVisible(CSceneManager scene, @Cast("uint32_t") int id);
 public static native void ModelInstanceSetVisible(CSceneManager scene, @Cast("uint32_t") int id, @Cast("bool") boolean visible);
-
+public static native void ModelInstanceChangeModel(CSceneManager scene,@Cast("uint32_t") int id,@Cast("uint32_t") int model);
 // #ifdef __cplusplus
 // #endif
 // #endif //VKG_C_MODEL_INSTANCE_H
