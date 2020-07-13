@@ -2,6 +2,7 @@ package com.github.wumo.vkg
 
 import com.github.wumo.vkg.graphics.Renderer
 import com.github.wumo.vkg.graphics.model.MaterialType.*
+import com.github.wumo.vkg.graphics.model.Model
 import com.github.wumo.vkg.graphics.model.ModelInstance
 import com.github.wumo.vkg.graphics.model.Node
 import com.github.wumo.vkg.graphics.model.PrimitiveTopology.Lines
@@ -13,6 +14,7 @@ import com.github.wumo.vkg.math.vector.FuncTrigonometric.radians
 import com.github.wumo.vkg.math.vector.Vec3
 import com.github.wumo.vkg.math.vector.Vec4
 import kotlin.math.*
+import kotlin.random.Random
 
 fun test(app: Renderer) {
   val scene = app.scene
@@ -20,17 +22,17 @@ fun test(app: Renderer) {
   val seasonAngle = kPi / 4f
   var sunAngle = 0f
   val angularVelocity = kPi / 20
-  val sunDirection = { dt: Float ->
+  val sunDirection = { dt: Float->
     sunAngle += angularVelocity * dt;
-    if (sunAngle > 2 * kPi) sunAngle = 0f
-
+    if(sunAngle > 2 * kPi) sunAngle = 0f
+    
     -Vec3(
         cos(sunAngle), abs(sin(sunAngle) * sin(seasonAngle)),
         -sin(sunAngle) * cos(seasonAngle)
     )
   }
-
-  if (app.featureConfig.atmosphere) {
+  
+  if(app.featureConfig.atmosphere) {
     val sky = app.atmosphere
     sky.init(1.0)
 //    sky.sunIntensity = 10f
@@ -58,7 +60,7 @@ fun test(app: Renderer) {
   val colorTex = scene.newTexture("src/main/cpp/assets/TextureCoordinateTemplate.png")
   texMat.colorTex = colorTex
   texMat.pbrFactor = Vec4(0f, 0.3f, 0.4f, 1f)
-
+  
   run {
     val primitives = scene.newPrimitives {
       axis(Vec3(), 10f, 0.1f, 0.5f, 50)
@@ -73,7 +75,7 @@ fun test(app: Renderer) {
     val axisModel = scene.newModel(axisNode)
     scene.newModelInstance(axisModel)
   }
-
+  
   run {
     val primitive = scene.newPrimitives {
       rectangle(Vec3(), Vec3(5f, 0f, -5f), Vec3(0f, 10f, 0f))
@@ -85,7 +87,7 @@ fun test(app: Renderer) {
     val model = scene.newModel(node)
     scene.newModelInstance(model)
   }
-
+  
   run {
     val primitive = scene.newPrimitives {
       checkerboard(100, 100, Vec3(), Vec3(0f, 0f, 1f), Vec3(1f, 0f, 0f), 4f, 4f)
@@ -101,7 +103,7 @@ fun test(app: Renderer) {
     val model = scene.newModel(node)
     scene.newModelInstance(model)
   }
-
+  
   run {
     val primitive = scene.newPrimitives {
       box(Vec3(), Vec3(0f, 0f, 1f), Vec3(1f, 0f, 0f), 1f)
@@ -116,7 +118,7 @@ fun test(app: Renderer) {
     val model = scene.newModel(node)
     scene.newModelInstance(model)
   }
-
+  
   run {
     val primitive = scene.newPrimitives {
       sphere(Vec3(0f, 2f, 10f), 2f)
@@ -131,7 +133,7 @@ fun test(app: Renderer) {
     val model = scene.newModel(node)
     scene.newModelInstance(model)
   }
-
+  
   run { //lines
     val primitives = scene.newPrimitives {
       line(Vec3(0f, 1f, 4f), Vec3(4f, 1f, 0f))
@@ -141,7 +143,7 @@ fun test(app: Renderer) {
     node.addMeshes(scene.newMesh(primitives[0], greenMat))
     scene.newModelInstance(scene.newModel(node))
   }
-
+  
   run { //transparent
     val primitives = scene.newPrimitives {
       rectangle(Vec3(4f, 0f, 4f), Vec3(2f, 0f, -2f), Vec3(0f, 2f, 0f))
@@ -154,12 +156,12 @@ fun test(app: Renderer) {
     val node = scene.newNode()
     node.addMeshes(scene.newMesh(primitives[0], transRedMat))
     scene.newModelInstance(scene.newModel(node))
-
+    
     val node2 = scene.newNode()
     node2.addMeshes(scene.newMesh(primitives[1], transRedMat))
     scene.newModelInstance(scene.newModel(node2))
   }
-
+  
   val insts = mutableListOf<ModelInstance>()
   run {
     val name = "DamagedHelmet"
@@ -174,67 +176,121 @@ fun test(app: Renderer) {
         Vec3(scale, scale, scale)
     )
     val ins = scene.newModelInstance(model, t)
-
+    
     val mapToNewMat = mutableMapOf<Int, Int>()
-    for (node in ins.model.nodes) {
+    for(node in ins.model.nodes) {
       val aabb = node.aabb.applyTransform(t)
       println(aabb.center)
     }
-
+    
     val num = 100
     val unit = -5f
-    for (a in 0 until 100)
-      for (b in 0 until 100) {
+    for(a in 0 until 100)
+      for(b in 0 until 100) {
         val _t = Transform(-center * scale +
-            Vec3(-10f + unit * a, scale * range.y / 2, -10f + unit * b),
-            Vec3(scale, scale, scale))
+                           Vec3(-10f + unit * a, scale * range.y / 2, -10f + unit * b),
+                           Vec3(scale, scale, scale))
         insts += scene.newModelInstance(model, _t)
       }
   }
-
+  
   val parentNode: Node
   val childNode: Node
-
+  
   run { // node graph
     val primitive = scene.newPrimitives {
       box(Vec3(), Vec3(0f, 7f, 0f), Vec3(0f, 1f, 0f), 0.2f, 0.2f)
       newPrimitive()
     }[0]
-
+    
     childNode = scene.newNode(Transform(Vec3(0f, 7f, 0f), Vec3(1f, 1f, 1f),
-        angleAxis(radians(60f), Vec3(1f, 0f, 0f))))
+                                        angleAxis(radians(60f), Vec3(1f, 0f, 0f))))
     childNode.addMeshes(scene.newMesh(primitive, redMat))
-
+    
     parentNode = scene.newNode(Transform(Vec3(0f, 0f, 0f), Vec3(1f, 1f, 1f),
-        angleAxis(radians(30f), Vec3(1f, 0f, 0f))))
+                                         angleAxis(radians(30f), Vec3(1f, 0f, 0f))))
     parentNode.addMeshes(scene.newMesh(primitive, yellowMat))
     parentNode.addChildren(childNode)
     scene.newModelInstance(scene.newModel(parentNode))
   }
-
+  
+  run {
+    val primitive = scene.newPrimitives {
+      from(floatArrayOf(0f, 0f, 10f, 10f, 0f, 0f, 0f, 10f, 0f),
+           floatArrayOf(0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f, 0.5774f),
+           floatArrayOf(0f, 1f, 1f, 1f, 0f, 0f),
+           intArrayOf(0, 1, 2))
+      newPrimitive()
+    }[0]
+    val mesh = scene.newMesh(primitive, redMat)
+    val node = scene.newNode()
+    node.addMeshes(mesh)
+    val model = scene.newModel(node)
+    scene.newModelInstance(model)
+  }
+  
+  val balls = mutableListOf<ModelInstance>()
+  val ballModel: Model
+  val boxModel: Model
+  run {
+    val primitives = scene.newPrimitives {
+      sphere(Vec3(), 1f)
+      newPrimitive()
+      box(Vec3(), Vec3(0f, 0f, 1f), Vec3(1f, 0f, 0f), 1f)
+      newPrimitive()
+    }
+    val mat = scene.newMaterial(Transparent)
+    mat.colorFactor = Vec4(1f, 1f, 1f, 0.5f)
+    var mesh = scene.newMesh(primitives[0], mat)
+    var node = scene.newNode()
+    node.addMeshes(mesh)
+    ballModel = scene.newModel(node)
+    mesh = scene.newMesh(primitives[1], mat)
+    node = scene.newNode()
+    node.addMeshes(mesh)
+    boxModel = scene.newModel(node)
+    
+    val t = Transform()
+    val num = 10
+    val unit = 5f
+    for(a in 0 until num) {
+      for(b in 0 until num) {
+        t.translation = Vec3(-10f + unit * a, 10f, -10f + unit * b)
+        balls += scene.newModelInstance(ballModel, t)
+      }
+    }
+  }
+  
   scene.camera.location = Vec3(20f, 20f, 20f)
 //  scene.camera.zfar = 10000000f
   val panningCamera = PanningCamera(scene.camera)
   val input = app.window.input
   val camera = scene.camera
 //  println(camera.direction)
-  app.loop { elapsed ->
+  var lastChange = System.currentTimeMillis()
+  app.loop { elapsed->
     panningCamera.update(input)
 //    val temp = angleAxis(radians(it.toFloat() / 10f), Vec3(0f, 1f, 0f)) * camera.direction
 //    camera.direction = temp
 //    println("$temp-> ${camera.direction}, ${camera.location}, ${camera.worldUp}")
-    if (app.featureConfig.atmosphere) {
+    if(app.featureConfig.atmosphere) {
       app.atmosphere.sunDirection = sunDirection((elapsed / 1000).toFloat())
     }
 //    val t = childNode.transform
 //    t.rotation = angleAxis(radians(elapsed.toFloat()), Vec3(0f, 1f, 0f)) * t.rotation
 //    childNode.transform = t
-    for (inst in insts) {
+    for(inst in insts) {
       val t = inst.transform
       t.rotation = angleAxis(radians(elapsed.toFloat()), Vec3(0f, 1f, 0f)) * t.rotation
-      inst.transform = t
+    }
+    val now = System.currentTimeMillis()
+    if(now - lastChange > 2000) {
+      lastChange = now
+      for(ball in balls) {
+        ball.model = if(Random.nextBoolean()) boxModel else ballModel
+      }
     }
   }
-
+  
   app.close()
 }

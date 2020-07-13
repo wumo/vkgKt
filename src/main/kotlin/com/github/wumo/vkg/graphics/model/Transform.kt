@@ -7,16 +7,17 @@ import com.github.wumo.vkg.math.vector.Vec4
 class Transform(
   translation: Vec3 = Vec3(0f, 0f, 0f),
   scale: Vec3 = Vec3(1f, 1f, 1f),
-  rotation: Quat = Quat(1f, 0f, 0f, 0f)
+  rotation: Quat = Quat(1f, 0f, 0f, 0f),
+  val updateFunc: ((Transform)->Unit)? = null
 ) {
   private val translationOffset = 0
-  private val translationSize = 3
-  private val scaleOffset = 3
-  private val scaleSize = 3
-  private val rotationOffset = 3 + 3
-  private val rotationSize = 4
+  private val translationSize = translation.rawSize()
+  private val scaleOffset = translationOffset + translationSize
+  private val scaleSize = scale.rawSize()
+  private val rotationOffset = scaleOffset + scaleSize
+  private val rotationSize = rotation.rawSize()
   
-  internal val raw: FloatArray = FloatArray(3 + 3 + 4).also {
+  internal val raw: FloatArray = FloatArray(translationSize + scaleSize + rotationSize).also {
     translation.raw.copyInto(it, translationOffset)
     scale.raw.copyInto(it, scaleOffset)
     rotation.raw.copyInto(it, rotationOffset)
@@ -28,6 +29,7 @@ class Transform(
     }
     set(value) {
       value.raw.copyInto(raw, translationOffset)
+      updateFunc?.invoke(this)
     }
   var scale: Vec3
     get() = Vec3().also {
@@ -35,6 +37,7 @@ class Transform(
     }
     set(value) {
       value.raw.copyInto(raw, scaleOffset)
+      updateFunc?.invoke(this)
     }
   var rotation: Quat
     get() = Quat().also {
@@ -42,6 +45,7 @@ class Transform(
     }
     set(value) {
       value.raw.copyInto(raw, rotationOffset)
+      updateFunc?.invoke(this)
     }
   
   override fun toString(): String {
