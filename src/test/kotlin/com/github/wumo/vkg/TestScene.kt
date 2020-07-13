@@ -34,7 +34,7 @@ fun test(app: Renderer) {
   
   if(app.featureConfig.atmosphere) {
     val sky = app.atmosphere
-    sky.init(1.0)
+//    sky.init(1.0)
 //    sky.sunIntensity = 10f
     sky.sunDirection = sunDirection(1f)
     sky.earthCenter = Vec3(0f, (-sky.earthRadius / sky.lengthUnitInMeters - 100).toFloat(), 0f)
