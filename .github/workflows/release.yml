@@ -16,7 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.SSH_KEY }}
           submodules: true
           persist-credentials: true # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
           fetch-depth: 0
