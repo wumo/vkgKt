@@ -15,8 +15,8 @@ class SceneManager(internal val native: VkgNative.CSceneManager) {
                    aabb: AABB,
                    topology: PrimitiveTopology = PrimitiveTopology.Triangels,
                    type: DynamicType = DynamicType.Static): Primitive {
-    val prim = NewPrimitive(native.notNull(), positions, positions.size / 3,
-        normals, normals.size / 3, uvs, uvs.size / 2, indices, indices.size, aabb.raw,
+    val prim = NewPrimitive(native.notNull(), positions, 0, positions.size / 3,
+        normals, 0, normals.size / 3, uvs, 0, uvs.size / 2, indices, indices.size, aabb.raw,
         topology.value, type.value)
     return Primitive(this, prim)
   }
@@ -37,8 +37,8 @@ class SceneManager(internal val native: VkgNative.CSceneManager) {
 
   fun updatePrimitive(primitive: Primitive, positions: FloatArray,
                       normals: FloatArray, aabb: AABB) {
-    UpdatePrimitive(native.notNull(), primitive.id, positions, positions.size / 3,
-        normals, normals.size / 3, aabb.raw)
+    UpdatePrimitive(native.notNull(), primitive.id, positions, 0, positions.size / 3,
+        normals, 0, normals.size / 3, aabb.raw)
   }
 
   fun newMaterial(type: MaterialType = MaterialType.None): Material {

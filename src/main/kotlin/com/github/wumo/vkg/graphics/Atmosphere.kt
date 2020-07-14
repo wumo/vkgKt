@@ -8,7 +8,7 @@ class Atmosphere(internal val native: CAtmosphere) {
   fun init(kLengthUnitInMeters: Double = 1000.0, kSunAngularRadius: Double = 0.00935 / 2.0) {
     AtmosphereInit(native.notNull(), kLengthUnitInMeters, kSunAngularRadius)
   }
-  
+
   val isEnabled: Boolean
     get() = AtmosphereIsEnabled(native.notNull())
   var sunIntensity: Float = AtmosphereGetSunIntensity(native.notNull())
@@ -16,16 +16,16 @@ class Atmosphere(internal val native: CAtmosphere) {
       AtmosphereSetSunIntensity(native.notNull(), value)
       field = value
     }
-  var sunDirection: Vec3 = Vec3().also { AtmosphereGetSunDirection(native.notNull(), it.raw) }
+  var sunDirection: Vec3 = Vec3().also { AtmosphereGetSunDirection(native.notNull(), it.raw, it.offset) }
     set(value) {
-      AtmosphereSetSunDirection(native.notNull(), value.raw)
-      field = value
+      AtmosphereSetSunDirection(native.notNull(), value.raw, value.offset)
+      field.assign(value)
     }
   val earthRadius: Double = AtmosphereGetEarthRadius(native.notNull())
-  var earthCenter: Vec3 = Vec3().also { AtmosphereGetEarthCenter(native.notNull(), it.raw) }
+  var earthCenter: Vec3 = Vec3().also { AtmosphereGetEarthCenter(native.notNull(), it.raw, it.offset) }
     set(value) {
-      AtmosphereSetEarthCenter(native.notNull(), value.raw)
-      field = value
+      AtmosphereSetEarthCenter(native.notNull(), value.raw, value.offset)
+      field.assign(value)
     }
   val lengthUnitInMeters: Double
     get() = AtmosphereGetLengthUnitInMeters(native.notNull())

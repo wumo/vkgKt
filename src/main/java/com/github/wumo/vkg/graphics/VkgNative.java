@@ -175,12 +175,12 @@ public static class caabb extends Pointer {
   public native @ByRef cvec3 max(); public native caabb max(cvec3 setter);
 }
 
-public static native void AABBMergePoint(caabb aabb, cvec3 p);
-public static native void AABBMergePoint(@Cast("caabb*") float[] aabb, @Cast("cvec3*") float[] p);
+public static native void AABBMergePoint(caabb aabb, cvec3 p, @Cast("uint32_t") int offset);
+public static native void AABBMergePoint(@Cast("caabb*") float[] aabb, @Cast("cvec3*") float[] p, @Cast("uint32_t") int offset);
 public static native void AABBMergeAABB(caabb aabb, caabb other);
 public static native void AABBMergeAABB(@Cast("caabb*") float[] aabb, @Cast("caabb*") float[] other);
-public static native void AABBTransformMatrix(caabb aabb, cmat4 matrix);
-public static native void AABBTransformMatrix(@Cast("caabb*") float[] aabb, @Cast("cmat4*") float[] matrix);
+public static native void AABBTransformMatrix(caabb aabb, cmat4 matrix, @Cast("uint32_t") int offset);
+public static native void AABBTransformMatrix(@Cast("caabb*") float[] aabb, @Cast("cmat4*") float[] matrix, @Cast("uint32_t") int offset);
 public static native void AABBTransform(caabb aabb, ctransform transform);
 public static native void AABBTransform(@Cast("caabb*") float[] aabb, @Cast("ctransform*") float[] transform);
 
@@ -205,28 +205,28 @@ public static native void AABBTransform(@Cast("caabb*") float[] aabb, @Cast("ctr
     public CCamera(Pointer p) { super(p); }
 }
 
-public static native void CameraGetLocation(CCamera camera, cvec3 location);
-public static native void CameraGetLocation(CCamera camera, @Cast("cvec3*") float[] location);
-public static native void CameraSetLocation(CCamera camera, cvec3 location);
-public static native void CameraSetLocation(CCamera camera, @Cast("cvec3*") float[] location);
-public static native void CameraGetDirection(CCamera camera, cvec3 direction);
-public static native void CameraGetDirection(CCamera camera, @Cast("cvec3*") float[] direction);
-public static native void CameraSetDirection(CCamera camera, cvec3 direction);
-public static native void CameraSetDirection(CCamera camera, @Cast("cvec3*") float[] direction);
-public static native void CameraGetWorldUp(CCamera camera, cvec3 worldUp);
-public static native void CameraGetWorldUp(CCamera camera, @Cast("cvec3*") float[] worldUp);
-public static native void CameraSetWorldUp(CCamera camera, cvec3 worldUp);
-public static native void CameraSetWorldUp(CCamera camera, @Cast("cvec3*") float[] worldUp);
+public static native void CameraGetLocation(CCamera camera, cvec3 location, @Cast("uint32_t") int offset_float);
+public static native void CameraGetLocation(CCamera camera, @Cast("cvec3*") float[] location, @Cast("uint32_t") int offset_float);
+public static native void CameraSetLocation(CCamera camera, cvec3 location, @Cast("uint32_t") int offset_float);
+public static native void CameraSetLocation(CCamera camera, @Cast("cvec3*") float[] location, @Cast("uint32_t") int offset_float);
+public static native void CameraGetDirection(CCamera camera, cvec3 direction, @Cast("uint32_t") int offset_float);
+public static native void CameraGetDirection(CCamera camera, @Cast("cvec3*") float[] direction, @Cast("uint32_t") int offset_float);
+public static native void CameraSetDirection(CCamera camera, cvec3 direction, @Cast("uint32_t") int offset_float);
+public static native void CameraSetDirection(CCamera camera, @Cast("cvec3*") float[] direction, @Cast("uint32_t") int offset_float);
+public static native void CameraGetWorldUp(CCamera camera, cvec3 worldUp, @Cast("uint32_t") int offset_float);
+public static native void CameraGetWorldUp(CCamera camera, @Cast("cvec3*") float[] worldUp, @Cast("uint32_t") int offset_float);
+public static native void CameraSetWorldUp(CCamera camera, cvec3 worldUp, @Cast("uint32_t") int offset_float);
+public static native void CameraSetWorldUp(CCamera camera, @Cast("cvec3*") float[] worldUp, @Cast("uint32_t") int offset_float);
 public static native float CameraGetZNear(CCamera camera);
 public static native void CameraSetZNear(CCamera camera, float zNear);
 public static native float CameraGetZFar(CCamera camera);
 public static native void CameraSetZFar(CCamera camera, float zFar);
 public static native @Cast("uint32_t") int CameraGetWidth(CCamera camera);
 public static native @Cast("uint32_t") int CameraGetHeight(CCamera camera);
-public static native void CameraGetView(CCamera camera, cmat4 view);
-public static native void CameraGetView(CCamera camera, @Cast("cmat4*") float[] view);
-public static native void CameraGetProj(CCamera camera, cmat4 proj);
-public static native void CameraGetProj(CCamera camera, @Cast("cmat4*") float[] proj);
+public static native void CameraGetView(CCamera camera, cmat4 view, @Cast("uint32_t") int offset_float);
+public static native void CameraGetView(CCamera camera, @Cast("cmat4*") float[] view, @Cast("uint32_t") int offset_float);
+public static native void CameraGetProj(CCamera camera, cmat4 proj, @Cast("uint32_t") int offset_float);
+public static native void CameraGetProj(CCamera camera, @Cast("cmat4*") float[] proj, @Cast("uint32_t") int offset_float);
 
 // #ifdef __cplusplus
 // #endif
@@ -249,14 +249,22 @@ public static native void CameraGetProj(CCamera camera, @Cast("cmat4*") float[] 
     public CSceneManager(Pointer p) { super(p); }
 }
 
-public static native void LightGetColor(CSceneManager scene, @Cast("uint32_t") int id, cvec3 color);
-public static native void LightGetColor(CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec3*") float[] color);
-public static native void LightSetColor(CSceneManager scene, @Cast("uint32_t") int id, cvec3 color);
-public static native void LightSetColor(CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec3*") float[] color);
-public static native void LightGetLocation(CSceneManager scene, @Cast("uint32_t") int id, cvec3 location);
-public static native void LightGetLocation(CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec3*") float[] location);
-public static native void LightSetLocation(CSceneManager scene, @Cast("uint32_t") int id, cvec3 location);
-public static native void LightSetLocation(CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec3*") float[] location);
+public static native void LightGetColor(
+  CSceneManager scene, @Cast("uint32_t") int id, cvec3 color, @Cast("uint32_t") int offset_float);
+public static native void LightGetColor(
+  CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec3*") float[] color, @Cast("uint32_t") int offset_float);
+public static native void LightSetColor(
+  CSceneManager scene, @Cast("uint32_t") int id, cvec3 color, @Cast("uint32_t") int offset_float);
+public static native void LightSetColor(
+  CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec3*") float[] color, @Cast("uint32_t") int offset_float);
+public static native void LightGetLocation(
+  CSceneManager scene, @Cast("uint32_t") int id, cvec3 location, @Cast("uint32_t") int offset_float);
+public static native void LightGetLocation(
+  CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec3*") float[] location, @Cast("uint32_t") int offset_float);
+public static native void LightSetLocation(
+  CSceneManager scene, @Cast("uint32_t") int id, cvec3 location, @Cast("uint32_t") int offset_float);
+public static native void LightSetLocation(
+  CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec3*") float[] location, @Cast("uint32_t") int offset_float);
 public static native float LightGetIntensity(CSceneManager scene, @Cast("uint32_t") int id);
 public static native void LightSetIntensity(CSceneManager scene, @Cast("uint32_t") int id, float intensity);
 public static native float LightGetRange(CSceneManager scene, @Cast("uint32_t") int id);
@@ -343,23 +351,35 @@ public static native @Cast("uint32_t") int MaterialGetOcclusionTex(CSceneManager
 public static native void MaterialSetOcclusionTex(CSceneManager scene, @Cast("uint32_t") int id, @Cast("uint32_t") int occlusionTex);
 public static native @Cast("uint32_t") int MaterialGetEmissiveTex(CSceneManager scene, @Cast("uint32_t") int id);
 public static native void MaterialSetEmissiveTex(CSceneManager scene, @Cast("uint32_t") int id, @Cast("uint32_t") int emissiveTex);
-public static native void MaterialGetColorFactor(CSceneManager scene, @Cast("uint32_t") int id, cvec4 colorFactor);
-public static native void MaterialGetColorFactor(CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] colorFactor);
-public static native void MaterialSetColorFactor(CSceneManager scene, @Cast("uint32_t") int id, cvec4 colorFactor);
-public static native void MaterialSetColorFactor(CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] colorFactor);
-public static native void MaterialGetPbrFactor(CSceneManager scene, @Cast("uint32_t") int id, cvec4 pbrFactor);
-public static native void MaterialGetPbrFactor(CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] pbrFactor);
-public static native void MaterialSetPbrFactor(CSceneManager scene, @Cast("uint32_t") int id, cvec4 pbrFactor);
-public static native void MaterialSetPbrFactor(CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] pbrFactor);
+public static native void MaterialGetColorFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, cvec4 colorFactor, @Cast("uint32_t") int offset_float);
+public static native void MaterialGetColorFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] colorFactor, @Cast("uint32_t") int offset_float);
+public static native void MaterialSetColorFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, cvec4 colorFactor, @Cast("uint32_t") int offset_float);
+public static native void MaterialSetColorFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] colorFactor, @Cast("uint32_t") int offset_float);
+public static native void MaterialGetPbrFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, cvec4 pbrFactor, @Cast("uint32_t") int offset_float);
+public static native void MaterialGetPbrFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] pbrFactor, @Cast("uint32_t") int offset_float);
+public static native void MaterialSetPbrFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, cvec4 pbrFactor, @Cast("uint32_t") int offset_float);
+public static native void MaterialSetPbrFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] pbrFactor, @Cast("uint32_t") int offset_float);
 public static native @Cast("uint32_t") int MaterialGetOcclusionStrength(CSceneManager scene, @Cast("uint32_t") int id);
 public static native void MaterialSetOcclusionStrength(
   CSceneManager scene, @Cast("uint32_t") int id, float occlusionStrength);
 public static native @Cast("uint32_t") int MaterialGetAlphaCutoff(CSceneManager scene, @Cast("uint32_t") int id);
 public static native void MaterialSetAlphaCutoff(CSceneManager scene, @Cast("uint32_t") int id, float alphaCutoff);
-public static native void MaterialGetEmissiveFactor(CSceneManager scene, @Cast("uint32_t") int id, cvec4 emissiveFactor);
-public static native void MaterialGetEmissiveFactor(CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] emissiveFactor);
-public static native void MaterialSetEmissiveFactor(CSceneManager scene, @Cast("uint32_t") int id, cvec4 emissiveFactor);
-public static native void MaterialSetEmissiveFactor(CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] emissiveFactor);
+public static native void MaterialGetEmissiveFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, cvec4 emissiveFactor, @Cast("uint32_t") int offset_float);
+public static native void MaterialGetEmissiveFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] emissiveFactor, @Cast("uint32_t") int offset_float);
+public static native void MaterialSetEmissiveFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, cvec4 emissiveFactor, @Cast("uint32_t") int offset_float);
+public static native void MaterialSetEmissiveFactor(
+  CSceneManager scene, @Cast("uint32_t") int id, @Cast("cvec4*") float[] emissiveFactor, @Cast("uint32_t") int offset_float);
 public static native @Cast("uint32_t") int MaterialGetHeightTex(CSceneManager scene, @Cast("uint32_t") int id);
 public static native void MaterialSetHeightTex(CSceneManager scene, @Cast("uint32_t") int id, @Cast("uint32_t") int heightTex);
 public static native @Cast("CMaterialType") int MaterialGetType(CSceneManager scene, @Cast("uint32_t") int id);
@@ -517,82 +537,128 @@ public static native void DeletePrimitiveBuilder(CPrimitiveBuilder builder);
 public static native void BuildNewPrimitive(
   CPrimitiveBuilder builder, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
 
-public static native void BuildTriangle(CPrimitiveBuilder builder, cvec3 p1, cvec3 p2, cvec3 p3);
-public static native void BuildTriangle(CPrimitiveBuilder builder, @Cast("cvec3*") float[] p1, @Cast("cvec3*") float[] p2, @Cast("cvec3*") float[] p3);
-public static native void BuildRectangle(CPrimitiveBuilder builder, cvec3 center, cvec3 x, cvec3 y);
-public static native void BuildRectangle(CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("cvec3*") float[] x, @Cast("cvec3*") float[] y);
+public static native void BuildTriangle(
+  CPrimitiveBuilder builder, cvec3 p1, @Cast("uint32_t") int p1_offset_float, cvec3 p2,
+  @Cast("uint32_t") int p2_offset_float, cvec3 p3, @Cast("uint32_t") int p3_offset_float);
+public static native void BuildTriangle(
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] p1, @Cast("uint32_t") int p1_offset_float, @Cast("cvec3*") float[] p2,
+  @Cast("uint32_t") int p2_offset_float, @Cast("cvec3*") float[] p3, @Cast("uint32_t") int p3_offset_float);
+public static native void BuildRectangle(
+  CPrimitiveBuilder builder, cvec3 center, @Cast("uint32_t") int center_offset_float, cvec3 x,
+  @Cast("uint32_t") int x_offset_float, cvec3 y, @Cast("uint32_t") int y_offset_float);
+public static native void BuildRectangle(
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("uint32_t") int center_offset_float, @Cast("cvec3*") float[] x,
+  @Cast("uint32_t") int x_offset_float, @Cast("cvec3*") float[] y, @Cast("uint32_t") int y_offset_float);
 public static native void BuildGrid(
-  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, cvec3 center, cvec3 x, cvec3 y,
-  float wx, float wy);
+  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, cvec3 center,
+  @Cast("uint32_t") int center_offset_float, cvec3 x, @Cast("uint32_t") int x_offset_float, cvec3 y,
+  @Cast("uint32_t") int y_offset_float, float wx, float wy);
 public static native void BuildGrid(
-  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, @Cast("cvec3*") float[] center, @Cast("cvec3*") float[] x, @Cast("cvec3*") float[] y,
-  float wx, float wy);
+  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, @Cast("cvec3*") float[] center,
+  @Cast("uint32_t") int center_offset_float, @Cast("cvec3*") float[] x, @Cast("uint32_t") int x_offset_float, @Cast("cvec3*") float[] y,
+  @Cast("uint32_t") int y_offset_float, float wx, float wy);
 public static native void BuildGridPatch(
-  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, cvec3 center, cvec3 x, cvec3 y,
-  float wx, float wy);
+  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, cvec3 center,
+  @Cast("uint32_t") int center_offset_float, cvec3 x, @Cast("uint32_t") int x_offset_float, cvec3 y,
+  @Cast("uint32_t") int y_offset_float, float wx, float wy);
 public static native void BuildGridPatch(
-  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, @Cast("cvec3*") float[] center, @Cast("cvec3*") float[] x, @Cast("cvec3*") float[] y,
-  float wx, float wy);
+  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, @Cast("cvec3*") float[] center,
+  @Cast("uint32_t") int center_offset_float, @Cast("cvec3*") float[] x, @Cast("uint32_t") int x_offset_float, @Cast("cvec3*") float[] y,
+  @Cast("uint32_t") int y_offset_float, float wx, float wy);
 public static native void BuildCheckerboard(
-  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, cvec3 center, cvec3 x, cvec3 y,
-  float wx, float wy);
+  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, cvec3 center,
+  @Cast("uint32_t") int center_offset_float, cvec3 x, @Cast("uint32_t") int x_offset_float, cvec3 y,
+  @Cast("uint32_t") int y_offset_float, float wx, float wy);
 public static native void BuildCheckerboard(
-  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, @Cast("cvec3*") float[] center, @Cast("cvec3*") float[] x, @Cast("cvec3*") float[] y,
-  float wx, float wy);
+  CPrimitiveBuilder builder, @Cast("uint32_t") int nx, @Cast("uint32_t") int ny, @Cast("cvec3*") float[] center,
+  @Cast("uint32_t") int center_offset_float, @Cast("cvec3*") float[] x, @Cast("uint32_t") int x_offset_float, @Cast("cvec3*") float[] y,
+  @Cast("uint32_t") int y_offset_float, float wx, float wy);
 public static native void BuildCircle(
-  CPrimitiveBuilder builder, cvec3 center, cvec3 z, float R, int segments);
+  CPrimitiveBuilder builder, cvec3 center, @Cast("uint32_t") int center_offset_float, cvec3 z,
+  @Cast("uint32_t") int z_offset_float, float R, int segments);
 public static native void BuildCircle(
-  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("cvec3*") float[] z, float R, int segments);
-public static native void BuildSphere(CPrimitiveBuilder builder, cvec3 center, float R, int nsubd);
-public static native void BuildSphere(CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, float R, int nsubd);
-public static native void BuildBox(CPrimitiveBuilder builder, cvec3 center, cvec3 x, cvec3 y, float z);
-public static native void BuildBox(CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("cvec3*") float[] x, @Cast("cvec3*") float[] y, float z);
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("uint32_t") int center_offset_float, @Cast("cvec3*") float[] z,
+  @Cast("uint32_t") int z_offset_float, float R, int segments);
+public static native void BuildSphere(
+  CPrimitiveBuilder builder, cvec3 center, @Cast("uint32_t") int center_offset_float, float R,
+  int nsubd);
+public static native void BuildSphere(
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("uint32_t") int center_offset_float, float R,
+  int nsubd);
+public static native void BuildBox(
+  CPrimitiveBuilder builder, cvec3 center, @Cast("uint32_t") int center_offset_float, cvec3 x,
+  @Cast("uint32_t") int x_offset_float, cvec3 y, @Cast("uint32_t") int y_offset_float, float z);
+public static native void BuildBox(
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("uint32_t") int center_offset_float, @Cast("cvec3*") float[] x,
+  @Cast("uint32_t") int x_offset_float, @Cast("cvec3*") float[] y, @Cast("uint32_t") int y_offset_float, float z);
 public static native void BuildBoxLine(
-  CPrimitiveBuilder builder, cvec3 p1, cvec3 p2, cvec3 up, float width, float height);
+  CPrimitiveBuilder builder, cvec3 p1, @Cast("uint32_t") int p1_offset_float, cvec3 p2,
+  @Cast("uint32_t") int p2_offset_float, cvec3 up, @Cast("uint32_t") int up_offset_float, float width,
+  float height);
 public static native void BuildBoxLine(
-  CPrimitiveBuilder builder, @Cast("cvec3*") float[] p1, @Cast("cvec3*") float[] p2, @Cast("cvec3*") float[] up, float width, float height);
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] p1, @Cast("uint32_t") int p1_offset_float, @Cast("cvec3*") float[] p2,
+  @Cast("uint32_t") int p2_offset_float, @Cast("cvec3*") float[] up, @Cast("uint32_t") int up_offset_float, float width,
+  float height);
 public static native void BuildCone(
-  CPrimitiveBuilder builder, cvec3 center, cvec3 z, float R, int segments);
+  CPrimitiveBuilder builder, cvec3 center, @Cast("uint32_t") int center_offset_float, cvec3 z,
+  @Cast("uint32_t") int z_offset_float, float R, int segments);
 public static native void BuildCone(
-  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("cvec3*") float[] z, float R, int segments);
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("uint32_t") int center_offset_float, @Cast("cvec3*") float[] z,
+  @Cast("uint32_t") int z_offset_float, float R, int segments);
 public static native void BuildCylinder(
-  CPrimitiveBuilder builder, cvec3 center, cvec3 z, float R, @Cast("bool") boolean cap, int segments);
+  CPrimitiveBuilder builder, cvec3 center, @Cast("uint32_t") int center_offset_float, cvec3 z,
+  @Cast("uint32_t") int z_offset_float, float R, @Cast("bool") boolean cap, int segments);
 public static native void BuildCylinder(
-  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("cvec3*") float[] z, float R, @Cast("bool") boolean cap, int segments);
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("uint32_t") int center_offset_float, @Cast("cvec3*") float[] z,
+  @Cast("uint32_t") int z_offset_float, float R, @Cast("bool") boolean cap, int segments);
 public static native void BuildAxis(
-  CPrimitiveBuilder builder, cvec3 center, float length, float R, float capLength,
-  int segments);
+  CPrimitiveBuilder builder, cvec3 center, @Cast("uint32_t") int center_offset_float, float length,
+  float R, float capLength, int segments);
 public static native void BuildAxis(
-  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, float length, float R, float capLength,
-  int segments);
-public static native void BuildLine(CPrimitiveBuilder builder, cvec3 p1, cvec3 p2);
-public static native void BuildLine(CPrimitiveBuilder builder, @Cast("cvec3*") float[] p1, @Cast("cvec3*") float[] p2);
-public static native void BuildRectangleLine(CPrimitiveBuilder builder, cvec3 center, cvec3 x, cvec3 y);
-public static native void BuildRectangleLine(CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("cvec3*") float[] x, @Cast("cvec3*") float[] y);
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("uint32_t") int center_offset_float, float length,
+  float R, float capLength, int segments);
+public static native void BuildLine(
+  CPrimitiveBuilder builder, cvec3 p1, @Cast("uint32_t") int p1_offset_float, cvec3 p2,
+  @Cast("uint32_t") int p2_offset_float);
+public static native void BuildLine(
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] p1, @Cast("uint32_t") int p1_offset_float, @Cast("cvec3*") float[] p2,
+  @Cast("uint32_t") int p2_offset_float);
+public static native void BuildRectangleLine(
+  CPrimitiveBuilder builder, cvec3 center, @Cast("uint32_t") int center_offset_float, cvec3 x,
+  @Cast("uint32_t") int x_offset_float, cvec3 y, @Cast("uint32_t") int y_offset_float);
+public static native void BuildRectangleLine(
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] center, @Cast("uint32_t") int center_offset_float, @Cast("cvec3*") float[] x,
+  @Cast("uint32_t") int x_offset_float, @Cast("cvec3*") float[] y, @Cast("uint32_t") int y_offset_float);
 public static native void PrimitiveBuilderFrom(
-  CPrimitiveBuilder builder, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
-  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntPointer indices,
-  @Cast("uint32_t") int numIndices);
+  CPrimitiveBuilder builder, cvec3 positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, cvec3 normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") IntPointer indices, @Cast("uint32_t") int numIndices);
 public static native void PrimitiveBuilderFrom(
-  CPrimitiveBuilder builder, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
-  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntBuffer indices,
-  @Cast("uint32_t") int numIndices);
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") IntBuffer indices, @Cast("uint32_t") int numIndices);
 public static native void PrimitiveBuilderFrom(
-  CPrimitiveBuilder builder, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
-  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") int[] indices,
-  @Cast("uint32_t") int numIndices);
+  CPrimitiveBuilder builder, cvec3 positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, cvec3 normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") int[] indices, @Cast("uint32_t") int numIndices);
 public static native void PrimitiveBuilderFrom(
-  CPrimitiveBuilder builder, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
-  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntPointer indices,
-  @Cast("uint32_t") int numIndices);
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") IntPointer indices, @Cast("uint32_t") int numIndices);
 public static native void PrimitiveBuilderFrom(
-  CPrimitiveBuilder builder, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
-  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntBuffer indices,
-  @Cast("uint32_t") int numIndices);
+  CPrimitiveBuilder builder, cvec3 positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, cvec3 normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") IntBuffer indices, @Cast("uint32_t") int numIndices);
 public static native void PrimitiveBuilderFrom(
-  CPrimitiveBuilder builder, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
-  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") int[] indices,
-  @Cast("uint32_t") int numIndices);
+  CPrimitiveBuilder builder, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") int[] indices, @Cast("uint32_t") int numIndices);
 
 public static native @Cast("uint32_t") int BuilderNumPrimitives(CPrimitiveBuilder builder);
 
@@ -621,40 +687,54 @@ public static native @Cast("uint32_t") int BuilderNumPrimitives(CPrimitiveBuilde
 public static native CCamera SceneGetCamera(CSceneManager scene);
 
 public static native @Cast("uint32_t") int NewPrimitive(
-  CSceneManager scene, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
-  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntPointer indices,
-  @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
+  CSceneManager scene, cvec3 positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, cvec3 normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") IntPointer indices, @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology,
+  @Cast("CDynamicType") long type);
 public static native @Cast("uint32_t") int NewPrimitive(
-  CSceneManager scene, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
-  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntBuffer indices,
-  @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
+  CSceneManager scene, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") IntBuffer indices, @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology,
+  @Cast("CDynamicType") long type);
 public static native @Cast("uint32_t") int NewPrimitive(
-  CSceneManager scene, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
-  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") int[] indices,
-  @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
+  CSceneManager scene, cvec3 positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, cvec3 normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") int[] indices, @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology,
+  @Cast("CDynamicType") long type);
 public static native @Cast("uint32_t") int NewPrimitive(
-  CSceneManager scene, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
-  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntPointer indices,
-  @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
+  CSceneManager scene, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") IntPointer indices, @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology,
+  @Cast("CDynamicType") long type);
 public static native @Cast("uint32_t") int NewPrimitive(
-  CSceneManager scene, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
-  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntBuffer indices,
-  @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
+  CSceneManager scene, cvec3 positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, cvec3 normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") IntBuffer indices, @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology,
+  @Cast("CDynamicType") long type);
 public static native @Cast("uint32_t") int NewPrimitive(
-  CSceneManager scene, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
-  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") int[] indices,
-  @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
+  CSceneManager scene, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int position_offset_float,
+  @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals, @Cast("uint32_t") int normal_offset_float,
+  @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int uv_offset_float, @Cast("uint32_t") int numUVs,
+  @Cast("uint32_t*") int[] indices, @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology,
+  @Cast("CDynamicType") long type);
 
 public static native void NewPrimitives(CSceneManager scene, CPrimitiveBuilder builder, @Cast("uint32_t*") IntPointer ptrs);
 public static native void NewPrimitives(CSceneManager scene, CPrimitiveBuilder builder, @Cast("uint32_t*") IntBuffer ptrs);
 public static native void NewPrimitives(CSceneManager scene, CPrimitiveBuilder builder, @Cast("uint32_t*") int[] ptrs);
 
 public static native void UpdatePrimitive(
-  CSceneManager scene, @Cast("uint32_t") int primitive, cvec3 positions, @Cast("uint32_t") int numPositions,
-  cvec3 normals, @Cast("uint32_t") int numNormals, caabb aabb);
+  CSceneManager scene, @Cast("uint32_t") int primitive, cvec3 positions,
+  @Cast("uint32_t") int position_offset_float, @Cast("uint32_t") int numPositions, cvec3 normals,
+  @Cast("uint32_t") int normal_offset_float, @Cast("uint32_t") int numNormals, caabb aabb);
 public static native void UpdatePrimitive(
-  CSceneManager scene, @Cast("uint32_t") int primitive, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions,
-  @Cast("cvec3*") float[] normals, @Cast("uint32_t") int numNormals, @Cast("caabb*") float[] aabb);
+  CSceneManager scene, @Cast("uint32_t") int primitive, @Cast("cvec3*") float[] positions,
+  @Cast("uint32_t") int position_offset_float, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
+  @Cast("uint32_t") int normal_offset_float, @Cast("uint32_t") int numNormals, @Cast("caabb*") float[] aabb);
 
 public static native @Cast("uint32_t") int NewMaterial(CSceneManager scene, @Cast("CMaterialType") int type);
 public static native @Cast("uint32_t") int NewMesh(CSceneManager scene, @Cast("uint32_t") int primitive, @Cast("uint32_t") int material);
@@ -711,14 +791,22 @@ public static native float AtmosphereGetExposure(CAtmosphere atmosphere);
 public static native void AtmosphereSetExposure(CAtmosphere atmosphere, float exposure);
 public static native double AtmosphereGetLengthUnitInMeters(CAtmosphere atmosphere);
 public static native double AtmosphereGetEarthRadius(CAtmosphere atmosphere);
-public static native void AtmosphereSetSunDirection(CAtmosphere atmosphere, cvec3 sunDirection);
-public static native void AtmosphereSetSunDirection(CAtmosphere atmosphere, @Cast("cvec3*") float[] sunDirection);
-public static native void AtmosphereGetSunDirection(CAtmosphere atmosphere, cvec3 sunDirection);
-public static native void AtmosphereGetSunDirection(CAtmosphere atmosphere, @Cast("cvec3*") float[] sunDirection);
-public static native void AtmosphereGetEarthCenter(CAtmosphere atmosphere, cvec3 earthCenter);
-public static native void AtmosphereGetEarthCenter(CAtmosphere atmosphere, @Cast("cvec3*") float[] earthCenter);
-public static native void AtmosphereSetEarthCenter(CAtmosphere atmosphere, cvec3 earthCenter);
-public static native void AtmosphereSetEarthCenter(CAtmosphere atmosphere, @Cast("cvec3*") float[] earthCenter);
+public static native void AtmosphereSetSunDirection(
+  CAtmosphere atmosphere, cvec3 sunDirection, @Cast("uint32_t") int offset_float);
+public static native void AtmosphereSetSunDirection(
+  CAtmosphere atmosphere, @Cast("cvec3*") float[] sunDirection, @Cast("uint32_t") int offset_float);
+public static native void AtmosphereGetSunDirection(
+  CAtmosphere atmosphere, cvec3 sunDirection, @Cast("uint32_t") int offset_float);
+public static native void AtmosphereGetSunDirection(
+  CAtmosphere atmosphere, @Cast("cvec3*") float[] sunDirection, @Cast("uint32_t") int offset_float);
+public static native void AtmosphereGetEarthCenter(
+  CAtmosphere atmosphere, cvec3 earthCenter, @Cast("uint32_t") int offset_float);
+public static native void AtmosphereGetEarthCenter(
+  CAtmosphere atmosphere, @Cast("cvec3*") float[] earthCenter, @Cast("uint32_t") int offset_float);
+public static native void AtmosphereSetEarthCenter(
+  CAtmosphere atmosphere, cvec3 earthCenter, @Cast("uint32_t") int offset_float);
+public static native void AtmosphereSetEarthCenter(
+  CAtmosphere atmosphere, @Cast("cvec3*") float[] earthCenter, @Cast("uint32_t") int offset_float);
 
 // #ifdef __cplusplus
 // #endif

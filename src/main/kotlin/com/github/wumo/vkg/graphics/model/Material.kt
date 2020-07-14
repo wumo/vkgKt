@@ -45,15 +45,15 @@ class Material(val scene: SceneManager, val id: Int) {
       MaterialSetNormalTex(scene.native, id, value.id)
       field = value
     }
-  var colorFactor = Vec4().also { MaterialGetColorFactor(scene.native, id, it.raw) }
+  var colorFactor = Vec4().also { MaterialGetColorFactor(scene.native, id, it.raw, it.offset) }
     set(value) {
-      MaterialSetColorFactor(scene.native, id, value.raw)
-      field = value
+      MaterialSetColorFactor(scene.native, id, value.raw, value.offset)
+      field.assign(value)
     }
-  var pbrFactor = Vec4().also { MaterialGetPbrFactor(scene.native, id, it.raw) }
+  var pbrFactor = Vec4().also { MaterialGetPbrFactor(scene.native, id, it.raw, it.offset) }
     set(value) {
-      MaterialSetPbrFactor(scene.native, id, value.raw)
-      field = value
+      MaterialSetPbrFactor(scene.native, id, value.raw, value.offset)
+      field.assign(value)
     }
   val type = MaterialType.fromValue(MaterialGetType(scene.native, id))
 }
