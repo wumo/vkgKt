@@ -131,6 +131,7 @@ jobs:
         run: |
           git config --local user.email "wumo@github.com"
           git config --local user.name "GitHub Action"
+          git add src/main/resources
           git commit -m "Compiled library resources" -a
       - name: Push changes to ci branch
         uses: ad-m/github-push-action@v0.6.0
