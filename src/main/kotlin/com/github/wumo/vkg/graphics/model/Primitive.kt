@@ -2,14 +2,19 @@ package com.github.wumo.vkg.graphics.model
 
 import com.github.wumo.vkg.graphics.SceneManager
 import com.github.wumo.vkg.graphics.VkgNative
-import com.github.wumo.vkg.graphics.VkgNative.PrimitiveGetIndex
+import com.github.wumo.vkg.graphics.VkgNative.*
 import com.github.wumo.vkg.graphics.util.Range
 
 enum class PrimitiveTopology(val value: Long) {
-  Triangels(VkgNative.CPrimitiveTriangles),
-  Lines(VkgNative.CPrimitiveLines),
-  Procedural(VkgNative.CPrimitiveProcedural),
-  Patches(VkgNative.CPrimitivePatches)
+  Triangels(CPrimitiveTriangles),
+  Lines(CPrimitiveLines),
+  Procedural(CPrimitiveProcedural),
+  Patches(CPrimitivePatches)
+}
+
+enum class DynamicType(val value: Long) {
+  Static(CDynamicTypeStatic),
+  Dynamic(CDynamicTypeDynamic)
 }
 
 class Primitive(val scene: SceneManager, val id: Int) {

@@ -284,6 +284,8 @@ public static final long
   CPrimitiveLines = 2L,
   CPrimitiveProcedural = 3L,
   CPrimitivePatches = 4L;
+/** enum CDynamicType */
+public static final long CDynamicTypeStatic = 0L, CDynamicTypeDynamic = 1L;
 
 public static native @ByVal CUintRange PrimitiveGetIndex(CSceneManager scene, @Cast("uint32_t") int id);
 public static native @ByVal CUintRange PrimitiveGetPosition(CSceneManager scene, @Cast("uint32_t") int id);
@@ -299,6 +301,7 @@ public static native void PrimitiveSetTessLevel(CSceneManager scene, @Cast("uint
 public static native @Cast("bool") boolean PrimitiveGetLod(CSceneManager scene, @Cast("uint32_t") int id);
 public static native void PrimitiveSetLod(CSceneManager scene, @Cast("uint32_t") int id, @Cast("bool") boolean lod);
 public static native @Cast("CPrimitiveTopology") long PrimitiveGetTopology(CSceneManager scene, @Cast("uint32_t") int id);
+public static native @Cast("CDynamicType") long PrimitiveGetType(CSceneManager scene, @Cast("uint32_t") int id);
 
 // #ifdef __cplusplus
 // #endif
@@ -511,7 +514,8 @@ public static native void ModelInstanceChangeModel(CSceneManager scene,@Cast("ui
 public static native CPrimitiveBuilder NewPrimitiveBuilder();
 public static native void DeletePrimitiveBuilder(CPrimitiveBuilder builder);
 
-public static native void BuildNewPrimitive(CPrimitiveBuilder builder, @Cast("CPrimitiveTopology") long topology);
+public static native void BuildNewPrimitive(
+  CPrimitiveBuilder builder, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
 
 public static native void BuildTriangle(CPrimitiveBuilder builder, cvec3 p1, cvec3 p2, cvec3 p3);
 public static native void BuildTriangle(CPrimitiveBuilder builder, @Cast("cvec3*") float[] p1, @Cast("cvec3*") float[] p2, @Cast("cvec3*") float[] p3);
@@ -619,31 +623,38 @@ public static native CCamera SceneGetCamera(CSceneManager scene);
 public static native @Cast("uint32_t") int NewPrimitive(
   CSceneManager scene, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
   @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntPointer indices,
-  @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology);
+  @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
 public static native @Cast("uint32_t") int NewPrimitive(
   CSceneManager scene, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
   @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntBuffer indices,
-  @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology);
+  @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
 public static native @Cast("uint32_t") int NewPrimitive(
   CSceneManager scene, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
   @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") int[] indices,
-  @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology);
+  @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
 public static native @Cast("uint32_t") int NewPrimitive(
   CSceneManager scene, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
   @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntPointer indices,
-  @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology);
+  @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
 public static native @Cast("uint32_t") int NewPrimitive(
   CSceneManager scene, cvec3 positions, @Cast("uint32_t") int numPositions, cvec3 normals,
   @Cast("uint32_t") int numNormals, cvec2 uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") IntBuffer indices,
-  @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology);
+  @Cast("uint32_t") int numIndices, caabb aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
 public static native @Cast("uint32_t") int NewPrimitive(
   CSceneManager scene, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
   @Cast("uint32_t") int numNormals, @Cast("cvec2*") float[] uvs, @Cast("uint32_t") int numUVs, @Cast("uint32_t*") int[] indices,
-  @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology);
+  @Cast("uint32_t") int numIndices, @Cast("caabb*") float[] aabb, @Cast("CPrimitiveTopology") long topology, @Cast("CDynamicType") long type);
 
 public static native void NewPrimitives(CSceneManager scene, CPrimitiveBuilder builder, @Cast("uint32_t*") IntPointer ptrs);
 public static native void NewPrimitives(CSceneManager scene, CPrimitiveBuilder builder, @Cast("uint32_t*") IntBuffer ptrs);
 public static native void NewPrimitives(CSceneManager scene, CPrimitiveBuilder builder, @Cast("uint32_t*") int[] ptrs);
+
+public static native void UpdatePrimitive(
+  CSceneManager scene, @Cast("uint32_t") int primitive, cvec3 positions, @Cast("uint32_t") int numPositions,
+  cvec3 normals, @Cast("uint32_t") int numNormals, caabb aabb);
+public static native void UpdatePrimitive(
+  CSceneManager scene, @Cast("uint32_t") int primitive, @Cast("cvec3*") float[] positions, @Cast("uint32_t") int numPositions,
+  @Cast("cvec3*") float[] normals, @Cast("uint32_t") int numNormals, @Cast("caabb*") float[] aabb);
 
 public static native @Cast("uint32_t") int NewMaterial(CSceneManager scene, @Cast("CMaterialType") int type);
 public static native @Cast("uint32_t") int NewMesh(CSceneManager scene, @Cast("uint32_t") int primitive, @Cast("uint32_t") int material);
