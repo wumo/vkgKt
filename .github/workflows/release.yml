@@ -128,10 +128,10 @@ jobs:
           name: resources
           path: src/main/resources
       - name: Commit files
-          run: |
-            git config --local user.email "wumo@github.com"
-            git config --local user.name "GitHub Action"
-            git commit -m "Compiled library resources" -a
+        run: |
+          git config --local user.email "wumo@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Compiled library resources" -a
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
