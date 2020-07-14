@@ -5,7 +5,7 @@ plugins {
   `maven-publish`
   kotlin("jvm") version "1.3.72"
   id("com.google.osdetector") version "1.6.2"
-  id("com.github.wumo.javacpp") version "1.0.13"
+  id("com.github.wumo.javacpp") version "1.0.16"
 }
 
 group = "com.github.wumo"
