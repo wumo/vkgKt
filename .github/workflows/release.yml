@@ -105,6 +105,7 @@ jobs:
           ./gradlew generateJava
           ./gradlew generateJNI
 
+
 #      - name: Commit files
 #          run: |
 #            git config --local user.email "wumo@github.com"
