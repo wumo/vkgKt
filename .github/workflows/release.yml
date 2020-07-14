@@ -17,8 +17,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-          persist-credentials: true # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
-          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
@@ -67,12 +65,11 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-          persist-credentials: true # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
-          fetch-depth: 0
       - name: Download resources
         uses: actions/download-artifact@v2
         with:
           name: windows-resources
+          path: src/main/resources
       - name: Display structure of downloaded files
         run: ls -R
       - name: Set up Python
@@ -105,14 +102,37 @@ jobs:
         run: |
           ./gradlew generateJava
           ./gradlew generateJNI
+      - name: Upload resources
+        uses: actions/upload-artifact@v2
+        with:
+          name: resources
+          path: src/main/resources
 
+  commit-release:
+    needs: build-linux
+    if: startsWith(github.event.head_commit.message, '[release]')
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
 
-#      - name: Commit files
-#          run: |
-#            git config --local user.email "wumo@github.com"
-#            git config --local user.name "GitHub Action"
-#            git commit -m "Add changes" -a
-#      - name: Push changes
-#        uses: ad-m/github-push-action@master
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Download resources
+        uses: actions/download-artifact@v2
+        with:
+          name: resources
+          path: src/main/resources
+      - name: Commit files
+          run: |
+            git config --local user.email "wumo@github.com"
+            git config --local user.name "GitHub Action"
+            git commit -m "Compiled library resources" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
