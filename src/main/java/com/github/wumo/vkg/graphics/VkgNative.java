@@ -299,15 +299,9 @@ public static native @ByVal CUintRange PrimitiveGetIndex(CSceneManager scene, @C
 public static native @ByVal CUintRange PrimitiveGetPosition(CSceneManager scene, @Cast("uint32_t") int id);
 public static native @ByVal CUintRange PrimitiveGetNormal(CSceneManager scene, @Cast("uint32_t") int id);
 public static native @ByVal CUintRange PrimitiveGetUV(CSceneManager scene, @Cast("uint32_t") int id);
-public static native @ByVal CUintRange PrimitiveGetJoin0(CSceneManager scene, @Cast("uint32_t") int id);
-public static native @ByVal CUintRange PrimitiveGetWeight0(CSceneManager scene, @Cast("uint32_t") int id);
 public static native @ByVal caabb PrimitiveGetAABB(CSceneManager scene, @Cast("uint32_t") int id);
 public static native void PrimitiveSetAABB(CSceneManager scene, @Cast("uint32_t") int id, caabb aabb);
 public static native void PrimitiveSetAABB(CSceneManager scene, @Cast("uint32_t") int id, @Cast("caabb*") float[] aabb);
-public static native float PrimitiveGetTessLevel(CSceneManager scene, @Cast("uint32_t") int id);
-public static native void PrimitiveSetTessLevel(CSceneManager scene, @Cast("uint32_t") int id, float tessLevel);
-public static native @Cast("bool") boolean PrimitiveGetLod(CSceneManager scene, @Cast("uint32_t") int id);
-public static native void PrimitiveSetLod(CSceneManager scene, @Cast("uint32_t") int id, @Cast("bool") boolean lod);
 public static native @Cast("CPrimitiveTopology") long PrimitiveGetTopology(CSceneManager scene, @Cast("uint32_t") int id);
 public static native @Cast("CDynamicType") long PrimitiveGetType(CSceneManager scene, @Cast("uint32_t") int id);
 
@@ -507,7 +501,11 @@ public static native void ModelInstanceSetTransform(CSceneManager scene, @Cast("
 public static native @Cast("uint32_t") int ModelInstanceGetModel(CSceneManager scene, @Cast("uint32_t") int id);
 public static native @Cast("bool") boolean ModelInstanceGetVisible(CSceneManager scene, @Cast("uint32_t") int id);
 public static native void ModelInstanceSetVisible(CSceneManager scene, @Cast("uint32_t") int id, @Cast("bool") boolean visible);
-public static native void ModelInstanceChangeModel(CSceneManager scene,@Cast("uint32_t") int id,@Cast("uint32_t") int model);
+public static native void ModelInstanceChangeModel(CSceneManager scene, @Cast("uint32_t") int id, @Cast("uint32_t") int model);
+public static native @Cast("uint32_t") int ModelInstanceGetCustomMaterial(CSceneManager scene, @Cast("uint32_t") int id);
+public static native void ModelInstanceSetCustomMaterial(
+  CSceneManager scene, @Cast("uint32_t") int id, @Cast("uint32_t") int materialId);
+
 // #ifdef __cplusplus
 // #endif
 // #endif //VKG_C_MODEL_INSTANCE_H
@@ -1143,18 +1141,20 @@ public static class CDeferredSceneConfig extends Pointer {
         return (CDeferredSceneConfig)super.position(position);
     }
 
-  /**max number of static vertices and indices*/
-  public native @Cast("uint32_t") int maxNumVertex(); public native CDeferredSceneConfig maxNumVertex(int setter);
-  public native @Cast("uint32_t") int maxNumIndex(); public native CDeferredSceneConfig maxNumIndex(int setter);
-  /**max number of static model instances*/
-  public native @Cast("uint32_t") int maxNumTransform(); public native CDeferredSceneConfig maxNumTransform(int setter);
-  /**max number of static materials*/
-  public native @Cast("uint32_t") int maxNumMaterial(); public native CDeferredSceneConfig maxNumMaterial(int setter);
-  /**max number of static mesh instances*/
-  public native @Cast("uint32_t") int maxNumMeshes(); public native CDeferredSceneConfig maxNumMeshes(int setter);
-  public native @Cast("uint32_t") int maxNumLineMeshes(); public native CDeferredSceneConfig maxNumLineMeshes(int setter);
-  public native @Cast("uint32_t") int maxNumTransparentMeshes(); public native CDeferredSceneConfig maxNumTransparentMeshes(int setter);
-  public native @Cast("uint32_t") int maxNumTransparentLineMeshes(); public native CDeferredSceneConfig maxNumTransparentLineMeshes(int setter);
+  /**max number of vertices and indices*/
+  public native @Cast("uint32_t") int maxNumVertices(); public native CDeferredSceneConfig maxNumVertices(int setter);
+  public native @Cast("uint32_t") int maxNumIndices(); public native CDeferredSceneConfig maxNumIndices(int setter);
+  /**max number of model instances*/
+  public native @Cast("uint32_t") int maxNumTransforms(); public native CDeferredSceneConfig maxNumTransforms(int setter);
+  /**max number of materials*/
+  public native @Cast("uint32_t") int maxNumMaterials(); public native CDeferredSceneConfig maxNumMaterials(int setter);
+  /**max number of mesh instances*/
+  public native @Cast("uint32_t") int maxNumPrimitives(); public native CDeferredSceneConfig maxNumPrimitives(int setter);
+  public native @Cast("uint32_t") int maxNumMeshInstances(); public native CDeferredSceneConfig maxNumMeshInstances(int setter);
+  public native @Cast("uint32_t") int maxNumOpaqueTriangles(); public native CDeferredSceneConfig maxNumOpaqueTriangles(int setter);
+  public native @Cast("uint32_t") int maxNumOpaqueLines(); public native CDeferredSceneConfig maxNumOpaqueLines(int setter);
+  public native @Cast("uint32_t") int maxNumTransparentTriangles(); public native CDeferredSceneConfig maxNumTransparentTriangles(int setter);
+  public native @Cast("uint32_t") int maxNumTransparentLines(); public native CDeferredSceneConfig maxNumTransparentLines(int setter);
   /**max number of texture including 2d and cube map.*/
   public native @Cast("uint32_t") int maxNumTexture(); public native CDeferredSceneConfig maxNumTexture(int setter);
   /**max number of lights*/
@@ -1177,18 +1177,21 @@ public static class CRayTracingSceneConfig extends Pointer {
         return (CRayTracingSceneConfig)super.position(position);
     }
 
-  /**max number of static vertices and indices*/
-  public native @Cast("uint32_t") int maxNumVertex(); public native CRayTracingSceneConfig maxNumVertex(int setter);
-  public native @Cast("uint32_t") int maxNumIndex(); public native CRayTracingSceneConfig maxNumIndex(int setter);
-  /**max number of static model instances*/
-  public native @Cast("uint32_t") int maxNumTransform(); public native CRayTracingSceneConfig maxNumTransform(int setter);
-  /**max number of static materials*/
-  public native @Cast("uint32_t") int maxNumMaterial(); public native CRayTracingSceneConfig maxNumMaterial(int setter);
-  /**max number of static mesh instances*/
-  public native @Cast("uint32_t") int maxNumMeshes(); public native CRayTracingSceneConfig maxNumMeshes(int setter);
-  public native @Cast("uint32_t") int maxNumLineMeshes(); public native CRayTracingSceneConfig maxNumLineMeshes(int setter);
-  public native @Cast("uint32_t") int maxNumTransparentMeshes(); public native CRayTracingSceneConfig maxNumTransparentMeshes(int setter);
-  public native @Cast("uint32_t") int maxNumTransparentLineMeshes(); public native CRayTracingSceneConfig maxNumTransparentLineMeshes(int setter);
+  /**max number of vertices and indices*/
+  public native @Cast("uint32_t") int maxNumVertices(); public native CRayTracingSceneConfig maxNumVertices(int setter);
+  public native @Cast("uint32_t") int maxNumIndices(); public native CRayTracingSceneConfig maxNumIndices(int setter);
+  /**max number of model instances*/
+  public native @Cast("uint32_t") int maxNumTransforms(); public native CRayTracingSceneConfig maxNumTransforms(int setter);
+  /**max number of materials*/
+  public native @Cast("uint32_t") int maxNumMaterials(); public native CRayTracingSceneConfig maxNumMaterials(int setter);
+  /**max number of mesh instances*/
+  public native @Cast("uint32_t") int maxNumPrimitives(); public native CRayTracingSceneConfig maxNumPrimitives(int setter);
+  public native @Cast("uint32_t") int maxNumProcedurals(); public native CRayTracingSceneConfig maxNumProcedurals(int setter);
+  public native @Cast("uint32_t") int maxNumMeshInstances(); public native CRayTracingSceneConfig maxNumMeshInstances(int setter);
+  public native @Cast("uint32_t") int maxNumOpaqueTriangles(); public native CRayTracingSceneConfig maxNumOpaqueTriangles(int setter);
+  public native @Cast("uint32_t") int maxNumOpaqueLines(); public native CRayTracingSceneConfig maxNumOpaqueLines(int setter);
+  public native @Cast("uint32_t") int maxNumTransparentTriangles(); public native CRayTracingSceneConfig maxNumTransparentTriangles(int setter);
+  public native @Cast("uint32_t") int maxNumTransparentLines(); public native CRayTracingSceneConfig maxNumTransparentLines(int setter);
   /**max number of texture including 2d and cube map.*/
   public native @Cast("uint32_t") int maxNumTexture(); public native CRayTracingSceneConfig maxNumTexture(int setter);
   /**max number of lights*/
@@ -1197,44 +1200,6 @@ public static class CRayTracingSceneConfig extends Pointer {
   public native @Cast("uint32_t") int sampleCount(); public native CRayTracingSceneConfig sampleCount(int setter);
   public native @Cast("uint32_t") int maxRecursion(); public native CRayTracingSceneConfig maxRecursion(int setter);
 }
-
-public static class CPathTracingSceneConfig extends Pointer {
-    static { Loader.load(); }
-    /** Default native constructor. */
-    public CPathTracingSceneConfig() { super((Pointer)null); allocate(); }
-    /** Native array allocator. Access with {@link Pointer#position(long)}. */
-    public CPathTracingSceneConfig(long size) { super((Pointer)null); allocateArray(size); }
-    /** Pointer cast constructor. Invokes {@link Pointer#Pointer(Pointer)}. */
-    public CPathTracingSceneConfig(Pointer p) { super(p); }
-    private native void allocate();
-    private native void allocateArray(long size);
-    @Override public CPathTracingSceneConfig position(long position) {
-        return (CPathTracingSceneConfig)super.position(position);
-    }
-
-  /**max number of static vertices and indices*/
-  public native @Cast("uint32_t") int maxNumVertex(); public native CPathTracingSceneConfig maxNumVertex(int setter);
-  public native @Cast("uint32_t") int maxNumIndex(); public native CPathTracingSceneConfig maxNumIndex(int setter);
-  /**max number of static model instances*/
-  public native @Cast("uint32_t") int maxNumTransform(); public native CPathTracingSceneConfig maxNumTransform(int setter);
-  /**max number of static materials*/
-  public native @Cast("uint32_t") int maxNumMaterial(); public native CPathTracingSceneConfig maxNumMaterial(int setter);
-  /**max number of static mesh instances*/
-  public native @Cast("uint32_t") int maxNumMeshes(); public native CPathTracingSceneConfig maxNumMeshes(int setter);
-  public native @Cast("uint32_t") int maxNumLineMeshes(); public native CPathTracingSceneConfig maxNumLineMeshes(int setter);
-  public native @Cast("uint32_t") int maxNumTransparentMeshes(); public native CPathTracingSceneConfig maxNumTransparentMeshes(int setter);
-  public native @Cast("uint32_t") int maxNumTransparentLineMeshes(); public native CPathTracingSceneConfig maxNumTransparentLineMeshes(int setter);
-  /**max number of texture including 2d and cube map.*/
-  public native @Cast("uint32_t") int maxNumTexture(); public native CPathTracingSceneConfig maxNumTexture(int setter);
-  /**max number of lights*/
-  public native @Cast("uint32_t") int maxNumLights(); public native CPathTracingSceneConfig maxNumLights(int setter);
-
-  public native @Cast("uint32_t") int sampleCount(); public native CPathTracingSceneConfig sampleCount(int setter);
-  public native @Cast("uint32_t") int maxRecursion(); public native CPathTracingSceneConfig maxRecursion(int setter);
-}
-
-public static native CRenderer NewBasicRenderer(@ByVal CWindowConfig windowConfig, @ByVal CFeatureConfig featureConfig);
-public static native void DeleteBasicRenderer(CRenderer renderer);
 
 public static native CRenderer NewDeferredRenderer(
   @ByVal CWindowConfig windowConfig, @ByVal CFeatureConfig featureConfig,
@@ -1245,11 +1210,6 @@ public static native CRenderer NewRayTracingRenderer(
   @ByVal CWindowConfig windowConfig, @ByVal CFeatureConfig featureConfig,
   @ByVal CRayTracingSceneConfig sceneConfig);
 public static native void DeleteRayTracingRenderer(CRenderer renderer);
-
-public static native CRenderer NewPathTracingRenderer(
-  @ByVal CWindowConfig windowConfig, @ByVal CFeatureConfig featureConfig,
-  @ByVal CPathTracingSceneConfig sceneConfig);
-public static native void DeletePathTracingRenderer(CRenderer renderer);
 
 public static native void RendererGetFeatureConfig(CRenderer renderer, CFeatureConfig featureConfig);
 public static native CSceneManager RendererGetSceneManager(CRenderer renderer);

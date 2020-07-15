@@ -17,14 +17,16 @@ class FeatureConfig(val atmosphere: Boolean = false,
                     val validationLayer: Boolean = false)
 
 class DeferredSceneConfig(
-    val maxNumVertex: Int = 10_000_000,
-    val maxNumIndex: Int = 10_000_000,
-    val maxNumTransform: Int = 100_000,
-    val maxNumMaterial: Int = 10_000,
-    val maxNumMeshes: Int = 1_000_000,
-    val maxNumLineMeshes: Int = 1_000,
-    val maxNumTransparentMeshes: Int = 1_000,
-    val maxNumTransparentLineMeshes: Int = 1_000,
+    val maxNumVertices: Int = 1000_0000,
+    val maxNumIndices: Int = 1000_0000,
+    val maxNumTransforms: Int = 10_0000,
+    val maxNumMaterials: Int = 1_0000,
+    val maxNumPrimitives: Int = 100_0000,
+    val maxNumMeshInstances: Int = 100_0000,
+    val maxNumOpaqueTriangles: Int = 100_0000,
+    val maxNumOpaqueLines: Int = 1000,
+    val maxNumTransparentTriangles: Int = 1000,
+    val maxNumTransparentLines: Int = 1000,
     val maxNumTexture: Int = 1_000,
     val maxNumLights: Int = 1,
     val sampleCount: Int = 1,
@@ -33,31 +35,17 @@ class DeferredSceneConfig(
 )
 
 class RayTracingSceneConfig(
-    val maxNumVertex: Int = 10_000_000,
-    val maxNumIndex: Int = 10_000_000,
-    val maxNumTransform: Int = 100_000,
-    val maxNumMaterial: Int = 10_000,
-    val maxNumMeshes: Int = 1_000_000,
-    val maxNumLineMeshes: Int = 1_000,
-    val maxNumTransparentMeshes: Int = 1_000,
-    val maxNumTransparentLineMeshes: Int = 1_000,
-    val maxNumTexture: Int = 1_000,
-    val maxNumLights: Int = 1,
-    val sampleCount: Int = 1,
-    val maxRecursion: Int = 3,
-    val skyLengthUnitInMeters: Double = 1.0,
-    val skySunAngularRadius: Double = 0.00935 / 2.0
-)
-
-class PathTracingSceneConfig(
-    val maxNumVertex: Int = 10_000_000,
-    val maxNumIndex: Int = 10_000_000,
-    val maxNumTransform: Int = 100_000,
-    val maxNumMaterial: Int = 10_000,
-    val maxNumMeshes: Int = 1_000_000,
-    val maxNumLineMeshes: Int = 1_000,
-    val maxNumTransparentMeshes: Int = 1_000,
-    val maxNumTransparentLineMeshes: Int = 1_000,
+    val maxNumVertices: Int = 1000_0000,
+    val maxNumIndices: Int = 1000_0000,
+    val maxNumTransforms: Int = 10_0000,
+    val maxNumMaterials: Int = 1_0000,
+    val maxNumPrimitives: Int = 100_0000,
+    val maxNumProcedurals: Int = 1000,
+    val maxNumMeshInstances: Int = 100_0000,
+    val maxNumOpaqueTriangles: Int = 100_0000,
+    val maxNumOpaqueLines: Int = 1000,
+    val maxNumTransparentTriangles: Int = 1000,
+    val maxNumTransparentLines: Int = 1000,
     val maxNumTexture: Int = 1_000,
     val maxNumLights: Int = 1,
     val sampleCount: Int = 1,
@@ -115,14 +103,16 @@ class Renderer(internal val native: CRenderer,
         it.validationLayer(featureConfig.validationLayer)
       }
       val sceneConfig_ = CDeferredSceneConfig().also {
-        it.maxNumVertex(sceneConfig.maxNumVertex)
-        it.maxNumIndex(sceneConfig.maxNumIndex)
-        it.maxNumTransform(sceneConfig.maxNumTransform)
-        it.maxNumMaterial(sceneConfig.maxNumMaterial)
-        it.maxNumMeshes(sceneConfig.maxNumMeshes)
-        it.maxNumLineMeshes(sceneConfig.maxNumLineMeshes)
-        it.maxNumTransparentMeshes(sceneConfig.maxNumTransparentMeshes)
-        it.maxNumTransparentLineMeshes(sceneConfig.maxNumTransparentLineMeshes)
+        it.maxNumVertices(sceneConfig.maxNumVertices)
+        it.maxNumIndices(sceneConfig.maxNumIndices)
+        it.maxNumTransforms(sceneConfig.maxNumTransforms)
+        it.maxNumMaterials(sceneConfig.maxNumMaterials)
+        it.maxNumPrimitives(sceneConfig.maxNumPrimitives)
+        it.maxNumMeshInstances(sceneConfig.maxNumMeshInstances)
+        it.maxNumOpaqueTriangles(sceneConfig.maxNumOpaqueTriangles)
+        it.maxNumOpaqueLines(sceneConfig.maxNumOpaqueLines)
+        it.maxNumTransparentTriangles(sceneConfig.maxNumTransparentTriangles)
+        it.maxNumTransparentLines(sceneConfig.maxNumTransparentLines)
         it.maxNumTexture(sceneConfig.maxNumTexture)
         it.maxNumLights(sceneConfig.maxNumLights)
         it.sampleCount(sceneConfig.sampleCount)
@@ -158,14 +148,17 @@ class Renderer(internal val native: CRenderer,
         it.validationLayer(featureConfig.validationLayer)
       }
       val sceneConfig_ = CRayTracingSceneConfig().also {
-        it.maxNumVertex(sceneConfig.maxNumVertex)
-        it.maxNumIndex(sceneConfig.maxNumIndex)
-        it.maxNumTransform(sceneConfig.maxNumTransform)
-        it.maxNumMaterial(sceneConfig.maxNumMaterial)
-        it.maxNumMeshes(sceneConfig.maxNumMeshes)
-        it.maxNumLineMeshes(sceneConfig.maxNumLineMeshes)
-        it.maxNumTransparentMeshes(sceneConfig.maxNumTransparentMeshes)
-        it.maxNumTransparentLineMeshes(sceneConfig.maxNumTransparentLineMeshes)
+        it.maxNumVertices(sceneConfig.maxNumVertices)
+        it.maxNumIndices(sceneConfig.maxNumIndices)
+        it.maxNumTransforms(sceneConfig.maxNumTransforms)
+        it.maxNumMaterials(sceneConfig.maxNumMaterials)
+        it.maxNumPrimitives(sceneConfig.maxNumPrimitives)
+        it.maxNumProcedurals(sceneConfig.maxNumProcedurals)
+        it.maxNumMeshInstances(sceneConfig.maxNumMeshInstances)
+        it.maxNumOpaqueTriangles(sceneConfig.maxNumOpaqueTriangles)
+        it.maxNumOpaqueLines(sceneConfig.maxNumOpaqueLines)
+        it.maxNumTransparentTriangles(sceneConfig.maxNumTransparentTriangles)
+        it.maxNumTransparentLines(sceneConfig.maxNumTransparentLines)
         it.maxNumTexture(sceneConfig.maxNumTexture)
         it.maxNumLights(sceneConfig.maxNumLights)
         it.sampleCount(sceneConfig.sampleCount)

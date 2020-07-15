@@ -241,7 +241,7 @@ fun test(app: Renderer) {
       box(Vec3(), Vec3(0f, 0f, 1f), Vec3(1f, 0f, 0f), 1f)
       newPrimitive()
     }
-    val mat = scene.newMaterial(Transparent)
+    val mat = scene.newMaterial(BRDF)
     mat.colorFactor = Vec4(1f, 1f, 1f, 0.5f)
     var mesh = scene.newMesh(primitives[0], mat)
     var node = scene.newNode()
@@ -290,6 +290,9 @@ fun test(app: Renderer) {
       lastChange = now
       for (ball in balls) {
         ball.model = if (Random.nextBoolean()) boxModel else ballModel
+        if (Random.nextBoolean())
+          ball.visible = !ball.visible
+        ball.material = if (Random.nextBoolean()) blueMat else null
       }
     }
 
