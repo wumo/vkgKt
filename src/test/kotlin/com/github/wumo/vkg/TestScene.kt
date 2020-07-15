@@ -241,7 +241,7 @@ fun test(app: Renderer) {
       box(Vec3(), Vec3(0f, 0f, 1f), Vec3(1f, 0f, 0f), 1f)
       newPrimitive()
     }
-    val mat = scene.newMaterial(BRDF)
+    val mat = scene.newMaterial(None)
     mat.colorFactor = Vec4(1f, 1f, 1f, 0.5f)
     var mesh = scene.newMesh(primitives[0], mat)
     var node = scene.newNode()
