@@ -1159,6 +1159,7 @@ public static class CDeferredSceneConfig extends Pointer {
   public native @Cast("uint32_t") int maxNumTexture(); public native CDeferredSceneConfig maxNumTexture(int setter);
   /**max number of lights*/
   public native @Cast("uint32_t") int maxNumLights(); public native CDeferredSceneConfig maxNumLights(int setter);
+  public native @Cast("uint32_t") int numCascades(); public native CDeferredSceneConfig numCascades(int setter);
 
   public native @Cast("uint32_t") int sampleCount(); public native CDeferredSceneConfig sampleCount(int setter);
 }

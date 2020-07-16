@@ -29,6 +29,7 @@ class DeferredSceneConfig(
     val maxNumTransparentLines: Int = 1000,
     val maxNumTexture: Int = 1_000,
     val maxNumLights: Int = 1,
+    val numCascades: Int = 4,
     val sampleCount: Int = 1,
     val skyLengthUnitInMeters: Double = 1.0,
     val skySunAngularRadius: Double = 0.00935 / 2.0
@@ -115,6 +116,7 @@ class Renderer(internal val native: CRenderer,
         it.maxNumTransparentLines(sceneConfig.maxNumTransparentLines)
         it.maxNumTexture(sceneConfig.maxNumTexture)
         it.maxNumLights(sceneConfig.maxNumLights)
+        it.numCascades(sceneConfig.numCascades)
         it.sampleCount(sceneConfig.sampleCount)
       }
       val native = NewDeferredRenderer(windowConfig_, featureConfig_, sceneConfig_)
