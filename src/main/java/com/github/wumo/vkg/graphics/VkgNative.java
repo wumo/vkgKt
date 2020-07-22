@@ -9,7 +9,7 @@ import org.bytedeco.javacpp.annotation.*;
 
 @Properties(
         value = @Platform(
-                include = {"c/c_vec.h", "c/c_camera.h", "c/c_light.h", "c/c_primitive.h", "c/c_material.h", "c/c_mesh.h", "c/c_node.h", "c/c_model.h", "c/c_model_instance.h", "c/c_primitive_builder.h", "c/c_scene_manager.h", "c/c_atmosphere.h", "vkez/window/input.h", "c/c_panning_camera.h", "c/c_window.h", "vkez/call_frame_updater.h", "c/c_renderer.h"},
+                include = {"c/c_vec.h", "c/c_camera.h", "c/c_light.h", "c/c_primitive.h", "c/c_material.h", "c/c_mesh.h", "c/c_node.h", "c/c_model.h", "c/c_model_instance.h", "c/c_primitive_builder.h", "c/c_scene_manager.h", "c/c_atmosphere.h", "vkez/window/input.h", "c/c_panning_camera.h", "c/c_window.h", "vkez/call_frame_updater.hpp", "c/c_renderer.h"},
                 preload = {},
                 link = {"vkg"}
         ),
@@ -1042,7 +1042,7 @@ public static native @Cast("bool") boolean InputKeyPressed(Input input, @Cast("K
 // #endif //VKG_C_WINDOW_H
 
 
-// Parsed from vkez/call_frame_updater.h
+// Parsed from vkez/call_frame_updater.hpp
 
 // #pragma once
 

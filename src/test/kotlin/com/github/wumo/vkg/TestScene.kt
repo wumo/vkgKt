@@ -264,7 +264,7 @@ fun test(app: Renderer) {
   }
 
   scene.camera.location = Vec3(20f, 20f, 20f)
-//  scene.camera.zfar = 10000000f
+  scene.camera.zfar = 1e3f
   val panningCamera = PanningCamera(scene.camera)
   val input = app.window.input
   val camera = scene.camera

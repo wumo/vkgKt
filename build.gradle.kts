@@ -49,7 +49,7 @@ javacpp {
       "vkez/window/input.h",
       "c/c_panning_camera.h",
       "c/c_window.h",
-      "vkez/call_frame_updater.h",
+      "vkez/call_frame_updater.hpp",
       "c/c_renderer.h"
   )
   link = listOf("vkg")
