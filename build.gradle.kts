@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.github.wumo"
-version = "0.0.1"
+version = "0.0.5"
 
 repositories {
   mavenCentral()

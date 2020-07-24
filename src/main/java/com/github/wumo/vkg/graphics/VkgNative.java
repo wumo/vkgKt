@@ -734,6 +734,9 @@ public static native void UpdatePrimitive(
   @Cast("uint32_t") int position_offset_float, @Cast("uint32_t") int numPositions, @Cast("cvec3*") float[] normals,
   @Cast("uint32_t") int normal_offset_float, @Cast("uint32_t") int numNormals, @Cast("caabb*") float[] aabb);
 
+public static native void UpdatePrimitiveBuilder(
+  CSceneManager scene, @Cast("uint32_t") int primitive, CPrimitiveBuilder builder);
+
 public static native @Cast("uint32_t") int NewMaterial(CSceneManager scene, @Cast("CMaterialType") int type);
 public static native @Cast("uint32_t") int NewMesh(CSceneManager scene, @Cast("uint32_t") int primitive, @Cast("uint32_t") int material);
 public static native @Cast("uint32_t") int NewNode(CSceneManager scene, ctransform transform);
