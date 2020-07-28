@@ -8,10 +8,7 @@ on:
 jobs:
   build-windows:
     if: startsWith(github.event.head_commit.message, '[release]')
-    strategy:
-      matrix:
-        os: [windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -21,11 +18,6 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.x'
-      - name: Install gcc-10
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt install gcc-10 g++-10
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 60 --slave /usr/bin/g++ g++ /usr/bin/g++-10
       - name: Install conan
         run: |
           python -m pip install --upgrade pip
@@ -39,11 +31,7 @@ jobs:
           java-version: '9'
           java-package: jdk
           architecture: x64
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
       - name: Build with Gradle
-        env:
-          GRAALVM_HOME: ${{ env.JAVA_HOME }}
         run: |
           ./gradlew generateJava
           ./gradlew generateJNI
@@ -54,30 +42,18 @@ jobs:
           path: src/main/resources
 
   build-linux:
-    needs: build-windows
     if: startsWith(github.event.head_commit.message, '[release]')
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: true
-      - name: Download resources
-        uses: actions/download-artifact@v2
-        with:
-          name: windows-resources
-          path: src/main/resources
-      - name: Display structure of downloaded files
-        run: ls -R
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
           python-version: '3.x'
       - name: Install gcc-10
-        if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt install gcc-10 g++-10
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 60 --slave /usr/bin/g++ g++ /usr/bin/g++-10
@@ -94,27 +70,21 @@ jobs:
           java-version: '9'
           java-package: jdk
           architecture: x64
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
       - name: Build with Gradle
-        env:
-          GRAALVM_HOME: ${{ env.JAVA_HOME }}
         run: |
+          chmod +x gradlew
           ./gradlew generateJava
           ./gradlew generateJNI
       - name: Upload resources
         uses: actions/upload-artifact@v2
         with:
-          name: resources
+          name: linux-resources
           path: src/main/resources
 
   commit-release:
-    needs: build-linux
     if: startsWith(github.event.head_commit.message, '[release]')
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    needs: [build-windows, build-linux]
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -122,10 +92,15 @@ jobs:
           submodules: true
           persist-credentials: true
           fetch-depth: 0
-      - name: Download resources
+      - name: Download linux-resources
         uses: actions/download-artifact@v2
         with:
-          name: resources
+          name: linux-resources
+          path: src/main/resources
+      - name: Download windows-resources
+        uses: actions/download-artifact@v2
+        with:
+          name: windows-resources
           path: src/main/resources
       - name: Commit files
         run: |
