@@ -99,7 +99,7 @@ fun main() {
     val pbrMat = scene.newMaterial(MaterialType.BRDF)
     val gridTex = scene.newTexture("src/main/cpp/assets/grid.png")
     pbrMat.colorTex = gridTex
-    pbrMat.pbrFactor = Vec4(0f, 0.3f, 0.4f, 0f)
+    pbrMat.pbrFactor = Vec4(0f, 1f, 0f, 0f)
     val mesh = scene.newMesh(primitive, pbrMat)
     val node = scene.newNode()
     node.addMeshes(mesh)
