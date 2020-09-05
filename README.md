@@ -8,7 +8,8 @@ Kotlin binding for [vkg](https://github.com/wumo/vkg)
 - Cascaded Shadow Map
 - Atmospheric Rendering
 - Ray tracing on NVIDIA RTX graphics card
-- glTF models.
+- Load glTF models.
+- Update vertices/transforms/materials/lights per frame.
 
 ![sample](doc/sample.gif)
 
