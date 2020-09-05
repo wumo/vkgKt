@@ -5,7 +5,7 @@ vkgKt
 Kotlin binding for [vkg](https://github.com/wumo/vkg)
 
 - Deferred Shading
-- Cascaded Shadow Map
+- Cascaded Shadow Mapping
 - Atmospheric Rendering
 - Ray tracing on NVIDIA RTX graphics card
 - Load glTF models.
