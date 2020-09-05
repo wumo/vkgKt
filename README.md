@@ -1,4 +1,4 @@
-# vkg
+vkg
 
 [![Release](https://jitpack.io/v/wumo/vkgKt.svg)](https://jitpack.io/#wumo/vkgKt)
 
@@ -13,6 +13,25 @@ Graphics Engine on Vulkan written in C/C++ 20
 ![sample](doc/sample.gif)
 
 ## Usage
+
+### gradle:
+
+* Add `jitpack.io` in your root `build.gradle.kts` at the end of repositories:
+
+```kotlin
+repositories {
+    mavenCentral()
+    maven(url = "https://jitpack.io")
+}
+```
+
+* Add the dependency
+
+```kotlin
+implementation("com.github.wumo:vkgKt:0.0.6")
+```
+
+
 
 #### Sample code:
 
