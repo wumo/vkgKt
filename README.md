@@ -1,8 +1,8 @@
-vkg
+vkgKt
 
 [![Release](https://jitpack.io/v/wumo/vkgKt.svg)](https://jitpack.io/#wumo/vkgKt)
 
-Graphics Engine on Vulkan written in C/C++ 20
+Kotlin binding for [vkg](https://github.com/wumo/vkg)
 
 - Deferred Shading
 - Cascaded Shadow Map
