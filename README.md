@@ -33,7 +33,7 @@ implementation("com.github.wumo:vkgKt:0.0.6")
 
 
 
-### Sample code:
+#### Sample code:
 
 ```kotlin
 fun main() {
@@ -62,11 +62,11 @@ fun main() {
     newPrimitive()
   }
   // material
-  val reflectiveMat = scene.newMaterial(MaterialType.BRDF)
-  reflectiveMat.colorFactor = Vec4(0f, 1f, 0f, 1f)
-  reflectiveMat.pbrFactor = Vec4(0f, 0.3f, 0.4f, 0f)
+  val mat = scene.newMaterial(MaterialType.BRDF)
+  mat.colorFactor = Vec4(0f, 1f, 0f, 1f)
+  mat.pbrFactor = Vec4(0f, 0.3f, 0.4f, 0f)
   // primitive + material => mesh
-  val mesh = scene.newMesh(primitives[0], reflectiveMat)
+  val mesh = scene.newMesh(primitives[0], mat)
   // mesh => node
   val node = scene.newNode()
   node.addMeshes(mesh)
