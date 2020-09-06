@@ -15,6 +15,10 @@ Kotlin binding for [vkg](https://github.com/wumo/vkg)
 
 ## Usage
 
+Requirements:
+* Graphics driver that supports `Vulkan 1.2.0`
+* `RayTracing Feature` requires RTX 20 series graphics card.
+
 ### gradle:
 
 * Add `jitpack.io` in your root `build.gradle.kts` at the end of repositories:
