@@ -60,7 +60,7 @@ fun main() {
   val blueMat = scene.newMaterial()
   blueMat.colorFactor = Vec4(0f, 0f, 1f, 1f)
   val texMat = scene.newMaterial(MaterialType.BRDF)
-  val colorTex = scene.newTexture("src/main/cpp/assets/TextureCoordinateTemplate.png")
+  val colorTex = scene.newTexture("src/main/cpp/assets/glTF-models/2.0/TextureCoordinateTest/glTF/TextureCoordinateTemplate.png")
   texMat.colorTex = colorTex
   texMat.pbrFactor = Vec4(0f, 0.3f, 0.4f, 1f)
   
