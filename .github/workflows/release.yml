@@ -83,7 +83,7 @@ jobs:
 
   commit-release:
     if: startsWith(github.event.head_commit.message, '[release]')
-    needs: [build-windows, build-linux]
+    needs: [ build-windows, build-linux ]
     runs-on: ubuntu-latest
 
     steps:
@@ -104,8 +104,8 @@ jobs:
           path: src/main/resources
       - name: Commit files
         run: |
-          git config --local user.email "wumo@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "github-actions@users.noreply.github.com"
+          git config --local user.name "github-actions"
           git add src/main/resources
           git commit -m "Compiled library resources" -a
       - name: Push changes to ci branch
@@ -114,3 +114,20 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ci
           force: true
+      - name: Get release version
+        run: |
+          chmod +x gradlew
+          echo ::set-env name=PROJECT_VERSION::$(./gradlew properties -q | grep "version:" | awk '{print $2}')
+      - name: Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ PROJECT_VERSION }}
+          release_name: ${{ PROJECT_VERSION }}
+          commitish: ci
+      - name: Trigger jitpack.io build
+        run: |
+          curl --silent --output /dev/null https://jitpack.io/#REPOSITORY/$PROJECT_VERSION
+        env:
+          REPOSITORY: ${{ github.repository }}
