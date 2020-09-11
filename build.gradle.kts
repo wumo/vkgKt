@@ -6,13 +6,12 @@ plugins {
   kotlin("jvm") version "1.4.0"
   id("com.google.osdetector") version "1.6.2"
   id("com.github.wumo.javacpp") version "1.0.16"
-  id("pl.allegro.tech.build.axion-release") version "1.11.0"
+  id("pl.allegro.tech.build.axion-release") version "1.12.0"
 }
 
 scmVersion {
   tag.apply {
     prefix = ""
-    versionSeparator = ""
   }
   checks.apply {
     uncommittedChanges = false
