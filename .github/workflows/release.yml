@@ -123,11 +123,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ PROJECT_VERSION }}
-          release_name: ${{ PROJECT_VERSION }}
+          tag_name: $PROJECT_VERSION
+          release_name: $PROJECT_VERSION
           commitish: ci
       - name: Trigger jitpack.io build
         run: |
-          curl --silent --output /dev/null https://jitpack.io/#REPOSITORY/$PROJECT_VERSION
+          curl --silent --output /dev/null https://jitpack.io/#$GITHUB_REPOSITORY/$PROJECT_VERSION
         env:
-          REPOSITORY: ${{ github.repository }}
