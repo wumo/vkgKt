@@ -117,7 +117,6 @@ jobs:
       - name: Get release version
         run: |
           chmod +x gradlew
-          ./gradlew createRelease
           echo ::set-env name=PROJECT_VERSION::$(./gradlew properties -q | grep "version:" | awk '{print $2}')
       - name: Release
         uses: actions/create-release@v1
