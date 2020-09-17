@@ -63,7 +63,7 @@ fun main() {
   // atmosphere setting
   val sky = scene.atmosphere
   sky.enabled = true
-  sky.sunIntensity = 10f
+  sky.sunIntensity = 1f
   sky.sunDirection = Vec3(-1f, -0.1f, 0f)
 
   // primitive
