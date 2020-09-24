@@ -43,7 +43,7 @@ fun main() {
   
   val sky = scene.atmosphere
   sky.enabled = true
-  sky.sunIntensity = 10f
+  sky.sunIntensity = 2f
   sky.sunDirection = sunDirection(1f)
   
   val shadowMap = scene.shadowMap
@@ -305,7 +305,8 @@ fun main() {
     
     for(inst in insts) {
       val t = inst.transform
-      t.rotation = angleAxis(radians(elapsedMs.toFloat() * 0.1f), Vec3(0f, 1f, 0f)) * t.rotation
+      t.rotation.assign(angleAxis(radians(elapsedMs.toFloat() * 0.1f), Vec3(0f, 1f, 0f)) * t.rotation)
+      t.update()
     }
     val now = System.currentTimeMillis()
     if(now - lastChange > 2000) {

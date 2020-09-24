@@ -54,4 +54,8 @@ class Transform(
   override fun toString(): String {
     return "Transform(translation=$translation, scale=$scale, rotation=$rotation)"
   }
+  
+  fun update() {
+    updateFunc?.invoke(this)
+  }
 }
