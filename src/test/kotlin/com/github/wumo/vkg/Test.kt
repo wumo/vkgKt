@@ -60,7 +60,8 @@ fun main() {
   val blueMat = scene.newMaterial()
   blueMat.colorFactor = Vec4(0f, 0f, 1f, 1f)
   val texMat = scene.newMaterial(MaterialType.BRDF)
-  val colorTex = scene.newTexture("src/main/cpp/assets/glTF-models/2.0/TextureCoordinateTest/glTF/TextureCoordinateTemplate.png")
+  val colorTex =
+    scene.newTexture("src/main/cpp/assets/glTF-models/2.0/TextureCoordinateTest/glTF/TextureCoordinateTemplate.png")
   texMat.colorTex = colorTex
   texMat.pbrFactor = Vec4(0f, 0.3f, 0.4f, 1f)
   
@@ -284,6 +285,23 @@ fun main() {
         balls += scene.newModelInstance(ballModel, t)
       }
     }
+  }
+  
+  run {
+    val primitive = scene.newPrimitives {
+      sphere(Vec3(0f, 2f, 20f), 2f)
+      newPrimitive()
+    }[0]
+    val pbrMat = scene.newMaterial(MaterialType.None)
+    pbrMat.colorFactor = Vec4(1f, 1f, 1f, 1f)
+    val tex = scene.newTexture(intArrayOf(0xFF0000FFu.toInt()), 1, 1, true)
+    pbrMat.colorTex = tex
+    pbrMat.pbrFactor = Vec4(0f, 0.3f, 0.3f, 0f)
+    val mesh = scene.newMesh(primitive, pbrMat)
+    val node = scene.newNode()
+    node.addMeshes(mesh)
+    val model = scene.newModel(node)
+    scene.newModelInstance(model)
   }
   
   val camera = scene.camera

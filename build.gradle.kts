@@ -3,13 +3,13 @@ import org.bytedeco.javacpp.tools.Info
 plugins {
   base
   `maven-publish`
-  kotlin("jvm") version "1.4.0"
+  kotlin("jvm") version "1.4.10"
   id("com.google.osdetector") version "1.6.2"
   id("com.github.wumo.javacpp") version "1.0.16"
 }
 
 group = "com.github.wumo"
-version = "0.1.3"
+version = "0.1.4"
 
 repositories {
   mavenCentral()

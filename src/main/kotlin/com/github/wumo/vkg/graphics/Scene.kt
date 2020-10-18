@@ -3,7 +3,8 @@ package com.github.wumo.vkg.graphics
 import com.github.wumo.vkg.graphics.VkgNative.*
 import com.github.wumo.vkg.graphics.model.*
 import com.github.wumo.vkg.graphics.util.notNull
-import com.github.wumo.vkg.graphics.util.useNative
+import org.bytedeco.javacpp.BytePointer
+import org.bytedeco.javacpp.IntPointer
 
 class Scene(internal val native: VkgNative.CScene) {
   val camera: Camera = Camera(SceneGetCamera(native.notNull()))
@@ -49,6 +50,28 @@ class Scene(internal val native: VkgNative.CScene) {
   fun newTexture(path: String, mipmap: Boolean = true): Texture {
     val bytes = path.toByteArray()
     val nativeTex = SceneNewTexture(native.notNull(), bytes, bytes.size, mipmap)
+    return Texture(this, nativeTex)
+  }
+  
+  fun newTexture(bytes: IntArray, width: Int, height: Int, mipmap: Boolean = true): Texture {
+    check(bytes.size == width * height) { "only support R8G8B8A8 format" }
+    val intPtr = IntPointer(*bytes)
+    val bytePtr = BytePointer(intPtr)
+    bytePtr.capacity(intPtr.capacity() * intPtr.sizeof())
+    val nativeTex =
+      SceneNewTextureFromBytes(
+        native.notNull(), bytePtr, bytePtr.capacity().toInt(),
+        width, height, mipmap
+      )
+    intPtr.deallocate()
+    return Texture(this, nativeTex)
+  }
+  
+  fun newTexture(bytes: ByteArray, width: Int, height: Int, mipmap: Boolean = true): Texture {
+    check(bytes.size == width * height * 4) { "only support R8G8B8A8 format" }
+    val bytePtr = BytePointer(*bytes)
+    val nativeTex = SceneNewTextureFromBytes(native.notNull(), bytePtr, bytes.size, width, height, mipmap)
+    bytePtr.deallocate()
     return Texture(this, nativeTex)
   }
   
