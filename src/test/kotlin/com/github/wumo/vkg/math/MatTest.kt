@@ -1,10 +1,10 @@
-package com.github.wumo.sim.math.vector
+package com.github.wumo.vkg.math
 
-import com.github.wumo.sim.math.matrix.FuncMatrix.determinant
-import com.github.wumo.sim.math.matrix.FuncMatrix.inverse
-import com.github.wumo.sim.math.matrix.FuncMatrix.transpose
-import com.github.wumo.sim.math.matrix.Mat3
-import com.github.wumo.sim.math.matrix.Mat4
+import com.github.wumo.vkg.math.matrix.FuncMatrix.determinant
+import com.github.wumo.vkg.math.matrix.FuncMatrix.inverse
+import com.github.wumo.vkg.math.matrix.FuncMatrix.transpose
+import com.github.wumo.vkg.math.matrix.Mat3
+import com.github.wumo.vkg.math.matrix.Mat4
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue

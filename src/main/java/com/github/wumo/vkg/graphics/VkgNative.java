@@ -1155,6 +1155,8 @@ public static native void WindowGetTitle(CWindow window, @Cast("char*") ByteBuff
 public static native void WindowGetTitle(CWindow window, @Cast("char*") byte[] titleBuf);
 public static native Input WindowGetInput(CWindow window);
 
+public static native void WindowClose(CWindow window);
+
 public static native int InputMousePosX(Input input);
 public static native int InputMousePosY(Input input);
 public static native double InputScrollOffsetX(Input input);

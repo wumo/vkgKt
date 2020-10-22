@@ -1,4 +1,4 @@
-package com.github.wumo.sim.math.vector
+package com.github.wumo.vkg.math
 
 import kotlin.test.Test
 

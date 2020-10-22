@@ -20,4 +20,8 @@ class Window(internal val native: CWindow) {
       WindowSetTitle(native.notNull(), bytes, bytes.size)
       field = value
     }
+  
+  fun close() {
+    WindowClose(native.notNull())
+  }
 }

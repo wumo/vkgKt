@@ -1,6 +1,7 @@
-package com.github.wumo.sim.math.vector
+package com.github.wumo.vkg.math
 
-import com.github.wumo.sim.math.vector.FuncGeometric.cross
+import com.github.wumo.vkg.math.vector.FuncGeometric.cross
+import com.github.wumo.vkg.math.vector.Vec3
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
