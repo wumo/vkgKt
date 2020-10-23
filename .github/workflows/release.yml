@@ -51,10 +51,11 @@ jobs:
           submodules: true
       - run: |
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: Set up Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.x'
+# #actions/setup-python will result in failure of libxcb
+#      - name: Set up Python
+#        uses: actions/setup-python@v1
+#        with:
+#          python-version: '3.x'
       - name: Install gcc-10
         run: |
           sudo apt install gcc-10 g++-10
