@@ -34,6 +34,7 @@ tasks {
 
 javacpp {
   include = listOf(
+    "vkg/base/resource/texture_formats.h",
     "vkg/c/c_fpsmeter.h",
     "vkg/c/c_vec.h",
     "vkg/c/c_camera.h",

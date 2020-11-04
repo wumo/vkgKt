@@ -9,7 +9,7 @@ import org.bytedeco.javacpp.annotation.*;
 
 @Properties(
         value = @Platform(
-                include = {"vkg/c/c_fpsmeter.h", "vkg/c/c_vec.h", "vkg/c/c_camera.h", "vkg/c/c_light.h", "vkg/c/c_primitive.h", "vkg/c/c_material.h", "vkg/c/c_mesh.h", "vkg/c/c_node.h", "vkg/c/c_model.h", "vkg/c/c_model_instance.h", "vkg/c/c_primitive_builder.h", "vkg/c/c_scene.h", "vkg/c/c_atmosphere.h", "vkg/c/c_shadowmap.h", "vkg/base/window/input.h", "vkg/c/c_panning_camera.h", "vkg/c/c_window.h", "vkg/base/call_frame_updater.hpp", "vkg/c/c_renderer.h"},
+                include = {"vkg/base/resource/texture_formats.h", "vkg/c/c_fpsmeter.h", "vkg/c/c_vec.h", "vkg/c/c_camera.h", "vkg/c/c_light.h", "vkg/c/c_primitive.h", "vkg/c/c_material.h", "vkg/c/c_mesh.h", "vkg/c/c_node.h", "vkg/c/c_model.h", "vkg/c/c_model_instance.h", "vkg/c/c_primitive_builder.h", "vkg/c/c_scene.h", "vkg/c/c_atmosphere.h", "vkg/c/c_shadowmap.h", "vkg/base/window/input.h", "vkg/c/c_panning_camera.h", "vkg/c/c_window.h", "vkg/base/call_frame_updater.hpp", "vkg/c/c_renderer.h"},
                 preload = {},
                 link = {"vkg"}
         ),
@@ -17,6 +17,28 @@ import org.bytedeco.javacpp.annotation.*;
 )
 public class VkgNative  {
     static { Loader.load(); }
+
+// Parsed from vkg/base/resource/texture_formats.h
+
+// #ifndef VKG_TEXTURE_FORMATS_H
+// #define VKG_TEXTURE_FORMATS_H
+// #include <cstdint>
+// #ifdef __cplusplus
+// #endif
+
+/** enum TextureFormat */
+public static final int
+  R8Unorm = 0,
+  R16Sfloat = 1,
+  R32Sfloat = 2,
+  R8G8B8A8Unorm = 3,
+  R16G16B16A16Sfloat = 4,
+  R32G32B32A32Sfloat = 5;
+
+// #ifdef __cplusplus
+// #endif
+// #endif //VKG_TEXTURE_FORMATS_H
+
 
 // Parsed from vkg/c/c_fpsmeter.h
 
@@ -715,6 +737,7 @@ public static native @Cast("uint32_t") int BuilderNumPrimitives(CPrimitiveBuilde
 // #include "c_camera.h"
 // #include "c_atmosphere.h"
 // #include "c_shadowmap.h"
+// #include "vkg/base/resource/texture_formats.h"
 
 // #ifdef __cplusplus
 // #else
@@ -796,18 +819,15 @@ public static native void SceneNewPrimitives(
   CScene scene, CPrimitiveBuilder builder, @Cast("bool") boolean perFrame, @Cast("uint32_t*") int[] ptrs);
 
 public static native @Cast("uint32_t") int SceneNewMaterial(CScene scene, @Cast("CMaterialType") int type, @Cast("bool") boolean perFrame);
-public static native @Cast("uint32_t") int SceneNewTexture(
-  CScene scene, @Cast("char*") BytePointer pathBuf, @Cast("uint32_t") int pathSize, @Cast("bool") boolean mipmap);
-public static native @Cast("uint32_t") int SceneNewTexture(
-  CScene scene, @Cast("char*") ByteBuffer pathBuf, @Cast("uint32_t") int pathSize, @Cast("bool") boolean mipmap);
-public static native @Cast("uint32_t") int SceneNewTexture(
-  CScene scene, @Cast("char*") byte[] pathBuf, @Cast("uint32_t") int pathSize, @Cast("bool") boolean mipmap);
+public static native @Cast("uint32_t") int SceneNewTexture(CScene scene, @Cast("char*") BytePointer pathBuf, @Cast("uint32_t") int pathSize, @Cast("bool") boolean mipmap);
+public static native @Cast("uint32_t") int SceneNewTexture(CScene scene, @Cast("char*") ByteBuffer pathBuf, @Cast("uint32_t") int pathSize, @Cast("bool") boolean mipmap);
+public static native @Cast("uint32_t") int SceneNewTexture(CScene scene, @Cast("char*") byte[] pathBuf, @Cast("uint32_t") int pathSize, @Cast("bool") boolean mipmap);
 public static native @Cast("uint32_t") int SceneNewTextureFromBytes(
   CScene scene, @Cast("const char*") BytePointer bytes, @Cast("uint32_t") int numBytes, @Cast("uint32_t") int width, @Cast("uint32_t") int height,
-  @Cast("bool") boolean mipmap);
+  @Cast("TextureFormat") int format, @Cast("bool") boolean mipmap);
 public static native @Cast("uint32_t") int SceneNewTextureFromBytes(
   CScene scene, String bytes, @Cast("uint32_t") int numBytes, @Cast("uint32_t") int width, @Cast("uint32_t") int height,
-  @Cast("bool") boolean mipmap);
+  @Cast("TextureFormat") int format, @Cast("bool") boolean mipmap);
 public static native @Cast("uint32_t") int SceneNewMesh(CScene scene, @Cast("uint32_t") int primitive, @Cast("uint32_t") int material);
 public static native @Cast("uint32_t") int SceneNewNode(CScene scene, ctransform transform);
 public static native @Cast("uint32_t") int SceneNewNode(CScene scene, @Cast("ctransform*") float[] transform);

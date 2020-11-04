@@ -294,7 +294,7 @@ fun main() {
     }[0]
     val pbrMat = scene.newMaterial(MaterialType.None)
     pbrMat.colorFactor = Vec4(1f, 1f, 1f, 1f)
-    val tex = scene.newTexture(intArrayOf(0xFF0000FFu.toInt()), 1, 1, true)
+    val tex = scene.newTexture(intArrayOf(0xFF0000FFu.toInt()), 1, 1)
     pbrMat.colorTex = tex
     pbrMat.pbrFactor = Vec4(0f, 0.3f, 0.3f, 0f)
     val mesh = scene.newMesh(primitive, pbrMat)

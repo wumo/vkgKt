@@ -53,7 +53,12 @@ class Scene(internal val native: VkgNative.CScene) {
     return Texture(this, nativeTex)
   }
   
-  fun newTexture(bytes: IntArray, width: Int, height: Int, mipmap: Boolean = true): Texture {
+  fun newTexture(
+    bytes: IntArray,
+    width: Int, height: Int,
+    format: TextureFormat = TextureFormat.R8G8B8A8Unorm,
+    mipmap: Boolean = true
+  ): Texture {
     check(bytes.size == width * height) { "only support R8G8B8A8 format" }
     val intPtr = IntPointer(*bytes)
     val bytePtr = BytePointer(intPtr)
@@ -61,16 +66,24 @@ class Scene(internal val native: VkgNative.CScene) {
     val nativeTex =
       SceneNewTextureFromBytes(
         native.notNull(), bytePtr, bytePtr.capacity().toInt(),
-        width, height, mipmap
+        width, height, format.value, mipmap
       )
     intPtr.deallocate()
     return Texture(this, nativeTex)
   }
   
-  fun newTexture(bytes: ByteArray, width: Int, height: Int, mipmap: Boolean = true): Texture {
+  fun newTexture(
+    bytes: ByteArray,
+    width: Int, height: Int,
+    format: TextureFormat = TextureFormat.R8G8B8A8Unorm,
+    mipmap: Boolean = true
+  ): Texture {
     check(bytes.size == width * height * 4) { "only support R8G8B8A8 format" }
     val bytePtr = BytePointer(*bytes)
-    val nativeTex = SceneNewTextureFromBytes(native.notNull(), bytePtr, bytes.size, width, height, mipmap)
+    val nativeTex = SceneNewTextureFromBytes(
+      native.notNull(), bytePtr, bytes.size,
+      width, height, format.value, mipmap
+    )
     bytePtr.deallocate()
     return Texture(this, nativeTex)
   }
