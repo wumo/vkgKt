@@ -840,6 +840,10 @@ public static native @Cast("uint32_t") int SceneLoadModel(
   CScene scene, @Cast("char*") ByteBuffer pathBuf, @Cast("uint32_t") int pathSize, @Cast("CMaterialType") int type);
 public static native @Cast("uint32_t") int SceneLoadModel(
   CScene scene, @Cast("char*") byte[] pathBuf, @Cast("uint32_t") int pathSize, @Cast("CMaterialType") int type);
+public static native @Cast("uint32_t") int SceneLoadModelFromBytes(
+  CScene scene, @Cast("const char*") BytePointer bytes, @Cast("uint32_t") int numBytes, @Cast("CMaterialType") int type);
+public static native @Cast("uint32_t") int SceneLoadModelFromBytes(
+  CScene scene, String bytes, @Cast("uint32_t") int numBytes, @Cast("CMaterialType") int type);
 public static native @Cast("uint32_t") int SceneNewModelInstance(
   CScene scene, @Cast("uint32_t") int model, ctransform transform, @Cast("bool") boolean perFrame);
 public static native @Cast("uint32_t") int SceneNewModelInstance(

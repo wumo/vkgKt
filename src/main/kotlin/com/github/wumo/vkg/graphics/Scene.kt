@@ -111,6 +111,13 @@ class Scene(internal val native: VkgNative.CScene) {
     return Model(this, nativeModel)
   }
   
+  fun loadModel(bytes: ByteArray, type: MaterialType = MaterialType.BRDF): Model {
+    val bytePtr = BytePointer(*bytes)
+    val nativeModel = SceneLoadModelFromBytes(native.notNull(), bytePtr, bytes.size, type.value)
+    bytePtr.deallocate()
+    return Model(this, nativeModel)
+  }
+  
   fun newModelInstance(
     model: Model, transform: Transform = Transform(), perFrame: Boolean = false
   ): ModelInstance {
