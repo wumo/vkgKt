@@ -58,8 +58,9 @@ jobs:
           sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-10 100
       - name: Install conan
         run: |
-          pip3 install conan --upgrade
-          pip3 install conan_package_tools --upgrade
+          python -m pip install --upgrade pip
+          pip install conan --upgrade
+          pip install conan_package_tools --upgrade
           conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
           conan remote add wumo https://api.bintray.com/conan/wumo/public
       - name: Set up JDK
