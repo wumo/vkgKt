@@ -52,7 +52,7 @@ jobs:
           sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-10 100
       - name: Install conan
         run: |
-          python3 -m pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install conan --upgrade
           pip install conan_package_tools --upgrade
           conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
