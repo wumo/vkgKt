@@ -38,7 +38,7 @@ jobs:
 
   build-linux:
     if: startsWith(github.event.head_commit.message, '[release]')
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
 
     steps:
       - uses: actions/checkout@v2
@@ -46,20 +46,6 @@ jobs:
           submodules: true
       - run: |
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: Install clang-10
-        run: |
-          sudo su -c "echo 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial main' >> /etc/apt/sources.list"
-          sudo su -c "echo 'deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial main' >> /etc/apt/sources.list"
-          sudo su -c "echo 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main' >> /etc/apt/sources.list"
-          sudo su -c "echo 'deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main' >> /etc/apt/sources.list"
-          sudo apt update
-          sudo apt install clang-10
-          sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang-10 100
-          sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-10 100
-      - name: Set up Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: '3.x'
       - name: Install conan
         run: |
           python -m pip install --upgrade pip
