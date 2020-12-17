@@ -14,50 +14,12 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
       - name: Install conan
         run: |
-          pip install conan --upgrade
-          pip install conan_package_tools --upgrade
-          conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-          conan remote add wumo https://api.bintray.com/conan/wumo/public
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: '9'
-          java-package: jdk
-          architecture: x64
-      - name: Build with Gradle
-        run: |
-          gradle generateJava
-          gradle generateJNI
-      - name: Upload resources
-        uses: actions/upload-artifact@v2
-        with:
-          name: windows-resources
-          path: src/main/resources
-
-  build-linux:
-    if: startsWith(github.event.head_commit.message, '[release]')
-    runs-on: ubuntu-18.04
-
-    steps:
-      - run: |
-          which python3
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      - run: |
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: setup gcc 10
-        run: |
-          sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-10 100
-          sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-10 100
-      - run: |
-          sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 100
-          sudo update-alternatives --set python /usr/bin/python3
-      - name: Install conan
-        run: |
-          sudo apt-get install -y python3-setuptools
           python -m pip install --upgrade pip
           pip install conan --upgrade
           pip install conan_package_tools --upgrade
@@ -71,8 +33,51 @@ jobs:
           architecture: x64
       - name: Build with Gradle
         run: |
-          gradle generateJava
-          gradle generateJNI
+          ./gradlew generateJava
+          ./gradlew generateJNI
+      - name: Upload resources
+        uses: actions/upload-artifact@v2
+        with:
+          name: windows-resources
+          path: src/main/resources
+
+  build-linux:
+    if: startsWith(github.event.head_commit.message, '[release]')
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - run: |
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      # #actions/setup-python will result in failure of libxcb
+      #      - name: Set up Python
+      #        uses: actions/setup-python@v1
+      #        with:
+      #          python-version: '3.x'
+      - name: Install gcc-10
+        run: |
+          sudo apt install gcc-10 g++-10
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 60 --slave /usr/bin/g++ g++ /usr/bin/g++-10
+      - name: Install conan
+        run: |
+          python -m pip install --upgrade pip
+          pip install conan --upgrade
+          pip install conan_package_tools --upgrade
+          conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+          conan remote add wumo https://api.bintray.com/conan/wumo/public
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '9'
+          java-package: jdk
+          architecture: x64
+      - name: Build with Gradle
+        run: |
+          chmod +x gradlew
+          ./gradlew generateJava
+          ./gradlew generateJNI
       - name: Upload resources
         uses: actions/upload-artifact@v2
         with:
