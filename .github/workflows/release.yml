@@ -57,6 +57,7 @@ jobs:
           sudo update-alternatives --set python /usr/bin/python3
       - name: Install conan
         run: |
+          sudo apt-get install -y python3-setuptools
           python -m pip install --upgrade pip
           pip install conan --upgrade
           pip install conan_package_tools --upgrade
