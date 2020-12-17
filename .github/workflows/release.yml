@@ -50,6 +50,10 @@ jobs:
         run: |
           sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-10 100
           sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-10 100
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
       - name: Install conan
         run: |
           python -m pip install --upgrade pip
