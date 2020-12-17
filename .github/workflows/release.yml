@@ -44,7 +44,7 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install clang-10
         run: |
-          sudo echo 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial main' > /etc/apt/sources.list
+          sudo echo 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial main' >> /etc/apt/sources.list
           sudo echo 'deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial main' >> /etc/apt/sources.list
           sudo echo 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main' >> /etc/apt/sources.list
           sudo echo 'deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main' >> /etc/apt/sources.list
