@@ -20,12 +20,6 @@ jobs:
           pip install conan_package_tools --upgrade
           conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
           conan remote add wumo https://api.bintray.com/conan/wumo/public
-      - name: Set up JDK
-        uses: actions/setup-java@v1
-        with:
-          java-version: '9'
-          java-package: jdk
-          architecture: x64
       - name: Build with Gradle
         env:
           JAVA_HOME: ${{ env.JAVA_HOME_11_X64 }}
@@ -50,7 +44,10 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Install clang-10
         run: |
-          sudo wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo echo 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial main' > /etc/apt/sources.list
+          sudo echo 'deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial main' >> /etc/apt/sources.list
+          sudo echo 'deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main' >> /etc/apt/sources.list
+          sudo echo 'deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main' >> /etc/apt/sources.list
           sudo apt update
           sudo apt install clang-10
           sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang-10 100
