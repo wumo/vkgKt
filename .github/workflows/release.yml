@@ -53,6 +53,7 @@ jobs:
           sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-10 100
           sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-10 100
       - run: |
+          sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 100
           sudo update-alternatives --set python /usr/bin/python3
       - name: Install conan
         run: |
