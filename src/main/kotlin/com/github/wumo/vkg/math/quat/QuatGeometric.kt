@@ -7,10 +7,10 @@ object QuatGeometric {
   /** Returns dot product of q1 and q2, i.e., q1[0] * q2[0] + q1[1] * q2[1] + ... */
   fun dot(a: Quat, b: Quat): Float =
     a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w
-  
+
   /** Returns the norm of a quaternions */
   fun length(q: Quat) = sqrt(dot(q, q))
-  
+
   /** Returns the normalized quaternion. */
   fun normalize(q: Quat, out: Quat = Quat()): Quat = out.apply {
     val len = length(q)
@@ -27,7 +27,7 @@ object QuatGeometric {
       z = q.z * oneOverLen
     }
   }
-  
+
   /** Compute a cross product. */
   fun cross(q1: Quat, q2: Quat, out: Quat = Quat()): Quat =
     out.apply {

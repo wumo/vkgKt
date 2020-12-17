@@ -1,15 +1,16 @@
 package com.github.wumo.vkg.math.vector
 
+import com.github.wumo.vkg.math.common.epsilon
 import kotlin.math.acos
 import kotlin.math.sqrt
 
 object FuncGeometric {
   fun length(x: Float, y: Float): Float = sqrt(x * x + y * y)
   fun length(x: Float, y: Float, z: Float): Float =
-      sqrt(x * x + y * y + z * z)
+    sqrt(x * x + y * y + z * z)
 
   fun length(x: Float, y: Float, z: Float, w: Float): Float =
-      sqrt(x * x + y * y + z * z + w * w)
+    sqrt(x * x + y * y + z * z + w * w)
 
   fun <V : Vec<V>> length(v: V) = sqrt(dot(v, v))
   fun <V : Vec<V>> distance(p0: V, p1: V) = length(p1 - p0)
@@ -21,12 +22,16 @@ object FuncGeometric {
     return sum
   }
 
-  fun <V : Vec<V>> normalize(v: V) = v / length(v)
+  fun <V : Vec<V>> normalize(v: V): V {
+    val l = length(v)
+    return if (l < epsilon) v
+    else v / length(v)
+  }
 
   inline fun cross(
-      aX: Float, aY: Float, aZ: Float,
-      bX: Float, bY: Float, bZ: Float,
-      out: (Float, Float, Float) -> Unit
+    aX: Float, aY: Float, aZ: Float,
+    bX: Float, bY: Float, bZ: Float,
+    out: (Float, Float, Float) -> Unit
   ) {
     val x = aY * bZ - bY * aZ
     val y = aZ * bX - bZ * aX
@@ -35,16 +40,16 @@ object FuncGeometric {
   }
 
   inline fun cross(a: Vec3, b: Vec3, out: (Float, Float, Float) -> Unit): Unit =
-      cross(a.x, a.y, a.z, b.x, b.y, b.z, out)
+    cross(a.x, a.y, a.z, b.x, b.y, b.z, out)
 
   fun cross(a: Vec3, b: Vec3, out: Vec3): Vec3 =
-      out.also {
-        cross(a, b) { x, y, z ->
-          it.x = x
-          it.y = y
-          it.z = z
-        }
+    out.also {
+      cross(a, b) { x, y, z ->
+        it.x = x
+        it.y = y
+        it.z = z
       }
+    }
 
   fun cross(a: Vec3, b: Vec3): Vec3 = cross(a, b, Vec3())
 

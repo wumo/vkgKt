@@ -5,9 +5,10 @@ import com.github.wumo.vkg.math.common.Vectorizable
 import com.github.wumo.vkg.math.common.epsilon
 import java.util.*
 import kotlin.math.abs
+import kotlin.math.min
 
 abstract class Mat<M, V>(val raw: FloatArray, val dim: Int, val offset: Int = 0) :
-    Vectorizable<M>
+  Vectorizable<M>
     where M : Mat<M, V>, V : Vec<V> {
   init {
     assert(offset in 0..raw.lastIndex) { "vector offset is out of bounds [0,raw.size)" }
@@ -24,8 +25,10 @@ abstract class Mat<M, V>(val raw: FloatArray, val dim: Int, val offset: Int = 0)
     if (this === other) return true
     if (javaClass != other?.javaClass) return false
     other as Mat<*, *>
-    return Arrays.equals(raw, offset, offset + dim * dim,
-        other.raw, other.offset, other.offset + other.dim * other.dim)
+    return Arrays.equals(
+      raw, offset, offset + dim * dim,
+      other.raw, other.offset, other.offset + other.dim * other.dim
+    )
   }
 
   override fun hashCode(): Int {
@@ -54,6 +57,11 @@ abstract class Mat<M, V>(val raw: FloatArray, val dim: Int, val offset: Int = 0)
     raw[offset + a * dim + b] = v
   }
 
+  operator fun <Vv> set(c: Int, v: Vv) where Vv : Vec<Vv> {
+    assert(c in 0 until dim)
+    v.raw.copyInto(raw, offset + c * 4, v.offset, v.offset + min(dim, v.dim))
+  }
+
   operator fun get(c: Int): V {
     assert(c in 0 until dim)
     val column = newColumn()
@@ -77,10 +85,10 @@ abstract class Mat<M, V>(val raw: FloatArray, val dim: Int, val offset: Int = 0)
   }
 
   operator fun unaryMinus() =
-      copy().also {
-        for (i in 0 until dim * dim)
-          it.raw[it.offset + i] = -it.raw[it.offset + i]
-      }
+    copy().also {
+      for (i in 0 until dim * dim)
+        it.raw[it.offset + i] = -it.raw[it.offset + i]
+    }
 
   operator fun plusAssign(s: Float) {
     for (i in 0 until dim * dim)
@@ -187,7 +195,7 @@ abstract class Mat<M, V>(val raw: FloatArray, val dim: Int, val offset: Int = 0)
         else -> '│'
       }
       append(endChar)
-      appendln()
+      appendLine()
     }
   }
 }

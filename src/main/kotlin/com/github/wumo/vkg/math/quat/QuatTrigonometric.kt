@@ -11,7 +11,7 @@ object QuatTrigonometric {
       asin(sqrt(q.x * q.x + q.y * q.y + q.z * q.z) * 2)
     else acos(q.w) * 2
   }
-  
+
   fun axis(q: Quat, out: Vec3): Vec3 {
     val tmp1 = 1 - q.w * q.w
     return if (tmp1 <= 0)
@@ -28,10 +28,10 @@ object QuatTrigonometric {
         z = q.z * tmp2
       }
   }
-  
+
   /** Returns the q rotation axis. */
   fun axis(q: Quat): Vec3 = axis(q, Vec3())
-  
+
   fun angleAxis(
     angle: Float,
     axisX: Float, axisY: Float, axisZ: Float,
@@ -45,10 +45,10 @@ object QuatTrigonometric {
       y = axisY * s
       z = axisZ * s
     }
-  
+
   fun angleAxis(angle: Float, axisX: Float, axisY: Float, axisZ: Float): Quat =
     angleAxis(angle, axisX, axisY, axisZ, Quat())
-  
+
   /**
    * Build a quaternion from an angle and a normalized axis.
    *

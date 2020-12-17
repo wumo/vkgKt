@@ -16,7 +16,7 @@ object MatrixClipSpace {
    */
   fun perspective(fovy: Float, aspect: Float, zNear: Float, zFar: Float): Mat4 {
     val tanHalfFovy = tan(fovy / (2))
-    
+
     val result = Mat4()
     result[0, 0] = 1 / (aspect * tanHalfFovy)
     result[1, 1] = 1 / (tanHalfFovy)

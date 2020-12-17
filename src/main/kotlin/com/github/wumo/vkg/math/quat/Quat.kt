@@ -69,10 +69,10 @@ class Quat constructor(val raw: FloatArray, val offset: Int = 0) : Vectorizable<
       val sZ = sin(eZ)
 
       return Quat(
-          cX * cY * cZ + sX * sY * sZ,
-          sX * cY * cZ - cX * sY * sZ,
-          cX * sY * cZ + sX * cY * sZ,
-          cX * cY * sZ - sX * sY * cZ
+        cX * cY * cZ + sX * sY * sZ,
+        sX * cY * cZ - cX * sY * sZ,
+        cX * sY * cZ + sX * cY * sZ,
+        cX * cY * sZ - sX * sY * cZ
       )
     }
   }

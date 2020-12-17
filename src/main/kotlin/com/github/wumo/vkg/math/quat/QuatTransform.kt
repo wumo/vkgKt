@@ -16,7 +16,7 @@ object QuatTransform {
     var tmpX = axisX
     var tmpY = axisY
     var tmpZ = axisZ
-    
+
     // Axis of rotation must be normalised
     val len = length(axisX, axisY, axisZ)
     if (abs(len - 1f) > 0.001f) {
@@ -26,14 +26,14 @@ object QuatTransform {
       tmpZ *= oneOverLen
     }
     val sin = sin(angle * 0.5f)
-    
+
     val pW = cos(angle * 0.5f)
     val pX = tmpX * sin
     val pY = tmpY * sin
     val pZ = tmpZ * sin
     return times(q, pW, pX, pY, pZ, out)
   }
-  
+
   /**
    * Rotates a quaternion from a vector of 3 components axis and an angle.
    *

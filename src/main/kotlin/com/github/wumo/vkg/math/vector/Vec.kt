@@ -3,9 +3,10 @@ package com.github.wumo.vkg.math.vector
 import com.github.wumo.vkg.math.common.Vectorizable
 import com.github.wumo.vkg.math.matrix.Mat
 import java.util.*
+import kotlin.math.min
 
 abstract class Vec<V : Vec<V>>(val raw: FloatArray, val dim: Int, val offset: Int = 0) :
-    Vectorizable<V> {
+  Vectorizable<V> {
   init {
     assert(offset in 0..raw.lastIndex) { "vector offset is out of bounds [0,raw.size)" }
     assert(offset + dim <= raw.size) { "vector size not match" }
@@ -42,8 +43,8 @@ abstract class Vec<V : Vec<V>>(val raw: FloatArray, val dim: Int, val offset: In
     return raw[offset + idx]
   }
 
-  fun assign(other: Vec<V>) {
-    other.raw.copyInto(raw, offset, other.offset, other.offset + other.dim)
+  fun <Vv> assign(other: Vec<Vv>) where Vv : Vec<Vv> {
+    other.raw.copyInto(raw, offset, other.offset, other.offset + min(other.dim, dim))
   }
 
   @Suppress("UNCHECKED_CAST")
@@ -52,10 +53,10 @@ abstract class Vec<V : Vec<V>>(val raw: FloatArray, val dim: Int, val offset: In
   }
 
   operator fun unaryMinus() =
-      copy().also {
-        for (i in 0 until dim)
-          it.raw[it.offset + i] = -it.raw[it.offset + i]
-      }
+    copy().also {
+      for (i in 0 until dim)
+        it.raw[it.offset + i] = -it.raw[it.offset + i]
+    }
 
   operator fun plusAssign(v: V) {
     for (i in 0 until dim)
@@ -149,8 +150,8 @@ abstract class Vec<V : Vec<V>>(val raw: FloatArray, val dim: Int, val offset: In
   }
 }
 
-operator fun <V : Vec<V>> Float.plus(v: V) = v + this
-operator fun <V : Vec<V>> Float.minus(v: V) = -v + this
-operator fun <V : Vec<V>> Float.times(v: V) = v * this
-operator fun <V : Vec<V>> Float.div(v: V) = v.divBy(this)
+operator fun <V : Vec<V>> Number.plus(v: V) = v + this.toFloat()
+operator fun <V : Vec<V>> Number.minus(v: V) = -v + this.toFloat()
+operator fun <V : Vec<V>> Number.times(v: V) = v * this.toFloat()
+operator fun <V : Vec<V>> Number.div(v: V) = v.divBy(this.toFloat())
 

@@ -40,7 +40,7 @@ object QuatCommon {
       }
     }
   }
-  
+
   /**
    * Linear interpolation of two quaternions.
    * The interpolation is oriented.
@@ -57,7 +57,7 @@ object QuatCommon {
       y = a.y * (1f - interp) + b.y * interp
       z = a.z * (1f - interp) + b.z * interp
     }
-  
+
   /**
    * Spherical linear interpolation of two quaternions.
    * The interpolation always take the short path and the rotation is performed at constant speed.
@@ -71,9 +71,9 @@ object QuatCommon {
     var zX = b.x
     var zY = b.y
     var zZ = b.z
-    
+
     var cosTheta = dot(a, b)
-    
+
     // If cosTheta < 0, the interpolation will take the long way around the sphere.
     // To fix this, one quat must be negated.
     if (cosTheta < 0f) {
@@ -83,7 +83,7 @@ object QuatCommon {
       zZ = -b.z
       cosTheta = -cosTheta
     }
-    
+
     // Perform a linear interpolation when cosTheta is close to 1 to avoid side effect of sin(angle) becoming a zero denominator
     return if (cosTheta > 1f - epsilon)
       out.apply {
@@ -106,7 +106,7 @@ object QuatCommon {
       }
     }
   }
-  
+
   /**
    * Spherical linear interpolation of two quaternions with multiple spins over rotation axis.
    * The interpolation always take the short path when the spin count is positive and long path
@@ -122,9 +122,9 @@ object QuatCommon {
     var zX = b.x
     var zY = b.y
     var zZ = b.z
-    
+
     var cosTheta = dot(a, b)
-    
+
     // If cosTheta < 0, the interpolation will take the long way around the sphere.
     // To fix this, one quat must be negated.
     if (cosTheta < 0f) {
@@ -134,7 +134,7 @@ object QuatCommon {
       zZ = -b.z
       cosTheta = -cosTheta
     }
-    
+
     // Perform a linear interpolation when cosTheta is close to 1 to avoid side effect of sin(angle) becoming a zero denominator
     return if (cosTheta > 1f - epsilon)
       out.apply {
@@ -158,7 +158,7 @@ object QuatCommon {
       }
     }
   }
-  
+
   inline fun conjugate(
     q: Quat,
     out: (Float, Float, Float, Float) -> Unit
@@ -169,7 +169,7 @@ object QuatCommon {
     val z = -q.z
     out(w, x, y, z)
   }
-  
+
   /** Returns the q conjugate. */
   fun conjugate(q: Quat, out: Quat = Quat()): Quat =
     out.apply {
@@ -180,7 +180,7 @@ object QuatCommon {
         z = z_
       }
     }
-  
+
   /** Returns the q inverse. */
   inline fun inverse(
     q: Quat,
@@ -191,7 +191,7 @@ object QuatCommon {
       out(w / d, x / d, y / d, z / d)
     }
   }
-  
+
   fun inverse(q: Quat, out: Quat = Quat()): Quat =
     out.apply {
       inverse(q) { w_, x_, y_, z_ ->
