@@ -14,7 +14,7 @@ allprojects {
   apply(plugin = "org.jetbrains.kotlin.jvm")
 
   group = "com.github.wumo"
-  version = "0.2.1"
+  version = "0.2.2"
 
   repositories {
     jcenter()

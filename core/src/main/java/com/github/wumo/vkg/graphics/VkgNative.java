@@ -828,6 +828,10 @@ public static native @Cast("uint32_t") int SceneNewTextureFromBytes(
 public static native @Cast("uint32_t") int SceneNewTextureFromBytes(
   CScene scene, String bytes, @Cast("uint32_t") int numBytes, @Cast("uint32_t") int width, @Cast("uint32_t") int height,
   @Cast("TextureFormat") int format, @Cast("bool") boolean mipmap);
+public static native @Cast("uint32_t") int SceneNewTextureFromMemory(
+  CScene scene, @Cast("const char*") BytePointer bytes, @Cast("uint32_t") int numBytes, @Cast("bool") boolean mipmap);
+public static native @Cast("uint32_t") int SceneNewTextureFromMemory(
+  CScene scene, String bytes, @Cast("uint32_t") int numBytes, @Cast("bool") boolean mipmap);
 public static native @Cast("uint32_t") int SceneNewMesh(CScene scene, @Cast("uint32_t") int primitive, @Cast("uint32_t") int material);
 public static native @Cast("uint32_t") int SceneNewNode(CScene scene, ctransform transform);
 public static native @Cast("uint32_t") int SceneNewNode(CScene scene, @Cast("ctransform*") float[] transform);

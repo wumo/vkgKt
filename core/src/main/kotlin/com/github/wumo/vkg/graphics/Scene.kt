@@ -10,7 +10,7 @@ class Scene(internal val native: VkgNative.CScene) {
   val camera: Camera = Camera(SceneGetCamera(native.notNull()))
   val atmosphere: Atmosphere = Atmosphere(SceneGetAtmosphere(native.notNull()))
   val shadowMap: ShadowMap = ShadowMap(SceneGetShadowmap(native.notNull()))
-  
+
   fun newPrimitive(
     positions: FloatArray,
     normals: FloatArray,
@@ -27,8 +27,8 @@ class Scene(internal val native: VkgNative.CScene) {
     )
     return Primitive(this, prim)
   }
-  
-  fun newPrimitives(perFrame: Boolean = false, block: PrimitiveBuilder.()->Unit): List<Primitive> {
+
+  fun newPrimitives(perFrame: Boolean = false, block: PrimitiveBuilder.() -> Unit): List<Primitive> {
     val nativeBuilder = NewPrimitiveBuilder()
     val builder = PrimitiveBuilder(nativeBuilder)
     block(builder)
@@ -41,18 +41,25 @@ class Scene(internal val native: VkgNative.CScene) {
     nativeBuilder.deallocate()
     return primitives
   }
-  
+
   fun newMaterial(type: MaterialType = MaterialType.None, perFrame: Boolean = false)
       : Material {
     return Material(this, SceneNewMaterial(native.notNull(), type.value, perFrame))
   }
-  
+
   fun newTexture(path: String, mipmap: Boolean = true): Texture {
     val bytes = path.toByteArray()
     val nativeTex = SceneNewTexture(native.notNull(), bytes, bytes.size, mipmap)
     return Texture(this, nativeTex)
   }
-  
+
+  fun newTexture(bytes: ByteArray, mipmap: Boolean = true): Texture {
+    val bytePtr = BytePointer(*bytes)
+    val nativeTex = SceneNewTextureFromMemory(native.notNull(), bytePtr, bytes.size, mipmap)
+    bytePtr.deallocate()
+    return Texture(this, nativeTex)
+  }
+
   fun newTexture(
     bytes: IntArray,
     width: Int, height: Int,
@@ -71,7 +78,7 @@ class Scene(internal val native: VkgNative.CScene) {
     intPtr.deallocate()
     return Texture(this, nativeTex)
   }
-  
+
   fun newTexture(
     bytes: ByteArray,
     width: Int, height: Int,
@@ -87,16 +94,16 @@ class Scene(internal val native: VkgNative.CScene) {
     bytePtr.deallocate()
     return Texture(this, nativeTex)
   }
-  
+
   fun newMesh(primitive: Primitive, material: Material): Mesh {
     return Mesh(this, SceneNewMesh(native.notNull(), primitive.id, material.id))
   }
-  
+
   fun newNode(transform: Transform = Transform()): Node {
     val nativeNode = SceneNewNode(native.notNull(), transform.raw)
     return Node(this, nativeNode)
   }
-  
+
   fun newModel(vararg nodes: Node): Model {
     val nodeIndices = IntArray(nodes.size) {
       nodes[it].id
@@ -104,27 +111,27 @@ class Scene(internal val native: VkgNative.CScene) {
     val nativeModel = SceneNewModel(native.notNull(), nodeIndices, nodeIndices.size)
     return Model(this, nativeModel)
   }
-  
+
   fun loadModel(path: String, type: MaterialType = MaterialType.BRDF): Model {
     val bytes = path.toByteArray()
     val nativeModel = SceneLoadModel(native.notNull(), bytes, bytes.size, type.value)
     return Model(this, nativeModel)
   }
-  
+
   fun loadModel(bytes: ByteArray, type: MaterialType = MaterialType.BRDF): Model {
     val bytePtr = BytePointer(*bytes)
     val nativeModel = SceneLoadModelFromBytes(native.notNull(), bytePtr, bytes.size, type.value)
     bytePtr.deallocate()
     return Model(this, nativeModel)
   }
-  
+
   fun newModelInstance(
     model: Model, transform: Transform = Transform(), perFrame: Boolean = false
   ): ModelInstance {
     val nativeInstanve = SceneNewModelInstance(native.notNull(), model.id, transform.raw, perFrame)
     return ModelInstance(this, nativeInstanve)
   }
-  
+
   fun newLight(perFrame: Boolean = false): Light {
     return Light(this, SceneNewLight(native.notNull(), perFrame))
   }
