@@ -61,7 +61,7 @@ fun main() {
   blueMat.colorFactor = Vec4(0f, 0f, 1f, 1f)
   val texMat = scene.newMaterial(MaterialType.BRDF)
   val colorTex =
-    scene.newTexture("src/main/cpp/assets/glTF-models/2.0/TextureCoordinateTest/glTF/TextureCoordinateTemplate.png")
+    scene.newTexture("core/src/main/cpp/assets/glTF-models/2.0/TextureCoordinateTest/glTF/TextureCoordinateTemplate.png")
   texMat.colorTex = colorTex
   texMat.pbrFactor = Vec4(0f, 0.3f, 0.4f, 1f)
   
@@ -98,7 +98,7 @@ fun main() {
       newPrimitive()
     }[0]
     val pbrMat = scene.newMaterial(MaterialType.BRDF)
-    val gridTex = scene.newTexture("src/main/cpp/assets/grid.png")
+    val gridTex = scene.newTexture("core/src/main/cpp/assets/grid.png")
     pbrMat.colorTex = gridTex
     pbrMat.pbrFactor = Vec4(0f, 1f, 0f, 0f)
     val mesh = scene.newMesh(primitive, pbrMat)
@@ -169,7 +169,7 @@ fun main() {
   val insts = mutableListOf<ModelInstance>()
   run {
     val name = "DamagedHelmet"
-    val model = scene.loadModel("src/main/cpp/assets/glTF-models/2.0/$name/glTF/$name.gltf")
+    val model = scene.loadModel("core/src/main/cpp/assets/glTF-models/2.0/$name/glTF/$name.gltf")
     val aabb = model.aabb
     val range = aabb.max - aabb.min
     val scale = 5 / max(max(range.x, range.y), range.z)
