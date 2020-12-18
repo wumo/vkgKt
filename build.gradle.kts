@@ -4,7 +4,7 @@ plugins {
   base
   `maven-publish`
   application
-  kotlin("jvm") version "1.4.10" apply false
+  kotlin("jvm") version "1.4.10"
   id("com.google.osdetector") version "1.6.2" apply false
   id("com.github.wumo.javacpp") version "1.0.16" apply false
 }
@@ -12,7 +12,7 @@ plugins {
 allprojects {
   apply(plugin = "maven-publish")
   apply(plugin = "org.jetbrains.kotlin.jvm")
-  
+
   group = "com.github.wumo"
   version = "0.2.0"
   
@@ -43,5 +43,11 @@ allprojects {
         artifact(kotlinSourcesJar)
       }
     }
+  }
+}
+
+dependencies {
+  subprojects.forEach {
+    api(it)
   }
 }
