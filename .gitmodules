@@ -1,0 +1,3 @@
+[submodule "core/src/main/cpp"]
+	path = core/src/main/cpp
+	url = git@github.com:wumo/vkg.git
