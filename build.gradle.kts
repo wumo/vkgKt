@@ -9,7 +9,7 @@ plugins {
   id("com.github.wumo.javacpp") version "1.0.16" apply false
 }
 
-subprojects {
+allprojects {
   apply(plugin = "maven-publish")
   apply(plugin = "org.jetbrains.kotlin.jvm")
   
